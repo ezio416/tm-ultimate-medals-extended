@@ -3,8 +3,7 @@
 void Main() {
     MedalsData::loadMedalsData();
 
-    @MedalsList::pb = PbMedal();
-    MedalsList::addMedal(MedalsList::pb);
+    MedalsList::addMedal(PbMedal());
 
     MedalsList::addMedal(BronzeMedal());
     MedalsList::addMedal(SilverMedal());

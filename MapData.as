@@ -4,9 +4,13 @@ namespace MapData {
     string currentMap = '';
 
     void updateHighBetter() {
-        CGameCtnApp@ app = GetApp();
         // technically not accurate on maps edited with external tools, could check current gamemode instead
-        highBetter = app.RootMap.MapStyle.EndsWith('stunt');
+        highBetter = getGamemode().Contains('Stunt');
+    }
+
+    string getGamemode() {
+        CGameCtnApp@ app = GetApp();
+        return cast<CTrackManiaNetworkServerInfo@>(app.Network.ServerInfo).CurGameModeStr;
     }
 
     uint _nextUpdate = 0;
@@ -48,13 +52,13 @@ namespace MapData {
             }
 
             CGameScoreAndLeaderBoardManagerScript@ scoreMgr = network.ClientManiaAppPlayground.ScoreMgr;
-            MedalsList::pb.updateMedalTime(scoreMgr.Map_GetRecord_v2(userId, currentMap, "PersonalBest", "", "TimeAttack", ""), currentMap);
+            cast<PbMedal>(MedalsList::pb.medal).updateIfNeeded(scoreMgr.Map_GetRecord_v2(userId, currentMap, "PersonalBest", "", "TimeAttack", ""), currentMap);
         }
 #elif MP4
         if (network.TmRaceRules !is null && network.TmRaceRules.ScoreMgr !is null) {
             // this method only works in solo
             CGameScoreAndLeaderBoardManagerScript@ scoreMgr = network.ClientManiaAppPlayground.ScoreMgr;
-            MedalsList::pb.updateMedalTime(scoreMgr.Map_GetRecord(network.PlayerInfo.Id, currentMap, ""), currentMap);
+            cast<PbMedal>(MedalsList::pb.medal).updateIfNeeded(scoreMgr.Map_GetRecord(network.PlayerInfo.Id, currentMap, ""), currentMap);
         } else {
             // on servers
             
@@ -68,7 +72,7 @@ namespace MapData {
                 cast<CTrackManiaPlayer>(playground.GameTerminals[0].GUIPlayer).Score !is null) {
                     uint sessionPb = uint(cast<CTrackManiaPlayer>(playground.GameTerminals[0].GUIPlayer).Score.BestTime);
                     if (sessionPb >= 0) {
-                        MedalsList::pb.updateIfNeeded(sessionPb, currentMap);
+                        cast<PbMedal>(MedalsList::pb.medal).updateIfNeeded(sessionPb, currentMap);
                     }
             }
         }

@@ -3,3 +3,8 @@ name = "Ultimate Medals Extended"
 author = "ArEyeses"
 category = "Race"
 version = "0.1"
+
+[script]
+module = "UltimateMedalsExtended"
+shared_exports = [ "Medals/IMedal.as" ]
+exports = [ "Shared.as" ]

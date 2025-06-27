@@ -1,10 +1,22 @@
 
 namespace MedalsList {
-    array<MedalTime@> Medals = {};
-    PbMedal@ pb = null;
-    void addMedal(MedalTime@ medal) {
-        Medals.InsertLast(medal);
-        updated = false;
+    array<MedalWrapper@> Medals = {};
+    MedalWrapper@ pb = null;
+    
+    void addMedal(IMedal@ medal) {
+        MedalWrapper@ mt = MedalWrapper(medal);
+        if (mt.isPb) {
+            @pb = mt;
+        }
+        Medals.InsertLast(mt);
+    }
+    bool hasMedal(const string &in defaultName) {
+        for (uint i = 0; i < Medals.Length; i++) {
+            if (Medals[i].medal.defaultName == defaultName) {
+                return true;
+            }
+        }
+        return false;
     }
 
     void onNewMap(const string &in uid) {
@@ -14,6 +26,9 @@ namespace MedalsList {
     }
 
     void checkOrder() {
+        for (uint i = 0; i < Medals.Length; i++) {
+            Medals[i].refreshMedal(MapData::currentMap);
+        }
         if (updated) {
             updated = false;
             Medals.SortAsc();
@@ -36,7 +51,7 @@ namespace MedalsList {
                 UI::Text("Medal");
                 UI::TableNextColumn();
                 UI::Text("Time");
-                if (showDelta) {
+                if (showDelta && pb.hasMedalTime()) {
                     UI::TableNextColumn();
                     UI::Text("Delta");
                 }
