@@ -35,7 +35,7 @@ class ExampleMedal : UltimateMedalsExtended::IMedal {
     bool HasMedalTime(const string &in uid) override {
         return currentUID == uid && exampleMedal != 0;
     }
-    uint GetMedalTime(const string &in uid) override {
+    uint GetMedalTime() override {
         return exampleMedal;
     }
 }

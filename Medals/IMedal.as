@@ -16,6 +16,6 @@ shared interface IMedal {
     // this is called every frame so for time-intensive medals it is recommended to save it
     bool HasMedalTime(const string &in uid);
     // gets the medal's time for the current map
-    uint GetMedalTime(const string &in uid);
+    uint GetMedalTime();
 
 }

@@ -32,7 +32,7 @@ class PbMedal : IMedal {
     bool HasMedalTime(const string&in uid) override {
         return this.validMedalTime;
     }
-    uint GetMedalTime(const string&in uid) override {
+    uint GetMedalTime() override {
         return this.medalTime;
     }
 }

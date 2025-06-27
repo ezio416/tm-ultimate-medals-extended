@@ -43,7 +43,7 @@ class MedalWrapper {
         if (!this.enabled) {return;}
         this.validCacheTime = this.medal.HasMedalTime(uid);
         if (this.validCacheTime) {
-            uint newmedal = this.medal.GetMedalTime(uid);
+            uint newmedal = this.medal.GetMedalTime();
             if (newmedal != cacheTime) {
                 updated = true;
                 this.cacheTime = newmedal;

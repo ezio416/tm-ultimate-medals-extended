@@ -11,7 +11,7 @@ abstract class Medal : IMedal {
     bool HasMedalTime(const string &in uid) override {
         return true;
     }
-    uint GetMedalTime(const string&in uid) override {
+    uint GetMedalTime() override {
         return this.medalTime;
     }
 }
