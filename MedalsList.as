@@ -8,6 +8,12 @@ namespace MedalsList {
         if (mt.isPb) {
             @pb = mt;
         }
+        for (uint i = 0; i < Medals.Length; i++) {
+            if (Medals[i].medal.defaultName == medal.defaultName) {
+                Medals[i] = mt;
+                return;
+            }
+        }
         Medals.InsertLast(mt);
     }
     bool hasMedal(const string &in defaultName) {
@@ -18,6 +24,16 @@ namespace MedalsList {
         }
         return false;
     }
+    bool removeMedal(const string &in defaultName) {
+        for (uint i = 0; i < Medals.Length; i++) {
+            if (Medals[i].medal.defaultName == defaultName) {
+                Medals.RemoveAt(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     void onNewMap(const string &in uid) {
         for (uint i = 0; i < Medals.Length; i++) {

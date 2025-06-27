@@ -16,8 +16,10 @@ Unlike Ultimate Medals, (which only shows ingame medals) and Ultimate Medals++ (
 
 
 ## Exports
-The exports from Ultimate Medals Extended are defined in Shared.as  
-and the IMedal interface is defined and documented in Medals/IMedal.as
+To use Ultimate Medals Extended as a dependancy, you need to define a class implementing the `UltimateMedalsExtended::IMedal` interface
+(defined and documented in Medals/IMedal.as).
+You then pass it to `UltimateMedalsExtended::addMedal`. (The other exports from are defined in Shared.as).
+
 
 ### Example usage as a dependency
 In this example, the value of `exampleMedal` is set inside example medal plugin and is 0 when not avaliable.  
