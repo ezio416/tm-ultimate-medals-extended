@@ -137,7 +137,11 @@ class MedalWrapper {
         } else {
             color = '\\$77f';
         }
-        return color + this.formatTime(this.cacheTime - pbTime);
+        if (this.cacheTime < pbTime) {
+            return color + '+' + this.formatTime(pbTime - this.cacheTime);
+        }
+        // xdd add - myself since they're uints
+        return color + '-' + this.formatTime(this.cacheTime - pbTime);
     }
 
     void RenderRow() {
