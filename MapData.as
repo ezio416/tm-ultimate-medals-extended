@@ -10,7 +10,11 @@ namespace MapData {
 
     string getGamemode() {
         CGameCtnApp@ app = GetApp();
-        return cast<CTrackManiaNetworkServerInfo@>(app.Network.ServerInfo).CurGameModeStr;
+        string gamemode = cast<CTrackManiaNetworkServerInfo@>(app.Network.ServerInfo).CurGameModeStr;
+        if (gamemode == "") {
+            gamemode = app.RootMap.MapType;
+        }
+        return gamemode;
     }
 
     uint _nextUpdate = 0;
@@ -18,12 +22,26 @@ namespace MapData {
     void Update() {
         CGameCtnApp@ app = GetApp();
         CSmArenaClient@ playground = cast<CSmArenaClient>(GetApp().CurrentPlayground);
+        CGameCtnEditorFree@ editor = cast<CGameCtnEditorFree>(GetApp().Editor);
         
         if (app.RootMap is null) {
             currentMap = '';
-        } else if (!showValidation && app.Editor !is null || (app.Editor !is null && (playground is null || playground.Arena is null))) {
+            return;
+        }
+        if (!showValidation && editor !is null || (editor !is null && (playground is null || playground.Arena is null))) {
             currentMap = '';
-        } else if (app.RootMap.IdName != currentMap) {
+            return;
+        }
+        if (showValidation && editor !is null) {
+            CSmEditorPluginMapType@ pluginMapType = cast<CSmEditorPluginMapType>(editor.PluginMapType);
+            if (pluginMapType !is null && 
+                (pluginMapType.ValidationStatus != CGameEditorPluginMapMapType::EValidationStatus::Validated ||
+                pluginMapType.Mode.ClientManiaAppUrl.Contains('RaceTest'))) {
+                    currentMap = '';
+                    return;
+            }
+        }
+        if (app.RootMap.IdName != currentMap) {
             currentMap = app.RootMap.IdName;
             updateHighBetter();
             MedalsList::onNewMap(currentMap);
