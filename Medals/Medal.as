@@ -4,7 +4,7 @@ abstract class Medal : UltimateMedalsExtended::IMedal {
     uint medalTime;
     
     // would be abstract if that existed in angelscript
-    void OnNewMap(const string &in uid) override {}
+    void UpdateMedal(const string &in uid) override {}
 
     bool HasMedalTime(const string &in uid) override {
         return true;

@@ -7,7 +7,7 @@ class AuthorMedal : Medal {
         return c;
     }
 
-    void OnNewMap(const string&in uid) override {
+    void UpdateMedal(const string&in uid) override {
         this.medalTime = GetApp().RootMap.TMObjective_AuthorTime;
     }
 }
@@ -21,7 +21,7 @@ class GoldMedal : Medal {
         return c;
     }
 
-    void OnNewMap(const string&in uid) override {
+    void UpdateMedal(const string&in uid) override {
         this.medalTime = GetApp().RootMap.TMObjective_GoldTime;
     }
 }
@@ -34,7 +34,7 @@ class SilverMedal : Medal {
         return c;
     }
 
-    void OnNewMap(const string&in uid) override {
+    void UpdateMedal(const string&in uid) override {
         this.medalTime = GetApp().RootMap.TMObjective_SilverTime;
     }
 }
@@ -47,7 +47,7 @@ class BronzeMedal : Medal {
         return c;
     }
 
-    void OnNewMap(const string&in uid) override {
+    void UpdateMedal(const string&in uid) override {
         this.medalTime = GetApp().RootMap.TMObjective_BronzeTime;
     }
 }

@@ -8,7 +8,7 @@ class AutoGoldMedal : DefaultMedal {
         return c;
     }
 
-    void OnNewMap(const string&in uid) override {
+    void UpdateMedal(const string&in uid) override {
         this.validMedal = false;
         CGameCtnChallenge@ rootmap = GetApp().RootMap;
         if (MapData::getGamemode().Contains('Stunt')) {
@@ -34,7 +34,7 @@ class AutoSilverMedal : DefaultMedal {
         return c;
     }
 
-    void OnNewMap(const string&in uid) override {
+    void UpdateMedal(const string&in uid) override {
         this.validMedal = false;
         CGameCtnChallenge@ rootmap = GetApp().RootMap;
         if (MapData::getGamemode().Contains('Stunt')) {
@@ -60,7 +60,7 @@ class AutoBronzeMedal : DefaultMedal {
         return c;
     }
 
-    void OnNewMap(const string&in uid) override {
+    void UpdateMedal(const string&in uid) override {
         this.validMedal = false;
         CGameCtnChallenge@ rootmap = GetApp().RootMap;
         if (MapData::getGamemode().Contains('Stunt')) {

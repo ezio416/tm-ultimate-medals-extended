@@ -41,7 +41,7 @@ class MedalWrapper {
     void onNewMap(const string &in uid) {
         if (!this.enabled) {return;}
         this.enabledMapCache = uid;
-        this.medal.OnNewMap(uid);
+        this.medal.UpdateMedal(uid);
     }
     // called when a medal is enabled, to check if it needs to call onNewMap
     void onEnable() {

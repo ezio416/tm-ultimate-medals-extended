@@ -38,7 +38,7 @@ class ExampleMedal : UltimateMedalsExtended::IMedal {
         return c;
     }
 
-    void OnNewMap(const string &in uid) override {}
+    void UpdateMedal(const string &in uid) override {}
 
     bool HasMedalTime(const string &in uid) override {
         return currentUID == uid && exampleMedal != 0;

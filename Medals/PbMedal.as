@@ -18,7 +18,7 @@ class PbMedal : UltimateMedalsExtended::IMedal {
     // if concept of pb is valid for this map (so not in editor)
     bool validMedalTime = false;
 
-    void OnNewMap(const string&in uid) override {
+    void UpdateMedal(const string&in uid) override {
         this.medalTime = uint(-1);
 
         CGameCtnApp@ app = GetApp();

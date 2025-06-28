@@ -54,10 +54,11 @@ namespace UltimateMedalsExtended {
         Config GetConfig();
 
         /*
-        *  called when loading a new map in case you aren't automatically starting your own api requests
-        * also called when a medal is changed to enabled, if it had not been called for this map
+        * Will be called the first time your medal is needed on a map
+        * (if your medal is off in UME settings it won't be called until/unless it is turned on)
+        * May be called extra times, if your medal is always constant you can ignore additional calls with the same uid
         */
-        void OnNewMap(const string &in uid);
+        void UpdateMedal(const string &in uid);
 
         /*
         * whether the medal has a time for the current map
