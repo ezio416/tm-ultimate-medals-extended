@@ -101,9 +101,9 @@ class MedalWrapper {
                 return -1;
             }
         }
-        if (this.config.sortPriorty > other.config.sortPriorty) {
+        if (this.config.sortPriorty < other.config.sortPriorty) {
             return 1;
-        } else if (other.config.sortPriorty > this.config.sortPriorty) {
+        } else if (other.config.sortPriorty < this.config.sortPriorty) {
             return -1;
         } else {
             return this.config.defaultName.opCmp(other.config.defaultName);

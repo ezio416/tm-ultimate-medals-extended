@@ -4,6 +4,7 @@ class AutoGoldMedal : DefaultMedal {
     UltimateMedalsExtended::Config GetConfig() override {
         UltimateMedalsExtended::Config c;
         c.defaultName = 'Auto Gold';
+        c.sortPriorty = 73;
         return c;
     }
 
@@ -28,6 +29,7 @@ class AutoSilverMedal : DefaultMedal {
     UltimateMedalsExtended::Config GetConfig() override {
         UltimateMedalsExtended::Config c;
         c.defaultName = 'Auto Silver';
+        c.sortPriorty = 73;
         return c;
     }
 
@@ -52,6 +54,7 @@ class AutoBronzeMedal : DefaultMedal {
     UltimateMedalsExtended::Config GetConfig() override {
         UltimateMedalsExtended::Config c;
         c.defaultName = 'Auto Bronze';
+        c.sortPriorty = 73;
         return c;
     }
 
