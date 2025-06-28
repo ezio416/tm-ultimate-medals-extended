@@ -49,7 +49,7 @@ namespace MedalsData {
     void enableMedal(const string &in medalId) {
         for (uint i = 0; i < medalsData.Length; i++) {
             if (medalsData[i]['id'] == medalId) {
-                medalsData[i].Remove('enabled');
+                medalsData[i]['enabled'] = true;
                 _updateMedalsDataJson();
                 return;
             }
@@ -66,7 +66,9 @@ namespace MedalsData {
     void renameMedal(const string &in medalId, const string &in name) {
         Json::Value@ md = _getOrAddMedalsData(medalId);
         if (name == medalId) {
-            md.Remove('name');
+            if (md.HasKey('name')) {
+                md.Remove('name');
+            }
         } else {
             md['name'] = name;
         }
