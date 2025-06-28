@@ -18,6 +18,9 @@ namespace MedalsList {
             }
         }
         Medals.InsertLast(mt);
+        if (MapData::currentMap != '') {
+            mt.onNewMap(MapData::currentMap);
+        }
     }
     bool hasMedal(const string &in defaultName) {
         for (uint i = 0; i < Medals.Length; i++) {
