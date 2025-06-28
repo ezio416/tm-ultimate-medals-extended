@@ -54,7 +54,16 @@ namespace MapData {
             }
 
             CGameScoreAndLeaderBoardManagerScript@ scoreMgr = network.ClientManiaAppPlayground.ScoreMgr;
-            cast<PbMedal>(MedalsList::pb.medal).updateIfNeeded(scoreMgr.Map_GetRecord_v2(userId, currentMap, "PersonalBest", "", "TimeAttack", ""), currentMap);
+            string netGamemode = getGamemode();
+            string gamemode = 'TimeAttack';
+            if (netGamemode.Contains('Stunt')) {
+                gamemode = 'Stunt';
+            } else if (netGamemode.Contains('Platform')) {
+                gamemode = 'Platform';
+            } else if (netGamemode.Contains('Royal')) {
+                return;
+            }
+            cast<PbMedal>(MedalsList::pb.medal).updateIfNeeded(scoreMgr.Map_GetRecord_v2(userId, currentMap, "PersonalBest", "", gamemode, ""), currentMap);
         }
 #elif MP4
         if (network.TmRaceRules !is null && network.TmRaceRules.ScoreMgr !is null) {

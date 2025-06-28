@@ -1,5 +1,13 @@
 bool updated = false;
-const string EMPTYTIME = '--:--.---';
+string getEmptyTime() {
+    if (MapData::getGamemode().Contains('Stunt')) {
+        return '----';
+    } else if (MapData::getGamemode().Contains('Platform')) {
+        return '-';
+    } else {
+        return '--:--.---';
+    }
+}
 
 class MedalWrapper {
     UltimateMedalsExtended::IMedal@ medal;
@@ -111,11 +119,17 @@ class MedalWrapper {
     }
 
     string formatTime(uint time) {
-        string t = Time::Format(time);
-        if (t.Length == 8) {
-            t = '0'+t;
+        if (MapData::getGamemode().Contains('Stunt')) {
+            return tostring(time);
+        } else if (MapData::getGamemode().Contains('Platform')) {
+            return tostring(time);
+        } else {
+            string t = Time::Format(time);
+            if (t.Length == 8) {
+                t = '0' + t;
+            }
+            return t;
         }
-        return t;
     }
     string formatDelta() {
         if (this is MedalsList::pb) {return '';}
@@ -126,7 +140,7 @@ class MedalWrapper {
         }
         uint pbTime = MedalsList::pb.getMedalTime();
         if (pbTime == uint(-1)) {
-            return '\\$777' + EMPTYTIME;
+            return '\\$777' + getEmptyTime();
         }
 
         string color = '';
@@ -139,9 +153,12 @@ class MedalWrapper {
         }
         if (this.cacheTime < pbTime) {
             return color + '+' + this.formatTime(pbTime - this.cacheTime);
+        } else if (this.cacheTime > pbTime) {
+            return color + '-' + this.formatTime(this.cacheTime - pbTime);
+        } else {
+            return color + 0;
         }
         // xdd add - myself since they're uints
-        return color + '-' + this.formatTime(this.cacheTime - pbTime);
     }
 
     void RenderRow() {
@@ -177,7 +194,7 @@ class MedalWrapper {
             if (this.cacheTime != uint(-1)) {
                 UI::Text('\\$0ff' + this.formatTime(this.cacheTime));
             } else {
-                UI::Text('\\$0ff' + EMPTYTIME);
+                UI::Text('\\$0ff' + getEmptyTime());
             }
         } else {
             UI::Text(this.config.nameColor + this.formatTime(this.cacheTime));

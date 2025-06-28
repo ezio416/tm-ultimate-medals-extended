@@ -32,7 +32,7 @@ class PbMedal : UltimateMedalsExtended::IMedal {
     // special function for pb
     bool updateIfNeeded(uint newPb, const string &in uid) {
         if (newPb == this.medalTime) {return false;}
-        if ((newPb < this.medalTime) ^^ MapData::highBetter) {
+        if ((this.medalTime == uint(-1) && newPb != uint(-1)) || ((newPb < this.medalTime) ^^ MapData::highBetter)) {
             this.medalTime = newPb;
             return true;
         }
