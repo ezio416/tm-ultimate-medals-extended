@@ -1,15 +1,15 @@
 
 namespace UltimateMedalsExtended {
     
-    void addMedal(IMedal@ medal) {
+    void AddMedal(IMedal@ medal) {
         MedalsList::addMedal(medal);
     }
 
-    bool removeMedal(const string &in defaultName) {
+    bool RemoveMedal(const string &in defaultName) {
         return MedalsList::removeMedal(defaultName);
     }
 
-    bool hasMedal(const string &in defaultName) {
+    bool HasMedal(const string &in defaultName) {
         return MedalsList::hasMedal(defaultName);
     }
 }
