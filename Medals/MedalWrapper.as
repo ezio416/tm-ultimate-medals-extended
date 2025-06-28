@@ -1,11 +1,11 @@
 bool updated = false;
 string getEmptyTime() {
     if (MapData::getGamemode().Contains('Stunt')) {
-        return '----';
+        return '\u2212\u2212\u2212\u2212';
     } else if (MapData::getGamemode().Contains('Platform')) {
-        return '-';
+        return '\u2212';
     } else {
-        return '--:--.---';
+        return '\u2212\u2212:\u2212\u2212.\u2212\u2212\u2212';
     }
 }
 
@@ -154,7 +154,7 @@ class MedalWrapper {
         if (this.cacheTime < pbTime) {
             return color + '+' + this.formatTime(pbTime - this.cacheTime);
         } else if (this.cacheTime > pbTime) {
-            return color + '-' + this.formatTime(this.cacheTime - pbTime);
+            return color + '\u2212' + this.formatTime(this.cacheTime - pbTime);
         } else {
             return color + 0;
         }
