@@ -18,7 +18,8 @@ Unlike Ultimate Medals, (which only shows ingame medals) and Ultimate Medals++ (
 ## Exports
 To use Ultimate Medals Extended as a dependancy, you need to define a class implementing the `UltimateMedalsExtended::IMedal` interface
 (defined and documented in Medals/IMedal.as).
-You then pass it to `UltimateMedalsExtended::addMedal`. (The other exports from are defined in Shared.as).
+You then pass it to `UltimateMedalsExtended::addMedal`. (The other exports from are defined in Exports.as).
+You must ensure that you remove medals when `OnDestroyed` is called, using `UltimateMedalsExtended::removeMedal(name)`, otherwise both plugins will crash if your plugin is reloaded / updated.
 
 
 ### Example usage as a dependency
