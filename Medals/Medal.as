@@ -1,8 +1,7 @@
 
-abstract class Medal : IMedal {
-    // string defaultName { get; };
-    string defaultName { get { return ''; }};
-    string icon { get { return ''; }};
+abstract class Medal : UltimateMedalsExtended::IMedal {
+    string GetIcon() override { return ''; }
+    UltimateMedalsExtended::Config GetConfig() override { return UltimateMedalsExtended::Config(); }
     uint medalTime;
     
     // would be abstract if that existed in angelscript

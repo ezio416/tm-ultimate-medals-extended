@@ -1,7 +1,11 @@
 
 class AutoGoldMedal : DefaultMedal {
-    string defaultName { get override { return 'Auto Gold'; }};
-    string icon { get override { return '\\$db4' + Icons::Circle; }};
+    string GetIcon() override { return '\\$db4' + Icons::Circle; }
+    UltimateMedalsExtended::Config GetConfig() override {
+        UltimateMedalsExtended::Config c;
+        c.defaultName = 'Auto Gold';
+        return c;
+    }
 
     void OnNewMap(const string&in uid) override {
         this.validMedal = false;
@@ -20,8 +24,12 @@ class AutoGoldMedal : DefaultMedal {
 }
 
 class AutoSilverMedal : DefaultMedal {
-    string defaultName { get override { return 'Auto Silver'; }};
-    string icon { get override { return '\\$899' + Icons::Circle; }};
+    string GetIcon() override { return '\\$899' + Icons::Circle; }
+    UltimateMedalsExtended::Config GetConfig() override {
+        UltimateMedalsExtended::Config c;
+        c.defaultName = 'Auto Silver';
+        return c;
+    }
 
     void OnNewMap(const string&in uid) override {
         this.validMedal = false;
@@ -40,8 +48,12 @@ class AutoSilverMedal : DefaultMedal {
 }
 
 class AutoBronzeMedal : DefaultMedal {
-    string defaultName { get override { return 'Auto Bronze'; }};
-    string icon { get override { return '\\$964' + Icons::Circle; }};
+    string GetIcon() override { return '\\$964' + Icons::Circle; }
+    UltimateMedalsExtended::Config GetConfig() override {
+        UltimateMedalsExtended::Config c;
+        c.defaultName = 'Auto Bronze';
+        return c;
+    }
 
     void OnNewMap(const string&in uid) override {
         this.validMedal = false;

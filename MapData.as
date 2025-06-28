@@ -36,6 +36,8 @@ namespace MapData {
         if (_nextUpdate > app.TimeSinceInitMs) {return;}
         _nextUpdate = app.TimeSinceInitMs + 500;
 
+        if (MedalsList::pb is null) {return;}
+
         if (app.Editor !is null) {
             // in editor, no pb
             return;

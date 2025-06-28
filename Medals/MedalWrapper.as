@@ -2,10 +2,10 @@ bool updated = false;
 const string EMPTYTIME = '--:--.---';
 
 class MedalWrapper {
-    IMedal@ medal;
+    UltimateMedalsExtended::IMedal@ medal;
 
-    // if this medal is the pb (it will show a color based off others)
-    bool isPb;
+    // config settings
+    UltimateMedalsExtended::Config config;
 
     // medal data (duplicate of medalsData)
     bool enabled;
@@ -16,11 +16,16 @@ class MedalWrapper {
 
     string enabledMapCache = '';
 
-    MedalWrapper(IMedal@ medal) {
+    MedalWrapper(UltimateMedalsExtended::IMedal@ medal) {
         @this.medal = medal;
-        this.enabled = MedalsData::isMedalEnabled(this.medal.defaultName);
-        this.name = MedalsData::getMedalName(this.medal.defaultName);
-        this.isPb = cast<PbMedal>(this.medal) !is null;
+        this.config = this.medal.GetConfig();
+        if (this.config.defaultName == '') {
+            throw('Medal Config must have a defaultName specified');
+        } else if ((this.config.usePreviousIcon || this.config.usePreviousColor) && this.config.shareIcon) {
+            warn('Medals using another icon should have sharing their icon disabled');
+        }
+        this.enabled = MedalsData::isMedalEnabled(this.config.defaultName, this.config.startEnabled);
+        this.name = MedalsData::getMedalName(this.config.defaultName);
     }
 
 
@@ -74,11 +79,11 @@ class MedalWrapper {
             return 1;
         }
 
-        if (this.isPb && this.cacheTime == uint(-1)) {
+        if (this.config.allowUnset && this.cacheTime == uint(-1)) {
             // this is pb with no time so should be last
             return 1;
         }
-        if (other.isPb && other.cacheTime == uint(-1)) {
+        if (other.config.allowUnset && other.cacheTime == uint(-1)) {
             // other is pb with no time so should be last
             return -1;
         }
@@ -96,12 +101,12 @@ class MedalWrapper {
                 return -1;
             }
         }
-        if (this.isPb) {
+        if (this.config.sortPriorty > other.config.sortPriorty) {
             return 1;
-        } else if (other.isPb) {
+        } else if (other.config.sortPriorty > this.config.sortPriorty) {
             return -1;
         } else {
-            return this.medal.defaultName.opCmp(other.medal.defaultName);
+            return this.config.defaultName.opCmp(other.config.defaultName);
         }
     }
 
@@ -113,7 +118,7 @@ class MedalWrapper {
         return t;
     }
     string formatDelta() {
-        if (this.isPb) {return '';}
+        if (this is MedalsList::pb) {return '';}
         bool pbValid = MedalsList::pb.hasMedalTime();
         if (!pbValid) {
             // this should be checked before delta column is created
@@ -140,31 +145,38 @@ class MedalWrapper {
         if (!this.hasMedalTime()) {return;}
         UI::TableNextRow();
         UI::TableNextColumn();
-        if (this.isPb) {
+        string icon = '';
+        MedalWrapper@ previous = null;
+        if (this.config.usePreviousColor || this.config.usePreviousIcon) {
             int i = MedalsList::Medals.Find(this);
-            if (i < int(MedalsList::Medals.Length) - 1) {
-                UI::Text(MedalsList::Medals[i+1].medal.icon);
-            } else {
-                UI::Text(this.medal.icon);
+            while (i < int(MedalsList::Medals.Length) - 1 && !MedalsList::Medals[i+1].config.shareIcon) {
+                i++;
             }
-        } else {
-            UI::Text(this.medal.icon);
+            if (i < int(MedalsList::Medals.Length) - 1) {
+                @previous = MedalsList::Medals[i+1];
+            }
         }
-        UI::TableNextColumn();
-        if (this.isPb) {
-            UI::Text('\\$0ff' + this.name);
-        } else {
-            UI::Text(this.name);
+        if (previous is null) {
+            icon = this.medal.GetIcon();
+        } else if (this.config.usePreviousIcon && this.config.usePreviousColor) {
+            icon = previous.medal.GetIcon();
+        } else if (this.config.usePreviousIcon) {
+            icon = GetFormatColor(this.medal.GetIcon()) + Text::StripOpenplanetFormatCodes(previous.medal.GetIcon());
+        } else if (this.config.usePreviousColor) {
+            icon = GetFormatColor(previous.medal.GetIcon()) + Text::StripOpenplanetFormatCodes(this.medal.GetIcon());
         }
+        UI::Text(icon);
         UI::TableNextColumn();
-        if (this.isPb) {
+        UI::Text(this.config.nameColor + this.name);
+        UI::TableNextColumn();
+        if (this.config.allowUnset) {
             if (this.cacheTime != uint(-1)) {
                 UI::Text('\\$0ff' + this.formatTime(this.cacheTime));
             } else {
                 UI::Text('\\$0ff' + EMPTYTIME);
             }
         } else {
-            UI::Text(this.formatTime(this.cacheTime));
+            UI::Text(this.config.nameColor + this.formatTime(this.cacheTime));
         }
 
         if (showDelta && MedalsList::pb.hasMedalTime()) {
@@ -176,26 +188,58 @@ class MedalWrapper {
     void RenderSettings() final {
         UI::TableNextRow();
         UI::TableNextColumn();
-        UI::Text(this.medal.defaultName);
+        UI::Text(this.config.defaultName);
 
         UI::TableNextColumn();
         UI::SetNextItemWidth(200.f);
-        string newname = UI::InputText('##na:'+this.medal.defaultName, this.name);
+        string newname = UI::InputText('##na:'+this.config.defaultName, this.name);
         if (newname != this.name) {
             this.name = newname;
-            MedalsData::renameMedal(this.medal.defaultName, this.name);
+            MedalsData::renameMedal(this.config.defaultName, this.name);
         }
 
         UI::TableNextColumn();
-        bool newenabled = UI::Checkbox('##en:'+this.medal.defaultName, this.enabled);
+        bool newenabled = UI::Checkbox('##en:'+this.config.defaultName, this.enabled);
         if (newenabled != this.enabled) {
             this.enabled = newenabled;
             if (this.enabled) {
-                MedalsData::enableMedal(this.medal.defaultName);
+                MedalsData::enableMedal(this.config.defaultName);
                 this.onEnable();
             } else {
-                MedalsData::disableMedal(this.medal.defaultName);
+                MedalsData::disableMedal(this.config.defaultName);
             }
         }
     }
+}
+
+const string HEX = '01234567890ABCDEabcde';
+
+string GetFormatColor(const string &in text) {
+    int i = 0;
+    string result = '';
+    while (i < text.Length - 1) {
+        if (text.SubStr(i, 1) == '\\') {
+            i++;
+            if (text.SubStr(i, 1) == '$') {
+                i++;
+                // in a formatting string
+                if (HEX.Contains(text.SubStr(i, 1))) {
+                    // in a color formatting string
+                    // only use the most recent color
+                    result = '\\$' + text.SubStr(i, 1);
+                    i++;
+                    if (HEX.Contains(text.SubStr(i, 1))) {
+                        result += text.SubStr(i, 1);
+                        i++;
+                        if (HEX.Contains(text.SubStr(i, 1))) {
+                            result += text.SubStr(i, 1);
+                            i++;
+                        }
+                    }
+                }
+            }
+        }
+        i++;
+    }
+    return result;
 }

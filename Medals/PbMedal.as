@@ -1,7 +1,17 @@
 
-class PbMedal : IMedal {
-    string defaultName { get override { return 'Personal Best';}};
-    string icon { get override { return '\\$444' + Icons::Circle; }};
+class PbMedal : UltimateMedalsExtended::IMedal {
+    string GetIcon() override { return '\\$444' + Icons::Circle; }
+    UltimateMedalsExtended::Config GetConfig() override {
+        UltimateMedalsExtended::Config c;
+        c.defaultName = 'Personal Best';
+        c.nameColor = '\\$0ff';
+        c.sortPriorty = 127;
+        c.usePreviousIcon = true;
+        c.usePreviousColor = true;
+        c.shareIcon = false;
+        c.allowUnset = true;
+        return c;
+    }
 
     // time of pb, uint(-1) for no pb yet
     uint medalTime = uint(-1);

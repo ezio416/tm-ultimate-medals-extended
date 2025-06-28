@@ -3,13 +3,16 @@ namespace MedalsList {
     array<MedalWrapper@> Medals = {};
     MedalWrapper@ pb = null;
     
-    void addMedal(IMedal@ medal) {
+    void addMedal(UltimateMedalsExtended::IMedal@ medal) {
         MedalWrapper@ mt = MedalWrapper(medal);
-        if (mt.isPb) {
+        if (cast<PbMedal>(mt.medal) !is null) {
             @pb = mt;
         }
         for (uint i = 0; i < Medals.Length; i++) {
-            if (Medals[i].medal.defaultName == medal.defaultName) {
+            if (Medals[i].config.defaultName == mt.config.defaultName) {
+                if (Medals[i] is pb) {
+                    throw('Cannot replace pb medal with non-pb medal');
+                }
                 Medals[i] = mt;
                 return;
             }
@@ -18,7 +21,7 @@ namespace MedalsList {
     }
     bool hasMedal(const string &in defaultName) {
         for (uint i = 0; i < Medals.Length; i++) {
-            if (Medals[i].medal.defaultName == defaultName) {
+            if (Medals[i].config.defaultName == defaultName) {
                 return true;
             }
         }
@@ -26,7 +29,10 @@ namespace MedalsList {
     }
     bool removeMedal(const string &in defaultName) {
         for (uint i = 0; i < Medals.Length; i++) {
-            if (Medals[i].medal.defaultName == defaultName) {
+            if (Medals[i].config.defaultName == defaultName) {
+                if (Medals[i] is pb) {
+                    @pb = null;
+                }
                 Medals.RemoveAt(i);
                 return true;
             }

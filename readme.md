@@ -23,14 +23,19 @@ You then pass it to `UltimateMedalsExtended::addMedal`. (The other exports from 
 
 ### Example usage as a dependency
 In this example, the value of `exampleMedal` is set inside example medal plugin and is 0 when not avaliable.  
-And it uses an internal variable `currentUID` for the map it has current example medal data for
+And it uses an internal variable `currentUID` for the map it has current example medal data for  
+Note that 
 
 ```
 #if DEPENDENCY_ULTIMATEMEDALSEXTENDED
 
 class ExampleMedal : UltimateMedalsExtended::IMedal {
-    string defaultName { get override { return 'Example Medal'; }};
-    string icon { get override { return "\\$f0f" + Icons::Circle; }};
+    string GetIcon() override { return "\\$f0f" + Icons::Circle; }
+    UltimateMedalsExtended::Config GetConfig() override {
+        UltimateMedalsExtended::Config c;
+        c.defaultName = "Example Medal";
+        return c;
+    }
 
     void OnNewMap(const string &in uid) override {}
 
@@ -40,6 +45,10 @@ class ExampleMedal : UltimateMedalsExtended::IMedal {
     uint GetMedalTime() override {
         return exampleMedal;
     }
+}
+
+void OnDestroyed() {
+    UltimateMedalsExtended::removeMedal("Example Medal");
 }
 
 #endif

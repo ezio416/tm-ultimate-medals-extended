@@ -1,7 +1,11 @@
 #if TMNEXT || MP4
 class AuthorMedal : Medal {
-    string defaultName { get override { return 'Author'; }};
-    string icon { get override { return '\\$071' + Icons::Circle; }};
+    string GetIcon() override { return '\\$071' + Icons::Circle; }
+    UltimateMedalsExtended::Config GetConfig() override {
+        UltimateMedalsExtended::Config c;
+        c.defaultName = 'Author';
+        return c;
+    }
 
     void OnNewMap(const string&in uid) override {
         this.medalTime = GetApp().RootMap.TMObjective_AuthorTime;
@@ -10,8 +14,12 @@ class AuthorMedal : Medal {
 #endif
 
 class GoldMedal : Medal {
-    string defaultName { get override { return 'Gold'; }};
-    string icon { get override { return '\\$db4' + Icons::Circle; }};
+    string GetIcon() override { return '\\$db4' + Icons::Circle; }
+    UltimateMedalsExtended::Config GetConfig() override {
+        UltimateMedalsExtended::Config c;
+        c.defaultName = 'Gold';
+        return c;
+    }
 
     void OnNewMap(const string&in uid) override {
         this.medalTime = GetApp().RootMap.TMObjective_GoldTime;
@@ -19,8 +27,12 @@ class GoldMedal : Medal {
 }
 
 class SilverMedal : Medal {
-    string defaultName { get override { return 'Silver'; }};
-    string icon { get override { return '\\$899' + Icons::Circle; }};
+    string GetIcon() override { return '\\$899' + Icons::Circle; }
+    UltimateMedalsExtended::Config GetConfig() override {
+        UltimateMedalsExtended::Config c;
+        c.defaultName = 'Silver';
+        return c;
+    }
 
     void OnNewMap(const string&in uid) override {
         this.medalTime = GetApp().RootMap.TMObjective_SilverTime;
@@ -28,8 +40,12 @@ class SilverMedal : Medal {
 }
 
 class BronzeMedal : Medal {
-    string defaultName { get override { return 'Bronze'; }};
-    string icon { get override { return '\\$964' + Icons::Circle; }};
+    string GetIcon() override { return '\\$964' + Icons::Circle; }
+    UltimateMedalsExtended::Config GetConfig() override {
+        UltimateMedalsExtended::Config c;
+        c.defaultName = 'Bronze';
+        return c;
+    }
 
     void OnNewMap(const string&in uid) override {
         this.medalTime = GetApp().RootMap.TMObjective_BronzeTime;

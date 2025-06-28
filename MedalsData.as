@@ -89,16 +89,16 @@ namespace MedalsData {
         return medalId;
     }
     // gets if a medal is enabled
-    bool isMedalEnabled(const string &in medalId) {
+    bool isMedalEnabled(const string &in medalId, bool startEnabled) {
         for (uint i = 0; i < medalsData.Length; i++) {
             if (medalsData[i]['id'] == medalId) {
                 if (medalsData[i].HasKey('enabled')) {
                     return medalsData[i]['enabled'];
                 }
-                return true;
+                return startEnabled;
             }
         }
-        return true;
+        return startEnabled;
     }
 }
 
