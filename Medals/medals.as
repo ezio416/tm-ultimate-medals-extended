@@ -1,9 +1,9 @@
 #if TMNEXT || MP4
 class AuthorMedal : Medal {
-    string GetIcon() override { return '\\$071' + Icons::Circle; }
     UltimateMedalsExtended::Config GetConfig() override {
         UltimateMedalsExtended::Config c;
         c.defaultName = 'Author';
+        c.icon = '\\$071' + Icons::Circle;
         return c;
     }
 
@@ -14,10 +14,10 @@ class AuthorMedal : Medal {
 #endif
 
 class GoldMedal : Medal {
-    string GetIcon() override { return '\\$db4' + Icons::Circle; }
     UltimateMedalsExtended::Config GetConfig() override {
         UltimateMedalsExtended::Config c;
         c.defaultName = 'Gold';
+        c.icon = '\\$db4' + Icons::Circle;
         return c;
     }
 
@@ -27,10 +27,10 @@ class GoldMedal : Medal {
 }
 
 class SilverMedal : Medal {
-    string GetIcon() override { return '\\$899' + Icons::Circle; }
     UltimateMedalsExtended::Config GetConfig() override {
         UltimateMedalsExtended::Config c;
         c.defaultName = 'Silver';
+        c.icon = '\\$899' + Icons::Circle;
         return c;
     }
 
@@ -40,10 +40,10 @@ class SilverMedal : Medal {
 }
 
 class BronzeMedal : Medal {
-    string GetIcon() override { return '\\$964' + Icons::Circle; }
     UltimateMedalsExtended::Config GetConfig() override {
         UltimateMedalsExtended::Config c;
         c.defaultName = 'Bronze';
+        c.icon = '\\$964' + Icons::Circle;
         return c;
     }
 

@@ -1,9 +1,9 @@
 
 class AutoGoldMedal : DefaultMedal {
-    string GetIcon() override { return '\\$db4' + Icons::Circle; }
     UltimateMedalsExtended::Config GetConfig() override {
         UltimateMedalsExtended::Config c;
         c.defaultName = 'Auto Gold';
+        c.icon = '\\$db4' + Icons::Circle;
         c.sortPriorty = 73;
         return c;
     }
@@ -25,10 +25,10 @@ class AutoGoldMedal : DefaultMedal {
 }
 
 class AutoSilverMedal : DefaultMedal {
-    string GetIcon() override { return '\\$899' + Icons::Circle; }
     UltimateMedalsExtended::Config GetConfig() override {
         UltimateMedalsExtended::Config c;
         c.defaultName = 'Auto Silver';
+        c.icon = '\\$899' + Icons::Circle;
         c.sortPriorty = 73;
         c.startEnabled = false;
         return c;
@@ -51,10 +51,10 @@ class AutoSilverMedal : DefaultMedal {
 }
 
 class AutoBronzeMedal : DefaultMedal {
-    string GetIcon() override { return '\\$964' + Icons::Circle; }
     UltimateMedalsExtended::Config GetConfig() override {
         UltimateMedalsExtended::Config c;
         c.defaultName = 'Auto Bronze';
+        c.icon = '\\$964' + Icons::Circle;
         c.sortPriorty = 73;
         c.startEnabled = false;
         return c;

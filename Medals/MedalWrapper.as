@@ -178,13 +178,13 @@ class MedalWrapper {
             }
         }
         if (previous is null) {
-            icon = this.medal.GetIcon();
+            icon = this.config.icon;
         } else if (this.config.usePreviousIcon && this.config.usePreviousColor) {
-            icon = previous.medal.GetIcon();
+            icon = previous.config.icon;
         } else if (this.config.usePreviousIcon) {
-            icon = GetFormatColor(this.medal.GetIcon()) + Text::StripOpenplanetFormatCodes(previous.medal.GetIcon());
+            icon = GetFormatColor(this.config.icon) + Text::StripOpenplanetFormatCodes(previous.config.icon);
         } else if (this.config.usePreviousColor) {
-            icon = GetFormatColor(previous.medal.GetIcon()) + Text::StripOpenplanetFormatCodes(this.medal.GetIcon());
+            icon = GetFormatColor(previous.config.icon) + Text::StripOpenplanetFormatCodes(this.config.icon);
         }
         UI::Text(icon);
         UI::TableNextColumn();

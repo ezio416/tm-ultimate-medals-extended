@@ -1,6 +1,5 @@
 
 abstract class Medal : UltimateMedalsExtended::IMedal {
-    string GetIcon() override { return ''; }
     UltimateMedalsExtended::Config GetConfig() override { return UltimateMedalsExtended::Config(); }
     uint medalTime;
     

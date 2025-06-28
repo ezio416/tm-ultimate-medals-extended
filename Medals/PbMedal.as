@@ -1,9 +1,9 @@
 
 class PbMedal : UltimateMedalsExtended::IMedal {
-    string GetIcon() override { return '\\$444' + Icons::Circle; }
     UltimateMedalsExtended::Config GetConfig() override {
         UltimateMedalsExtended::Config c;
         c.defaultName = 'Personal Best';
+        c.icon = '\\$444' + Icons::Circle;
         c.nameColor = '\\$0ff';
         c.sortPriorty = 127;
         c.usePreviousIcon = true;

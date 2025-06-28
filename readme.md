@@ -31,10 +31,10 @@ Note that
 #if DEPENDENCY_ULTIMATEMEDALSEXTENDED
 
 class ExampleMedal : UltimateMedalsExtended::IMedal {
-    string GetIcon() override { return "\\$f0f" + Icons::Circle; }
     UltimateMedalsExtended::Config GetConfig() override {
         UltimateMedalsExtended::Config c;
         c.defaultName = "Example Medal";
+        c.icon = "\\$f0f" + Icons::Circle;
         return c;
     }
 
@@ -49,7 +49,7 @@ class ExampleMedal : UltimateMedalsExtended::IMedal {
 }
 
 void OnDestroyed() {
-    UltimateMedalsExtended::removeMedal("Example Medal");
+    UltimateMedalsExtended::RemoveMedal("Example Medal");
 }
 
 #endif
@@ -59,7 +59,7 @@ and in Main():
 
 ```
 #if DEPENDENCY_ULTIMATEMEDALSEXTENDED
-    UltimateMedalsExtended::addMedal(ExampleMedal());
+    UltimateMedalsExtended::AddMedal(ExampleMedal());
 #endif
 ```
 

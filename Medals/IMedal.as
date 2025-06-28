@@ -3,6 +3,9 @@ namespace UltimateMedalsExtended {
         // the medal identifier, required. Custom name settings are done through UME settings.
         string defaultName = '';
 
+        // the color and icon used for the medal icon
+        string icon = '';
+
         // if the medal is enabled in UME by default
         bool startEnabled = true;
 
@@ -17,24 +20,33 @@ namespace UltimateMedalsExtended {
          */
         uint8 sortPriorty = 63;
 
-        // use the icon shape from the previous medal if any (otherwise its own icon) (used for pb)
+        /*
+         * use the icon shape from the closest worse medal if any (otherwise its own icon)
+         * medals with shareIcon false will be skipped
+         * e.g. how pb medal shows the previous medal as its icon
+         */
         bool usePreviousIcon = false;
-        // use the color from the previous medal if any (otherwise its own)
+        /*
+         * use the icon color from the closest worse medal if any (otherwise its own icon)
+         * medals with shareIcon false will be skipped
+         * e.g. how pb medal shows the previous medal as its icon
+         */
         bool usePreviousColor = false;
 
-        // if this medal should be included when a usePrevious medal is looking for the previous medal
+        /*
+         * if this medal should be included when a usePrevious medal is looking for the previous medal
+         * e.g. if you're adding something that isn't a medal (such as leaderboard positions) with its own custom color/icon
+         *     that wouldn't make sense for e.g. pb medal to use as its icon
+         */
         bool shareIcon = true;
 
-        // if this medal can have an 'unset' but still vislble value, using uint(-1), such as pb before first finish
+        // if this medal can have an empty ('unset') but still vislble value, using uint(-1), such as pb before first finish
         bool allowUnset = false;
 
     }
 
 
     shared interface IMedal {
-        // get the color and icon used for the medal icon
-        string GetIcon();
-        
         /*
         * the config used for the medal
         * called once when adding the medal
