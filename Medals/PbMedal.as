@@ -22,7 +22,7 @@ class PbMedal : UltimateMedalsExtended::IMedal {
         this.medalTime = uint(-1);
 
         CGameCtnApp@ app = GetApp();
-        if (app.Editor is null) { 
+        if (app.Editor is null && !MapData::getGamemode().Contains('Royal')) { 
             this.validMedalTime = true;
         } else {
             this.validMedalTime = false;
