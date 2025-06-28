@@ -30,6 +30,7 @@ class AutoSilverMedal : DefaultMedal {
         UltimateMedalsExtended::Config c;
         c.defaultName = 'Auto Silver';
         c.sortPriorty = 73;
+        c.startEnabled = false;
         return c;
     }
 
@@ -55,6 +56,7 @@ class AutoBronzeMedal : DefaultMedal {
         UltimateMedalsExtended::Config c;
         c.defaultName = 'Auto Bronze';
         c.sortPriorty = 73;
+        c.startEnabled = false;
         return c;
     }
 

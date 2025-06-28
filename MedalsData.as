@@ -2,8 +2,6 @@
 namespace MedalsData {
     const string medalsDataFileName = IO::FromStorageFolder('medalsData.json');
 
-    bool medalsDataChanged = false;
-
     /*
     * medals data (including medals from exports)
     * 'id' is default medal name (required if the medal has any data)
@@ -17,20 +15,14 @@ namespace MedalsData {
         if (IO::FileExists(medalsDataFileName)) {
             @medalsData = Json::FromFile(medalsDataFileName);
         } else {
-            @medalsData = Json::Parse('[{"id": "Auto Silver", "enabled": false}, {"id": "Auto Bronze", "enabled": false}]');
+            @medalsData = Json::Array();
         }
     }
     void saveMedalsData() {
-        if (medalsDataChanged) {
-            Json::ToFile(medalsDataFileName, medalsData);   
-        }
-        medalsDataChanged = false;
+        Json::ToFile(medalsDataFileName, medalsData);   
     }
 
     /* utility functions */
-    void _updateMedalsDataJson() {
-        medalsDataChanged = true;
-    }
     Json::Value@ _getOrAddMedalsData(const string &in medalId) {
         for (uint i = 0; i < medalsData.Length; i++) {
             if (medalsData[i]['id'] == medalId) {
@@ -47,19 +39,13 @@ namespace MedalsData {
 
     // enables a medal if it has data saying its disabled (if no data, its enabled by default anyway)
     void enableMedal(const string &in medalId) {
-        for (uint i = 0; i < medalsData.Length; i++) {
-            if (medalsData[i]['id'] == medalId) {
-                medalsData[i]['enabled'] = true;
-                _updateMedalsDataJson();
-                return;
-            }
-        }
+        Json::Value@ md = _getOrAddMedalsData(medalId);
+        md['enabled'] = true;
     }
     // disables a medal, creating medal data if needed
     void disableMedal(const string &in medalId) {
         Json::Value@ md = _getOrAddMedalsData(medalId);
         md['enabled'] = false;
-        _updateMedalsDataJson();
     }
 
     // renames a medal, creating medal data if needed
@@ -72,7 +58,6 @@ namespace MedalsData {
         } else {
             md['name'] = name;
         }
-        _updateMedalsDataJson();
     }
 
 
