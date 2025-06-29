@@ -9,27 +9,27 @@ namespace UltimateMedalsExtended {
         // if the medal is enabled in UME by default
         bool startEnabled = true;
 
-        // custom color applied to the medal (used for pb)
+        // custom color applied to the medal name and time (used for pb)
         string nameColor = '';
 
         /*
          * if this medal wins ties for equal times
-         * most medals are 63
+         * most medals are 63, this is the default
          * pb medal is 127 (since if pb is equal to a medal then it obtains it)
-         * records should be 191 (since tied records don't beat them)
+         * records should be around 191 (since tie-ing a record doesn't beat it)
          */
         uint8 sortPriorty = 63;
 
         /*
          * use the icon shape from the closest worse medal if any (otherwise its own icon)
          * medals with shareIcon false will be skipped
-         * e.g. how pb medal shows the previous medal as its icon
+         * e.g. how pb medal shows the previous medal symbol as its icon
          */
         bool usePreviousIcon = false;
         /*
          * use the icon color from the closest worse medal if any (otherwise its own icon)
          * medals with shareIcon false will be skipped
-         * e.g. how pb medal shows the previous medal as its icon
+         * e.g. how pb medal uses the previous medal color for its icon
          */
         bool usePreviousColor = false;
 
@@ -62,7 +62,8 @@ namespace UltimateMedalsExtended {
 
         /*
         * whether the medal has a time for the current map
-        * this is called every frame so for time-intensive medals it is recommended to save it
+        * e.g. if you use an api request this should return false until the request has finished and you have the medal time
+        * the passed uid *should*, but is not guaranteed to, match the uid passed most recently to UpdateMedal
         */
         bool HasMedalTime(const string &in uid);
 
