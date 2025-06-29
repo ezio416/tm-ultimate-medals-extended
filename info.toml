@@ -2,7 +2,7 @@
 name = "Ultimate Medals Extended"
 author = "ArEyeses"
 category = "Race"
-version = "0.1"
+version = "1.0"
 
 [script]
 module = "UltimateMedalsExtended"
