@@ -17,7 +17,11 @@ namespace MapData {
         return gamemode;
     }
 
+#if TMNEXT
     uint _nextUpdate = 0;
+#else
+    uint64 _nextUpdate = 0;
+#endif
 
     void Update() {
         CGameCtnApp@ app = GetApp();
@@ -26,14 +30,24 @@ namespace MapData {
             currentMap = '';
             return;
         }
+#if TMNEXT
         CSmArenaClient@ playground = cast<CSmArenaClient>(app.CurrentPlayground);
+#elif MP4
+        CGamePlayground@ playground = app.CurrentPlayground;
+#elif TURBO
+
+#endif
         CGameCtnEditorFree@ editor = cast<CGameCtnEditorFree>(app.Editor);
-        if (!showValidation && editor !is null || (editor !is null && (playground is null || playground.Arena is null))) {
+        if (!showValidation && editor !is null || (editor !is null && (playground is null || playground.GameTerminals.Length == 0))) {
             currentMap = '';
             return;
         }
         if (showValidation && editor !is null) {
+#if TMNEXT
             CSmEditorPluginMapType@ pluginMapType = cast<CSmEditorPluginMapType>(editor.PluginMapType);
+#elif MP4
+            CTmEditorPluginMapType@ pluginMapType = cast<CTmEditorPluginMapType>(editor.PluginMapType);
+#endif
             if (pluginMapType !is null && 
                 (pluginMapType.ValidationStatus != CGameEditorPluginMapMapType::EValidationStatus::Validated ||
                 pluginMapType.Mode.ClientManiaAppUrl.Contains('RaceTest'))) {
@@ -41,7 +55,13 @@ namespace MapData {
                     return;
             }
         }
+#if TMNEXT
         CGameEditorMediaTracker@ replay = cast<CGameEditorMediaTracker>(app.Editor);
+#elif MP4
+        CGameCtnMediaTracker@ replay = cast<CGameCtnMediaTracker>(app.Editor);
+#elif TURBO
+
+#endif
         if (!showReplayEditor && replay !is null) {
             currentMap = '';
             return;
@@ -70,8 +90,13 @@ namespace MapData {
 
         // check if pb needs updating
         // to save performance, only check for pb every half a second
+#if TMNEXT
         if (_nextUpdate > app.TimeSinceInitMs) {return;}
         _nextUpdate = app.TimeSinceInitMs + 500;
+#else
+        if (_nextUpdate > Time::Now) {return;}
+        _nextUpdate = Time::Now + 500;
+#endif
 
         if (MedalsList::pb is null || !MedalsList::pb.enabled) {return;}
 
@@ -105,7 +130,7 @@ namespace MapData {
 #elif MP4
         if (network.TmRaceRules !is null && network.TmRaceRules.ScoreMgr !is null) {
             // this method only works in solo
-            CGameScoreAndLeaderBoardManagerScript@ scoreMgr = network.ClientManiaAppPlayground.ScoreMgr;
+            CGameScoreAndLeaderBoardManagerScript@ scoreMgr = network.TmRaceRules.ScoreMgr;
             cast<PbMedal>(MedalsList::pb.medal).updateIfNeeded(scoreMgr.Map_GetRecord(network.PlayerInfo.Id, currentMap, ""), currentMap);
         } else {
             // on servers
@@ -113,9 +138,7 @@ namespace MapData {
             // todo: maybe do whatever Ultimate Medals does with local replays
 
             // check session pb
-            CGamePlayground@ playground = app.CurrentPlayground;
-            if (playground !is null &&
-                playground.GameTerminals.Length > 0 &&
+            if (// already checked playground is not null and nonempty gameterminal
                 cast<CTrackManiaPlayer>(playground.GameTerminals[0].GUIPlayer) !is null &&
                 cast<CTrackManiaPlayer>(playground.GameTerminals[0].GUIPlayer).Score !is null) {
                     uint sessionPb = uint(cast<CTrackManiaPlayer>(playground.GameTerminals[0].GUIPlayer).Score.BestTime);
