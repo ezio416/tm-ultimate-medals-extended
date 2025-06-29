@@ -25,8 +25,11 @@ bool requireInterface = false;
 [Setting category="Window" name="Toggle with Openplanet overlay"]
 bool requireOverlay = false;
 
-[Setting category="Window" name="Show in validation"]
-bool showValidation = true;
+[Setting category="Window" name="Show in validation" description="\\$ff0\\$z Currently doesn't update until you exit validation"]
+bool showValidation = false;
+
+[Setting category="Window" name="Show in replay editor"]
+bool showReplayEditor = false;
 
 [Setting category="Window" name="Location"]
 vec2 windowPos = vec2(0, 170);

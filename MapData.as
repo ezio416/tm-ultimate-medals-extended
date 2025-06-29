@@ -21,13 +21,13 @@ namespace MapData {
 
     void Update() {
         CGameCtnApp@ app = GetApp();
-        CSmArenaClient@ playground = cast<CSmArenaClient>(GetApp().CurrentPlayground);
-        CGameCtnEditorFree@ editor = cast<CGameCtnEditorFree>(GetApp().Editor);
         
         if (app.RootMap is null) {
             currentMap = '';
             return;
         }
+        CSmArenaClient@ playground = cast<CSmArenaClient>(app.CurrentPlayground);
+        CGameCtnEditorFree@ editor = cast<CGameCtnEditorFree>(app.Editor);
         if (!showValidation && editor !is null || (editor !is null && (playground is null || playground.Arena is null))) {
             currentMap = '';
             return;
@@ -41,6 +41,25 @@ namespace MapData {
                     return;
             }
         }
+        CGameEditorMediaTracker@ replay = cast<CGameEditorMediaTracker>(app.Editor);
+        if (!showReplayEditor && replay !is null) {
+            currentMap = '';
+            return;
+        }
+        if (showReplayEditor && replay !is null &&
+            app.RootMap.MapInfo.Kind == 6 // unnamed enum - in progress
+            ) {
+            currentMap = '';
+            return;
+
+        }
+
+        if (app.Editor !is null && editor is null && replay is null) {
+            // unknown editor e.g. skin editor, not enabled
+            currentMap = '';
+            return;
+        }
+
         if (app.RootMap.IdName != currentMap) {
             currentMap = app.RootMap.IdName;
             updateHighBetter();
