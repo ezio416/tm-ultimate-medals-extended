@@ -2,7 +2,7 @@
 class PbMedal : UltimateMedalsExtended::IMedal {
     UltimateMedalsExtended::Config GetConfig() override {
         UltimateMedalsExtended::Config c;
-        c.defaultName = 'Personal Best';
+        c.defaultName = 'Pers. Best';
         c.icon = '\\$444' + Icons::Circle;
         c.nameColor = '\\$0ff';
         c.sortPriorty = 127;
