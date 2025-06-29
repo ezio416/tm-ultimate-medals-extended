@@ -15,10 +15,22 @@ class PbMedal : UltimateMedalsExtended::IMedal {
 
     // time of pb, uint(-1) for no pb yet
     uint medalTime = uint(-1);
+    // if concept of pb is valid for this map (so not in editor)
+    bool validMedalTime = false;
+    string lastUid = '';
 
     void UpdateMedal(const string&in uid) override {
-        this.medalTime = uint(-1);
+        if (uid != this.lastUid) {
+            this.medalTime = uint(-1);
+            this.lastUid = uid;
+        }
 
+        CGameCtnApp@ app = GetApp();
+        if (app.Editor is null && !MapData::getGamemode().Contains('Royal')) { 
+            this.validMedalTime = true;
+        } else {
+            this.validMedalTime = false;
+        }
     }
 
     // special function for pb
@@ -32,12 +44,7 @@ class PbMedal : UltimateMedalsExtended::IMedal {
     }
 
     bool HasMedalTime(const string&in uid) override {
-        CGameCtnApp@ app = GetApp();
-        if (app.Editor is null && !MapData::getGamemode().Contains('Royal')) { 
-            return true;
-        } else {
-            return false;
-        }
+        return this.validMedalTime;
     }
     uint GetMedalTime() override {
         return this.medalTime;

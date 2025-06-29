@@ -162,9 +162,9 @@ class MedalWrapper {
         if (!this.hasMedalTime()) {return;}
         UI::TableNextRow();
         UI::TableNextColumn();
-        string icon = '';
-        MedalWrapper@ previous = null;
         if (this.config.usePreviousColor || this.config.usePreviousIcon) {
+            string icon = '';
+            MedalWrapper@ previous = null;
             int i = MedalsList::Medals.Find(this);
             while (i < int(MedalsList::Medals.Length) - 1 && !MedalsList::Medals[i+1].config.shareIcon) {
                 i++;
@@ -172,17 +172,19 @@ class MedalWrapper {
             if (i < int(MedalsList::Medals.Length) - 1) {
                 @previous = MedalsList::Medals[i+1];
             }
+            if (previous is null) {
+                icon = this.config.icon;
+            } else if (this.config.usePreviousIcon && this.config.usePreviousColor) {
+                icon = previous.config.icon;
+            } else if (this.config.usePreviousIcon) {
+                icon = GetFormatColor(this.config.icon) + Text::StripOpenplanetFormatCodes(previous.config.icon);
+            } else if (this.config.usePreviousColor) {
+                icon = GetFormatColor(previous.config.icon) + Text::StripOpenplanetFormatCodes(this.config.icon);
+            }
+            UI::Text(icon);
+        } else {
+            UI::Text(this.config.icon);
         }
-        if (previous is null) {
-            icon = this.config.icon;
-        } else if (this.config.usePreviousIcon && this.config.usePreviousColor) {
-            icon = previous.config.icon;
-        } else if (this.config.usePreviousIcon) {
-            icon = GetFormatColor(this.config.icon) + Text::StripOpenplanetFormatCodes(previous.config.icon);
-        } else if (this.config.usePreviousColor) {
-            icon = GetFormatColor(previous.config.icon) + Text::StripOpenplanetFormatCodes(this.config.icon);
-        }
-        UI::Text(icon);
         UI::TableNextColumn();
         UI::Text(this.config.nameColor + this.name);
         UI::TableNextColumn();

@@ -66,12 +66,10 @@ namespace MapData {
             currentMap = '';
             return;
         }
-        if (showReplayEditor && replay !is null &&
-            app.RootMap.MapInfo.Kind == 6 // unnamed enum - in progress
-            ) {
-            currentMap = '';
-            return;
-
+        if (showReplayEditor && replay !is null && 
+            app.RootMap.MapInfo.Kind == 6) { // unnamed enum - in progress
+                currentMap = '';
+                return;
         }
 
         if (app.Editor !is null && editor is null && replay is null) {
@@ -99,6 +97,11 @@ namespace MapData {
 #endif
 
         if (MedalsList::pb is null || !MedalsList::pb.enabled) {return;}
+        
+        if (showReplayEditor && replay !is null) {
+            // replay editor doesn't load until after first entering map, so pb needs to re-detect that it is now invalid
+            MedalsList::pb.medal.UpdateMedal(currentMap);
+        }
 
         if (app.Editor !is null) {
             // in editor, no pb
