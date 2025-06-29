@@ -5,7 +5,7 @@ string getEmptyTime() {
     } else if (MapData::getGamemode().Contains('Platform')) {
         return '\u2212';
     } else {
-        return '\u2212\u2212:\u2212\u2212.\u2212\u2212\u2212';
+        return '\u2212:\u2212\u2212.\u2212\u2212\u2212';
     }
 }
 
@@ -124,11 +124,7 @@ class MedalWrapper {
         } else if (MapData::getGamemode().Contains('Platform')) {
             return tostring(time);
         } else {
-            string t = Time::Format(time);
-            if (t.Length == 8) {
-                t = '0' + t;
-            }
-            return t;
+            return Time::Format(time);
         }
     }
     string formatDelta() {
