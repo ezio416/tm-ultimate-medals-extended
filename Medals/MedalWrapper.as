@@ -231,7 +231,7 @@ class MedalWrapper {
     }
 }
 
-const string HEX = '01234567890ABCDEabcde';
+const string HEX = '01234567890ABCDEFabcdef';
 
 string GetFormatColor(const string &in text) {
     int i = 0;
