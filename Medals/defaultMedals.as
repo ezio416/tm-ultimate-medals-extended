@@ -20,9 +20,9 @@ class AutoGoldMedal : DefaultMedal {
     }
 }
 uint getAutoGold(uint time) {
-    if (MapData::gamemode.Contains('Stunt')) {
+    if (MapData::gamemode == GameMode::Stunt) {
         return uint(Math::Floor(float(time) * 0.085f) * 10.f);
-    } else if (MapData::gamemode.Contains('Platform')) {
+    } else if (MapData::gamemode == GameMode::Platform) {
         return time + 3;
     } else {
         return uint((Math::Floor(float(time) * 0.00106f) + 1.f) * 1000.f);
@@ -51,9 +51,9 @@ class AutoSilverMedal : DefaultMedal {
     }
 }
 uint getAutoSilver(uint time) {
-    if (MapData::gamemode.Contains('Stunt')) {
+    if (MapData::gamemode == GameMode::Stunt) {
         return uint(Math::Floor(float(time) * 0.06f) * 10.f);
-    } else if (MapData::gamemode.Contains('Platform')) {
+    } else if (MapData::gamemode == GameMode::Platform) {
         return time + 10;
     } else {
         return uint((Math::Floor(float(time) * 0.0012f) + 1.f) * 1000.f);
@@ -83,9 +83,9 @@ class AutoBronzeMedal : DefaultMedal {
 }
 
 uint getAutoBronze(uint time) {
-    if (MapData::gamemode.Contains('Stunt')) {
+    if (MapData::gamemode == GameMode::Stunt) {
         return uint(Math::Floor(float(time) * 0.037f) * 10.f);
-    } else if (MapData::gamemode.Contains('Platform')) {
+    } else if (MapData::gamemode == GameMode::Platform) {
         return time + 30;
     } else {
         return uint((Math::Floor(float(time) * 0.0015f) + 1.f) * 1000.f);

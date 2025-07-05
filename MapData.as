@@ -1,7 +1,15 @@
+enum GameMode {
+    None,
+    Race,
+    Stunt,
+    Platform,
+    Royal
+}
+
 namespace MapData {
 
     bool highBetter = false;
-    string gamemode = '';
+    GameMode gamemode = GameMode::None;
 
     string currentMap = '';
     bool validationMode = false;
@@ -11,12 +19,31 @@ namespace MapData {
 
     void updateGamemode() {
         CGameCtnApp@ app = GetApp();
-        gamemode = cast<CTrackManiaNetworkServerInfo@>(app.Network.ServerInfo).CurGameModeStr;
-        if (gamemode == "" || gamemode.Contains('Campaign')) {
-            gamemode = app.RootMap.MapType;
+        gamemode = GameMode::None;
+        string gm = cast<CTrackManiaNetworkServerInfo@>(app.Network.ServerInfo).CurGameModeStr;
+        if (gm.Contains('Race') || gm.Contains('Obstacle')) {
+            gamemode = GameMode::Race;
+        } else if (gm.Contains('Stunt')) {
+            gamemode = GameMode::Stunt;
+        } else if (gm.Contains('Platform')) {
+            gamemode = GameMode::Platform;
+        } else if (gm.Contains('Royal')) {
+            gamemode = GameMode::Royal;
+        }
+        if (gamemode == GameMode::None) {
+            gm = app.RootMap.MapType;
+            if (gm.Contains('Race') || gm.Contains('Obstacle')) {
+                gamemode = GameMode::Race;
+            } else if (gm.Contains('Stunt')) {
+                gamemode = GameMode::Stunt;
+            } else if (gm.Contains('Platform')) {
+                gamemode = GameMode::Platform;
+            } else if (gm.Contains('Royal')) {
+                gamemode = GameMode::Royal;
+            }
         }
 
-        highBetter = gamemode.Contains('Stunt');
+        highBetter = gamemode == GameMode::Stunt;
     }
 
     void updateValidated() {
@@ -174,11 +201,11 @@ namespace MapData {
 
             CGameScoreAndLeaderBoardManagerScript@ scoreMgr = network.ClientManiaAppPlayground.ScoreMgr;
             string gamemodeid = 'TimeAttack';
-            if (gamemode.Contains('Stunt')) {
+            if (gamemode == GameMode::Stunt) {
                 gamemodeid = 'Stunt';
-            } else if (gamemode.Contains('Platform')) {
+            } else if (gamemode == GameMode::Platform) {
                 gamemodeid = 'Platform';
-            } else if (gamemode.Contains('Royal')) {
+            } else if (gamemode == GameMode::Royal) {
                 return;
             }
             cast<PbMedal>(MedalsList::pb.medal).updateIfNeeded(scoreMgr.Map_GetRecord_v2(userId, currentMap, "PersonalBest", "", gamemodeid, ""), currentMap);

@@ -28,7 +28,7 @@ namespace PreviousRun {
 
 #if TMNEXT
     uint checkFinished() {
-        if (MapData::gamemode.Contains('Royal')) {
+        if (MapData::gamemode == GameMode::Royal) {
             return checkFinishedRoyal();
         }
         CGameCtnApp@ app = GetApp();
@@ -41,14 +41,14 @@ namespace PreviousRun {
                     CGameGhostScript@ ghost = playgroundScript.Ghost_RetrieveFromPlayer(cast<CSmScriptPlayer>(player.ScriptAPI));
                     if (ghost !is null) {
                         uint score = uint(-1);
-                        if (MapData::gamemode.Contains('Race')) {
+                        if (MapData::gamemode == GameMode::Race) {
                             if (ghost.Result.Time > 0 && ghost.Result.Time < uint(-1)) {
                                 score = ghost.Result.Time;
                             }
-                        } else if (MapData::gamemode.Contains('Stunt')) {
+                        } else if (MapData::gamemode == GameMode::Stunt) {
                             // note this gets session PB (Nando). And seems equivalent to .StuntsScore
                             score = ghost.Result.Score;
-                        } else if (MapData::gamemode.Contains('Platform')) {
+                        } else if (MapData::gamemode == GameMode::Platform) {
                             score = ghost.Result.NbRespawns;
                         }
                         playgroundScript.DataFileMgr.Ghost_Release(ghost.Id);
@@ -99,11 +99,11 @@ namespace PreviousRun {
         CGameCtnApp@ app = GetApp();
         CGameCtnPlayground@ playground = cast<CGameCtnPlayground@>(app.CurrentPlayground);
         if (playground.PlayerRecordedGhost !is null) {
-            if (MapData::gamemode.Contains('Race') || MapData::gamemode.Contains('Obstacle')) {
+            if (MapData::gamemode == GameMode::Race) {
                 return playground.PlayerRecordedGhost.RaceTime;
-            } else if (MapData::gamemode.Contains('Stunt')) {
+            } else if (MapData::gamemode == GameMode::Stunt) {
                 return playground.PlayerRecordedGhost.StuntsScore;
-            } else if (MapData::gamemode.Contains('Platform')) {
+            } else if (MapData::gamemode == GameMode::Platform) {
                 return playground.PlayerRecordedGhost.NbRespawns;
             }
         }

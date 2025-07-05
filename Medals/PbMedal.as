@@ -31,7 +31,7 @@ class PbMedal : UltimateMedalsExtended::IMedal {
 #if TMNEXT
             app.Network.ClientManiaAppPlayground !is null && 
 #endif
-            !MapData::gamemode.Contains('Royal')) { 
+            !(MapData::gamemode == GameMode::Royal)) { 
                 this.validMedalTime = true;
         } else {
             this.validMedalTime = false;
