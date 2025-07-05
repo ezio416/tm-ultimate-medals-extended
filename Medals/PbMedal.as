@@ -26,8 +26,13 @@ class PbMedal : UltimateMedalsExtended::IMedal {
         }
 
         CGameCtnApp@ app = GetApp();
-        if (app.Editor is null && !MapData::gamemode.Contains('Royal')) { 
-            this.validMedalTime = true;
+
+        if (app.Editor is null && 
+#if TMNEXT
+            app.Network.ClientManiaAppPlayground !is null && 
+#endif
+            !MapData::gamemode.Contains('Royal')) { 
+                this.validMedalTime = true;
         } else {
             this.validMedalTime = false;
         }

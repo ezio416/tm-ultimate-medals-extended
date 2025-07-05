@@ -18,8 +18,12 @@ class Previous : UltimateMedalsExtended::IMedal {
 
     void UpdateMedal(const string&in uid) override {
         CGameCtnApp@ app = GetApp();
-        if (app.Editor is null || MapData::validationMode) { 
-            this.validMedalTime = true;
+        if ((app.Editor is null || MapData::validationMode)
+#if TMNEXT
+            && app.Network.ClientManiaAppPlayground !is null
+#endif
+            ) { 
+                this.validMedalTime = true;
         } else {
             this.validMedalTime = false;
         }
@@ -52,8 +56,12 @@ class Session : UltimateMedalsExtended::IMedal {
 
     void UpdateMedal(const string&in uid) override {
         CGameCtnApp@ app = GetApp();
-        if (app.Editor is null) { 
-            this.validMedalTime = true;
+        if (app.Editor is null
+#if TMNEXT
+            && app.Network.ClientManiaAppPlayground !is null
+#endif
+            ) { 
+                this.validMedalTime = true;
         } else {
             this.validMedalTime = false;
         }
