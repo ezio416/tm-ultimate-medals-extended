@@ -11,7 +11,7 @@ namespace MapData {
     void updateGamemode() {
         CGameCtnApp@ app = GetApp();
         gamemode = cast<CTrackManiaNetworkServerInfo@>(app.Network.ServerInfo).CurGameModeStr;
-        if (gamemode == "") {
+        if (gamemode == "" || gamemode.Contains('Campaign')) {
             gamemode = app.RootMap.MapType;
         }
 
@@ -48,18 +48,21 @@ namespace MapData {
 #if MP4
             CTmEditorPluginMapType@ pluginMapType2 = cast<CTmEditorPluginMapType>(editor.PluginMapType);
 #endif
-            if ((pluginMapType is null
-                 || (pluginMapType.ValidationStatus != CGameEditorPluginMapMapType::EValidationStatus::Validated ||
+            if ((pluginMapType is null || (
+            // pluginMapType.ValidationStatus != CGameEditorPluginMapMapType::EValidationStatus::Validated ||
                 pluginMapType.Mode.ClientManiaAppUrl.Contains('RaceTest')))
 #if MP4
-                && (pluginMapType2 is null
-                 || (pluginMapType2.ValidationStatus != CGameEditorPluginMapMapType::EValidationStatus::Validated ||
+                && (pluginMapType2 is null || (
+                // pluginMapType2.ValidationStatus != CGameEditorPluginMapMapType::EValidationStatus::Validated ||
                 pluginMapType2.Mode.ClientManiaAppUrl.Contains('RaceTest')))
 #endif
                 ) {
                     currentMap = '';
                     return;
             }
+            validationMode = true;
+        } else {
+            validationMode = false;
         }
 #if TMNEXT
         CGameEditorMediaTracker@ replay = cast<CGameEditorMediaTracker>(app.Editor);
@@ -88,7 +91,13 @@ namespace MapData {
             currentMap = app.RootMap.IdName;
             hasLoadedReplayEditor = false;
             updateGamemode();
+            PreviousRun::onNewMap();
             MedalsList::onNewMap(currentMap);
+        }
+
+        if ((validationMode && MedalsList::pb.enabled) || 
+            (MedalsList::session.enabled || MedalsList::previous.enabled)) {
+                PreviousRun::Update();
         }
 
         // check if pb needs updating
@@ -152,9 +161,7 @@ namespace MapData {
                 cast<CTrackManiaPlayer>(playground.GameTerminals[0].GUIPlayer) !is null &&
                 cast<CTrackManiaPlayer>(playground.GameTerminals[0].GUIPlayer).Score !is null) {
                     uint sessionPb = uint(cast<CTrackManiaPlayer>(playground.GameTerminals[0].GUIPlayer).Score.BestTime);
-                    if (sessionPb >= 0) {
-                        cast<PbMedal>(MedalsList::pb.medal).updateIfNeeded(sessionPb, currentMap);
-                    }
+                    cast<PbMedal>(MedalsList::pb.medal).updateIfNeeded(sessionPb, currentMap);
             }
         }
 #elif TURBO

@@ -138,6 +138,7 @@ class MedalWrapper {
     }
     string formatDelta() {
         if (this is MedalsList::pb) {return '';}
+        if (this.config.allowUnset && this.cacheTime == uint(-1)) {return '';}
         bool pbValid = MedalsList::pb.hasMedalTime();
         if (!pbValid) {
             // this should be checked before delta column is created
@@ -199,9 +200,9 @@ class MedalWrapper {
         UI::TableNextColumn();
         if (this.config.allowUnset) {
             if (this.cacheTime != uint(-1)) {
-                UI::Text('\\$0ff' + this.formatTime(this.cacheTime));
+                UI::Text(this.config.nameColor + this.formatTime(this.cacheTime));
             } else {
-                UI::Text('\\$0ff' + getEmptyTime());
+                UI::Text(this.config.nameColor + getEmptyTime());
             }
         } else {
             UI::Text(this.config.nameColor + this.formatTime(this.cacheTime));

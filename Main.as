@@ -15,6 +15,9 @@ void Main() {
     MedalsList::addMedal(AutoSilverMedal());
     MedalsList::addMedal(AutoGoldMedal());
 
+    MedalsList::addMedal(Session());
+    MedalsList::addMedal(Previous());
+
 }
 
 void Update(float dt) {

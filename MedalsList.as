@@ -2,11 +2,17 @@
 namespace MedalsList {
     array<MedalWrapper@> Medals = {};
     MedalWrapper@ pb = null;
+    MedalWrapper@ session = null;
+    MedalWrapper@ previous = null;
     
     void addMedal(UltimateMedalsExtended::IMedal@ medal) {
         MedalWrapper@ mt = MedalWrapper(medal);
         if (cast<PbMedal>(mt.medal) !is null) {
             @pb = mt;
+        } else if (mt.config.defaultName == "Session") {
+            @session = mt;
+        } else if (mt.config.defaultName == "Previous") {
+            @previous = mt;
         }
         for (uint i = 0; i < Medals.Length; i++) {
             if (Medals[i].config.defaultName == mt.config.defaultName) {
