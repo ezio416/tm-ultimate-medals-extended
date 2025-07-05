@@ -56,7 +56,7 @@ class Session : UltimateMedalsExtended::IMedal {
 
     void UpdateMedal(const string&in uid) override {
         CGameCtnApp@ app = GetApp();
-        if (app.Editor is null
+        if (app.Editor is null || MapData::validationMode
 #if TMNEXT
             && app.Network.ClientManiaAppPlayground !is null
 #endif
@@ -68,6 +68,9 @@ class Session : UltimateMedalsExtended::IMedal {
     }
 
     bool HasMedalTime(const string&in uid) override {
+        if (MapData::validationMode) {
+            return this.validMedalTime && MapData::validated && (MapData::highBetter ^^ this.GetMedalTime() > GetApp().RootMap.TMObjective_AuthorTime);
+        }
         return this.validMedalTime && this.GetMedalTime() != MedalsList::pb.cacheTime;
     }
     uint GetMedalTime() override {
