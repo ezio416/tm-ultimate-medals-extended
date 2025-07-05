@@ -176,7 +176,7 @@ class MedalWrapper {
             string icon = '';
             MedalWrapper@ previous = null;
             int i = MedalsList::Medals.Find(this);
-            while (i < int(MedalsList::Medals.Length) - 1 && !MedalsList::Medals[i+1].config.shareIcon) {
+            while (i < int(MedalsList::Medals.Length) - 1 && (!MedalsList::Medals[i+1].config.shareIcon || !MedalsList::Medals[i+1].enabled || !MedalsList::Medals[i+1].hasMedalTime())) {
                 i++;
             }
             if (i < int(MedalsList::Medals.Length) - 1) {
