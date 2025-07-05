@@ -85,20 +85,19 @@ namespace MapData {
             return;
         }
         if (showValidation && editor !is null) {
+            // check if in test mode
+#if TMNEXT
             CSmEditorPluginMapType@ pluginMapType = cast<CSmEditorPluginMapType>(editor.PluginMapType);
-#if MP4
-            CTmEditorPluginMapType@ pluginMapType2 = cast<CTmEditorPluginMapType>(editor.PluginMapType);
-#endif
-            if ((pluginMapType is null || (
-                pluginMapType.Mode.ClientManiaAppUrl.Contains('RaceTest')))
-#if MP4
-                && (pluginMapType2 is null || (
-                pluginMapType2.Mode.ClientManiaAppUrl.Contains('RaceTest')))
-#endif
-                ) {
-                    currentMap = '';
-                    return;
+            if ((pluginMapType is null || pluginMapType.Mode.ClientManiaAppUrl.Contains('RaceTest'))) {
+                currentMap = '';
+                return;
             }
+#elif MP4
+            if (app.PlaygroundScript is null || app.PlaygroundScript.MapName == "") {
+                currentMap = '';
+                return;
+            }
+#endif
             validationMode = true;
         } else {
             validationMode = false;
