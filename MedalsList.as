@@ -28,6 +28,14 @@ namespace MedalsList {
             mt.onNewMap(MapData::currentMap);
         }
     }
+    MedalWrapper@ getMedal(const string &in defaultName) {
+        for (uint i = 0; i < Medals.Length; i++) {
+            if (Medals[i].config.defaultName == defaultName) {
+                return Medals[i];
+            }
+        }
+        return null;
+    }
     bool hasMedal(const string &in defaultName) {
         for (uint i = 0; i < Medals.Length; i++) {
             if (Medals[i].config.defaultName == defaultName) {

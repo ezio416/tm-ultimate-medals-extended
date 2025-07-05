@@ -7,14 +7,17 @@ abstract class Medal : UltimateMedalsExtended::IMedal {
     void UpdateMedal(const string &in uid) override {}
 
     bool HasMedalTime(const string &in uid) override {
-        if (MapData::validationMode) {
-            return PreviousRun::session != uint(-1) || MapData::validated;
-        }
-        return true;
+        return _hasIngameMedals();
     }
     uint GetMedalTime() override {
         return this.medalTime;
     }
+}
+bool _hasIngameMedals() {
+    if (MapData::validationMode) {
+        return PreviousRun::session != uint(-1) || MapData::validated;
+    }
+    return true;
 }
 
 abstract class DefaultMedal : Medal {
