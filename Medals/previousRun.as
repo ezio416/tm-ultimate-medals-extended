@@ -30,6 +30,7 @@ class Previous : UltimateMedalsExtended::IMedal {
     }
 
     bool HasMedalTime(const string&in uid) override {
+        if (MapData::validationMode && PreviousRun::session == uint(-1)) {return false;}
         return this.validMedalTime && (!MedalsList::pb.enabled || this.GetMedalTime() != MedalsList::pb.cacheTime) && (!MedalsList::session.enabled || this.GetMedalTime() != MedalsList::session.cacheTime);
     }
     uint GetMedalTime() override {
@@ -71,7 +72,7 @@ class Session : UltimateMedalsExtended::IMedal {
         if (MapData::validationMode) {
             return this.validMedalTime && MapData::validated && (MapData::highBetter ^^ this.GetMedalTime() > GetApp().RootMap.TMObjective_AuthorTime);
         }
-        return this.validMedalTime && this.GetMedalTime() != MedalsList::pb.cacheTime;
+        return this.validMedalTime && (!MedalsList::pb.enabled || this.GetMedalTime() != MedalsList::pb.cacheTime);
     }
     uint GetMedalTime() override {
         return PreviousRun::session;
