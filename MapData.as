@@ -106,7 +106,6 @@ namespace MapData {
         CGameEditorMediaTracker@ replay = cast<CGameEditorMediaTracker>(app.Editor);
 #elif MP4 || TURBO
         CGameCtnMediaTracker@ replay = cast<CGameCtnMediaTracker>(app.Editor);
-
 #endif
         if (!showReplayEditor && replay !is null) {
             currentMap = '';
@@ -133,7 +132,7 @@ namespace MapData {
             MedalsList::onNewMap(currentMap);
         }
 
-        if ((validationMode && MedalsList::pb.enabled) || 
+        if (validationMode || 
             (MedalsList::session.enabled || MedalsList::previous.enabled)) {
                 PreviousRun::Update();
         }
