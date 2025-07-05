@@ -73,6 +73,11 @@ void Render() {
         return;
     }
 
+    if (!MedalsList::CheckRender()) {
+        windowWasShownLastFrame = false;
+        return;
+    }
+
     if (windowDrag) {
         UI::SetNextWindowPos(int(windowPos.x), int(windowPos.y), UI::Cond::Once);
     } else {

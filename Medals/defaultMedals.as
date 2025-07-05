@@ -11,17 +11,21 @@ class AutoGoldMedal : DefaultMedal {
 
     void UpdateMedal(const string&in uid) override {
         this.validMedal = false;
+        if (MapData::validationMode && !MapData::validated) {return;}
         CGameCtnChallenge@ rootmap = GetApp().RootMap;
-        if (MapData::gamemode.Contains('Stunt')) {
-            this.medalTime = uint(Math::Floor(float(rootmap.TMObjective_AuthorTime) * 0.085f) * 10.f);
-        } else if (MapData::gamemode.Contains('Platform')) {
-            this.medalTime = rootmap.TMObjective_AuthorTime + 3;
-        } else {
-            this.medalTime = uint((Math::Floor(float(rootmap.TMObjective_AuthorTime) * 0.00106f) + 1.f) * 1000.f);
-        }
+        this.medalTime = getAutoGold(rootmap.TMObjective_AuthorTime);
         if (this.medalTime != rootmap.TMObjective_GoldTime) {
             this.validMedal = true;
         }
+    }
+}
+uint getAutoGold(uint time) {
+    if (MapData::gamemode.Contains('Stunt')) {
+        return uint(Math::Floor(float(time) * 0.085f) * 10.f);
+    } else if (MapData::gamemode.Contains('Platform')) {
+        return time + 3;
+    } else {
+        return uint((Math::Floor(float(time) * 0.00106f) + 1.f) * 1000.f);
     }
 }
 
@@ -38,17 +42,21 @@ class AutoSilverMedal : DefaultMedal {
 
     void UpdateMedal(const string&in uid) override {
         this.validMedal = false;
+        if (MapData::validationMode && !MapData::validated) {return;}
         CGameCtnChallenge@ rootmap = GetApp().RootMap;
-        if (MapData::gamemode.Contains('Stunt')) {
-            this.medalTime = uint(Math::Floor(float(rootmap.TMObjective_AuthorTime) * 0.06f) * 10.f);
-        } else if (MapData::gamemode.Contains('Platform')) {
-            this.medalTime = rootmap.TMObjective_AuthorTime + 10;
-        } else {
-            this.medalTime = uint((Math::Floor(float(rootmap.TMObjective_AuthorTime) * 0.0012f) + 1.f) * 1000.f);
-        }
+        this.medalTime = getAutoSilver(rootmap.TMObjective_AuthorTime);
         if (this.medalTime != rootmap.TMObjective_SilverTime) {
             this.validMedal = true;
         }
+    }
+}
+uint getAutoSilver(uint time) {
+    if (MapData::gamemode.Contains('Stunt')) {
+        return uint(Math::Floor(float(time) * 0.06f) * 10.f);
+    } else if (MapData::gamemode.Contains('Platform')) {
+        return time + 10;
+    } else {
+        return uint((Math::Floor(float(time) * 0.0012f) + 1.f) * 1000.f);
     }
 }
 
@@ -65,16 +73,21 @@ class AutoBronzeMedal : DefaultMedal {
 
     void UpdateMedal(const string&in uid) override {
         this.validMedal = false;
+        if (MapData::validationMode && !MapData::validated) {return;}
         CGameCtnChallenge@ rootmap = GetApp().RootMap;
-        if (MapData::gamemode.Contains('Stunt')) {
-            this.medalTime = uint(Math::Floor(float(rootmap.TMObjective_AuthorTime) * 0.037f) * 10.f);
-        } else if (MapData::gamemode.Contains('Platform')) {
-            this.medalTime = rootmap.TMObjective_AuthorTime + 30;
-        } else {
-            this.medalTime = uint((Math::Floor(float(rootmap.TMObjective_AuthorTime) * 0.0015f) + 1.f) * 1000.f);
-        }
+        this.medalTime = getAutoBronze(rootmap.TMObjective_AuthorTime);
         if (this.medalTime != rootmap.TMObjective_BronzeTime) {
             this.validMedal = true;
         }
+    }
+}
+
+uint getAutoBronze(uint time) {
+    if (MapData::gamemode.Contains('Stunt')) {
+        return uint(Math::Floor(float(time) * 0.037f) * 10.f);
+    } else if (MapData::gamemode.Contains('Platform')) {
+        return time + 30;
+    } else {
+        return uint((Math::Floor(float(time) * 0.0015f) + 1.f) * 1000.f);
     }
 }

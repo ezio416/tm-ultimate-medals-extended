@@ -7,6 +7,7 @@ namespace MapData {
     bool validationMode = false;
 
     bool hasLoadedReplayEditor = false;
+    bool validated = false;
 
     void updateGamemode() {
         CGameCtnApp@ app = GetApp();
@@ -16,6 +17,46 @@ namespace MapData {
         }
 
         highBetter = gamemode.Contains('Stunt');
+    }
+
+    void updateValidated() {
+        CGameCtnApp@ app = GetApp();
+        if (app.RootMap.TMObjective_AuthorTime != uint(-1)) {
+            validated = true;
+            return;
+        }
+        CGameCtnEditorFree@ editor = cast<CGameCtnEditorFree>(app.Editor);
+        if (editor !is null) {
+            CSmEditorPluginMapType@ pluginMapType = cast<CSmEditorPluginMapType>(editor.PluginMapType);
+#if MP4
+            CTmEditorPluginMapType@ pluginMapType2 = cast<CTmEditorPluginMapType>(editor.PluginMapType);
+#endif
+            if ((pluginMapType is null || (
+                pluginMapType.ValidationStatus != CGameEditorPluginMapMapType::EValidationStatus::Validated))
+#if MP4
+                && (pluginMapType2 is null || (
+                pluginMapType2.ValidationStatus != CGameEditorPluginMapMapType::EValidationStatus::Validated))
+#endif
+                ) {
+                    validated = false;
+            } else {
+                validated = true;
+            }
+            return;
+        }
+
+#if TMNEXT
+        CGameEditorMediaTracker@ replay = cast<CGameEditorMediaTracker>(app.Editor);
+#elif MP4 || TURBO
+        CGameCtnMediaTracker@ replay = cast<CGameCtnMediaTracker>(app.Editor);
+#endif
+        if (replay !is null &&
+            app.RootMap.MapInfo.Kind == 6) { // unnamed enum - in progress
+                validated = false;
+        } else {
+            validated = true;
+        }
+        return;
     }
 
 #if TMNEXT
@@ -66,9 +107,8 @@ namespace MapData {
         }
 #if TMNEXT
         CGameEditorMediaTracker@ replay = cast<CGameEditorMediaTracker>(app.Editor);
-#elif MP4
+#elif MP4 || TURBO
         CGameCtnMediaTracker@ replay = cast<CGameCtnMediaTracker>(app.Editor);
-#elif TURBO
 
 #endif
         if (!showReplayEditor && replay !is null) {
@@ -91,6 +131,7 @@ namespace MapData {
             currentMap = app.RootMap.IdName;
             hasLoadedReplayEditor = false;
             updateGamemode();
+            updateValidated();
             PreviousRun::onNewMap();
             MedalsList::onNewMap(currentMap);
         }

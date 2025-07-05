@@ -2,9 +2,28 @@ namespace PreviousRun {
     uint session = uint(-1);
     uint previous = uint(-1);
 
+    uint gold = uint(-1);
+    uint silver = uint(-1);
+    uint bronze = uint(-1);
+
     void onNewMap() {
         session = uint(-1);
         previous = uint(-1);
+
+        setMedals();
+    }
+
+    // sets the medal times from the session pb (for editor validation)
+    void setMedals() {
+        if (session == uint(-1)) {
+            gold = uint(-1);
+            silver = uint(-1);
+            bronze = uint(-1);
+        } else {
+            gold = getAutoGold(session);
+            silver = getAutoSilver(session);
+            bronze = getAutoBronze(session);
+        }
     }
 
 #if TMNEXT
@@ -98,7 +117,9 @@ namespace PreviousRun {
         previous = finish;
         if (MapData::highBetter ^^ previous < session) {
             session = previous;
+            if (MapData::validationMode) {
+                setMedals();
+            }
         }
     }
-
 }

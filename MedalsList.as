@@ -56,18 +56,22 @@ namespace MedalsList {
         }
     }
 
-    void checkOrder() {
+    bool CheckRender() {
+        bool visible = false;
         for (uint i = 0; i < Medals.Length; i++) {
             Medals[i].refreshMedal(MapData::currentMap);
+            if (Medals[i].enabled && Medals[i].hasMedalTime()) {
+                visible = true;
+            }
         }
         if (updated) {
             updated = false;
             Medals.SortAsc();
         }
+        return visible;
     }
 
     void Render() {
-        checkOrder();
 
         int numcols = 3;
         if (showDelta) {
