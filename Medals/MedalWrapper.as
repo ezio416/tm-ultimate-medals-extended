@@ -1,8 +1,8 @@
 bool updated = false;
 string getEmptyTime() {
-    if (MapData::getGamemode().Contains('Stunt')) {
+    if (MapData::gamemode.Contains('Stunt')) {
         return '\u2212\u2212\u2212\u2212';
-    } else if (MapData::getGamemode().Contains('Platform')) {
+    } else if (MapData::gamemode.Contains('Platform')) {
         return '\u2212';
     } else {
         return '\u2212:\u2212\u2212.\u2212\u2212\u2212';
@@ -119,9 +119,9 @@ class MedalWrapper {
     }
 
     string formatTime(uint time) {
-        if (MapData::getGamemode().Contains('Stunt')) {
+        if (MapData::gamemode.Contains('Stunt')) {
             return tostring(time);
-        } else if (MapData::getGamemode().Contains('Platform')) {
+        } else if (MapData::gamemode.Contains('Platform')) {
             return tostring(time);
         } else {
             return Time::Format(time);

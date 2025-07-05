@@ -1,20 +1,19 @@
 namespace MapData {
 
     bool highBetter = false;
+    string gamemode = '';
+
     string currentMap = '';
+    bool validationMode = false;
 
-    void updateHighBetter() {
-        // technically not accurate on maps edited with external tools, could check current gamemode instead
-        highBetter = getGamemode().Contains('Stunt');
-    }
-
-    string getGamemode() {
+    void updateGamemode() {
         CGameCtnApp@ app = GetApp();
-        string gamemode = cast<CTrackManiaNetworkServerInfo@>(app.Network.ServerInfo).CurGameModeStr;
+        gamemode = cast<CTrackManiaNetworkServerInfo@>(app.Network.ServerInfo).CurGameModeStr;
         if (gamemode == "") {
             gamemode = app.RootMap.MapType;
         }
-        return gamemode;
+
+        highBetter = gamemode.Contains('Stunt');
     }
 
 #if TMNEXT
@@ -80,11 +79,9 @@ namespace MapData {
 
         if (app.RootMap.IdName != currentMap) {
             currentMap = app.RootMap.IdName;
-            updateHighBetter();
+            updateGamemode();
             MedalsList::onNewMap(currentMap);
         }
-        
-        if (currentMap == '') {return;}
 
         // check if pb needs updating
         // to save performance, only check for pb every half a second
@@ -119,16 +116,15 @@ namespace MapData {
             }
 
             CGameScoreAndLeaderBoardManagerScript@ scoreMgr = network.ClientManiaAppPlayground.ScoreMgr;
-            string netGamemode = getGamemode();
-            string gamemode = 'TimeAttack';
-            if (netGamemode.Contains('Stunt')) {
-                gamemode = 'Stunt';
-            } else if (netGamemode.Contains('Platform')) {
-                gamemode = 'Platform';
-            } else if (netGamemode.Contains('Royal')) {
+            string gamemodeid = 'TimeAttack';
+            if (gamemode.Contains('Stunt')) {
+                gamemodeid = 'Stunt';
+            } else if (gamemode.Contains('Platform')) {
+                gamemodeid = 'Platform';
+            } else if (gamemode.Contains('Royal')) {
                 return;
             }
-            cast<PbMedal>(MedalsList::pb.medal).updateIfNeeded(scoreMgr.Map_GetRecord_v2(userId, currentMap, "PersonalBest", "", gamemode, ""), currentMap);
+            cast<PbMedal>(MedalsList::pb.medal).updateIfNeeded(scoreMgr.Map_GetRecord_v2(userId, currentMap, "PersonalBest", "", gamemodeid, ""), currentMap);
         }
 #elif MP4
         if (network.TmRaceRules !is null && network.TmRaceRules.ScoreMgr !is null) {
