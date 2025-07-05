@@ -89,6 +89,15 @@ class MedalWrapper {
 
         if (this.config.allowUnset && this.cacheTime == uint(-1)) {
             // this is pb with no time so should be last
+            if (other.config.allowUnset && other.cacheTime == uint(-1)) {
+                if (this.config.sortPriorty < other.config.sortPriorty) {
+                    return 1;
+                } else if (other.config.sortPriorty < this.config.sortPriorty) {
+                    return -1;
+                } else {
+                    return this.config.defaultName.opCmp(other.config.defaultName);
+                }
+            }
             return 1;
         }
         if (other.config.allowUnset && other.cacheTime == uint(-1)) {
