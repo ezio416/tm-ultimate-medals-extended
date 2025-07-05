@@ -26,7 +26,7 @@ bool requireInterface = false;
 bool requireOverlay = false;
 
 [Setting category="Window" name="Show in validation" description="\\$ff0\\$z Currently doesn't update until you exit validation"]
-bool showValidation = false;
+bool showValidation = true;
 
 [Setting category="Window" name="Show in replay editor"]
 bool showReplayEditor = false;
