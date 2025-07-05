@@ -6,6 +6,8 @@ namespace MapData {
     string currentMap = '';
     bool validationMode = false;
 
+    bool hasLoadedReplayEditor = false;
+
     void updateGamemode() {
         CGameCtnApp@ app = GetApp();
         gamemode = cast<CTrackManiaNetworkServerInfo@>(app.Network.ServerInfo).CurGameModeStr;
@@ -84,6 +86,7 @@ namespace MapData {
 
         if (app.RootMap.IdName != currentMap) {
             currentMap = app.RootMap.IdName;
+            hasLoadedReplayEditor = false;
             updateGamemode();
             MedalsList::onNewMap(currentMap);
         }
@@ -102,7 +105,10 @@ namespace MapData {
         
         if (showReplayEditor && replay !is null) {
             // replay editor doesn't load until after first entering map, so pb needs to re-detect that it is now invalid
-            MedalsList::pb.medal.UpdateMedal(currentMap);
+            if (!hasLoadedReplayEditor) {
+                MedalsList::onNewMap(currentMap);
+                hasLoadedReplayEditor = true;
+            }
         }
 
         if (app.Editor !is null) {
