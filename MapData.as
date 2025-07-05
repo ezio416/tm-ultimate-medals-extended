@@ -90,11 +90,9 @@ namespace MapData {
             CTmEditorPluginMapType@ pluginMapType2 = cast<CTmEditorPluginMapType>(editor.PluginMapType);
 #endif
             if ((pluginMapType is null || (
-            // pluginMapType.ValidationStatus != CGameEditorPluginMapMapType::EValidationStatus::Validated ||
                 pluginMapType.Mode.ClientManiaAppUrl.Contains('RaceTest')))
 #if MP4
                 && (pluginMapType2 is null || (
-                // pluginMapType2.ValidationStatus != CGameEditorPluginMapMapType::EValidationStatus::Validated ||
                 pluginMapType2.Mode.ClientManiaAppUrl.Contains('RaceTest')))
 #endif
                 ) {
