@@ -10,11 +10,17 @@ bool showMapAuthor = true;
 [Setting category="Window" name="Show map comment" description="An 'i' icon will appear if the map has a comment"]
 bool showComment = true;
 
-[Setting category="Window" name="Remove name colors"]
+[Setting category="Window" name="Remove map/author name colors"]
 bool removeColors = false;
 
 [Setting category="Window" name="Show column titles"]
 bool showColumns = true;
+
+[Setting category="Window" name="Show medal names"]
+bool showMedalNames = true;
+
+[Setting category="Window" name="Show medal name colors" if="showMedalNames"]
+bool showMedalNameColors = true;
 
 [Setting category="Window" name="Show delta time"]
 bool showDelta = true;

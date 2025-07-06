@@ -81,7 +81,10 @@ namespace MedalsList {
 
     void Render() {
 
-        int numcols = 3;
+        int numcols = 2;
+        if (showMedalNames) {
+            numcols++;
+        }
         if (showDelta) {
             numcols++;
         }
@@ -90,8 +93,10 @@ namespace MedalsList {
                 UI::TableNextRow();
                 UI::TableNextColumn();
                 // icon
-                UI::TableNextColumn();
-                UI::Text("Medal");
+                if (showMedalNames) {
+                    UI::TableNextColumn();
+                    UI::Text("Medal");
+                }
                 UI::TableNextColumn();
                 UI::Text("Time");
                 if (showDelta && pb.hasMedalTime()) {

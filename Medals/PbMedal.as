@@ -5,7 +5,7 @@ class PbMedal : UltimateMedalsExtended::IMedal {
         c.defaultName = 'Pers. Best';
         c.icon = '\\$444' + Icons::Circle;
         c.nameColor = '\\$0ff';
-        c.sortPriorty = 127;
+        c.sortPriority = 127;
         c.usePreviousIcon = true;
         c.usePreviousColor = true;
         c.shareIcon = false;
