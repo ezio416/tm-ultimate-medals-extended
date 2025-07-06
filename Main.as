@@ -1,4 +1,9 @@
 
+void OnSettingsChanged() {
+    if (refreshOnSetting) {
+        windowWasShownLastFrame = false;
+    }
+}
 
 void Main() {
     MedalsData::loadMedalsData();
