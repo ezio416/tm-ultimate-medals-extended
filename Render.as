@@ -19,6 +19,9 @@ bool showColumns = true;
 [Setting category="Window" name="Show medal names"]
 bool showMedalNames = true;
 
+[Setting category="Window" name="Show medal name colors" if="showMedalNames"]
+bool showMedalNameColors = true;
+
 [Setting category="Window" name="Show delta time"]
 bool showDelta = true;
 

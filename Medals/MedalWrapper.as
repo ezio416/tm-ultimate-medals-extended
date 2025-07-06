@@ -197,7 +197,7 @@ class MedalWrapper {
         }
         if (showMedalNames) {
             UI::TableNextColumn();
-            UI::Text(this.config.nameColor + this.name);
+            UI::Text((showMedalNameColors ? this.config.nameColor : "") + this.name);
         }
         UI::TableNextColumn();
         if (this.config.allowUnset) {
