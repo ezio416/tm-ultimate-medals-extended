@@ -43,9 +43,6 @@ vec2 windowPos = vec2(0, 170);
 [Setting category="Window" name="Allow dragging"]
 bool windowDrag = false;
 
-[Setting category="Window" name="Refresh window on setting change" description="Helps mitigate a bug where the window won't shrink to fit the contents automatically"]
-bool refreshOnSetting = false;
-
 
 // maybe custom font? Not sure if anyone uses that in ultimate medals
 

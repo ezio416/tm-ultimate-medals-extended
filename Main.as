@@ -1,8 +1,6 @@
 
 void OnSettingsChanged() {
-    if (refreshOnSetting) {
-        windowWasShownLastFrame = false;
-    }
+    windowWasShownLastFrame = false;
 }
 
 void Main() {
