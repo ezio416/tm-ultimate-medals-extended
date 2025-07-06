@@ -13,7 +13,7 @@ class AuthorMedal : Medal {
     uint GetMedalTime() override {
         if (MapData::validationMode) {
             if (MapData::validated) {
-                if (MapData::highBetter ^^ this.medalTime < PreviousRun::session) {
+                if (PreviousRun::session == uint(-1) || (MapData::highBetter ^^ this.medalTime < PreviousRun::session)) {
                     return this.medalTime;
                 }
             }
@@ -38,7 +38,7 @@ class GoldMedal : Medal {
     uint GetMedalTime() override {
         if (MapData::validationMode) {
             if (MapData::validated) {
-                if (MapData::highBetter ^^ this.medalTime < PreviousRun::gold) {
+                if (PreviousRun::session == uint(-1) || (MapData::highBetter ^^ this.medalTime < PreviousRun::gold)) {
                     return this.medalTime;
                 }
             }
@@ -62,7 +62,7 @@ class SilverMedal : Medal {
     uint GetMedalTime() override {
         if (MapData::validationMode) {
             if (MapData::validated) {
-                if (MapData::highBetter ^^ this.medalTime < PreviousRun::silver) {
+                if (PreviousRun::session == uint(-1) || (MapData::highBetter ^^ this.medalTime < PreviousRun::silver)) {
                     return this.medalTime;
                 }
             }
@@ -86,7 +86,7 @@ class BronzeMedal : Medal {
     uint GetMedalTime() override {
         if (MapData::validationMode) {
             if (MapData::validated) {
-                if (MapData::highBetter ^^ this.medalTime < PreviousRun::bronze) {
+                if (PreviousRun::session == uint(-1) || (MapData::highBetter ^^ this.medalTime < PreviousRun::bronze)) {
                     return this.medalTime;
                 }
             }

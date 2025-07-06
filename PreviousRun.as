@@ -115,7 +115,7 @@ namespace PreviousRun {
         uint finish = checkFinished();
         if (finish == uint(-1)) {return;}
         previous = finish;
-        if (MapData::highBetter ^^ previous < session) {
+        if (session == uint(-1) || (MapData::highBetter ^^ previous < session)) {
             session = previous;
             if (MapData::validationMode) {
                 setMedals();

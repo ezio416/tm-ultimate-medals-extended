@@ -70,7 +70,7 @@ class Session : UltimateMedalsExtended::IMedal {
 
     bool HasMedalTime(const string&in uid) override {
         if (MapData::validationMode) {
-            return this.validMedalTime && MapData::validated && (MapData::highBetter ^^ this.GetMedalTime() > GetApp().RootMap.TMObjective_AuthorTime);
+            return this.validMedalTime && MapData::validated && (this.GetMedalTime() == uint(-1) || (MapData::highBetter ^^ this.GetMedalTime() > GetApp().RootMap.TMObjective_AuthorTime));
         }
         return this.validMedalTime && (!MedalsList::pb.enabled || this.GetMedalTime() != MedalsList::pb.cacheTime);
     }

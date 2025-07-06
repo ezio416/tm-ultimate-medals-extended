@@ -26,7 +26,7 @@ abstract class DefaultMedal : Medal {
     bool HasMedalTime(const string&in uid) override {
         if (MapData::validationMode) {
             if (!MapData::validated) {return false;}
-            if (!(MapData::highBetter ^^ GetApp().RootMap.TMObjective_AuthorTime < PreviousRun::session)) {
+            if (!(PreviousRun::session == uint(-1) || (MapData::highBetter ^^ GetApp().RootMap.TMObjective_AuthorTime < PreviousRun::session))) {
                 return false;
             }
         }
