@@ -18,7 +18,7 @@ namespace UltimateMedalsExtended {
          * pb medal is 127 (since if pb is equal to a medal then it obtains it)
          * records should be around 191 (since tie-ing a record doesn't beat it)
          */
-        uint8 sortPriorty = 63;
+        uint8 sortPriority = 63;
 
         /*
          * use the icon shape from the closest worse medal if any (otherwise its own icon)
@@ -40,7 +40,7 @@ namespace UltimateMedalsExtended {
          */
         bool shareIcon = true;
 
-        // if this medal can have an empty ('unset') but still vislble value, using uint(-1), such as pb before first finish
+        // if this medal can have an empty ('unset') but still visible value, using uint(-1), such as pb before first finish
         bool allowUnset = false;
 
     }

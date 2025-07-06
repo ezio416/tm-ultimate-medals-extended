@@ -5,7 +5,7 @@ class Previous : UltimateMedalsExtended::IMedal {
         c.defaultName = 'Previous';
         c.icon = '\\$444' + Icons::ClockO;
         c.nameColor = '\\$aff';
-        c.sortPriorty = 125;
+        c.sortPriority = 125;
         c.usePreviousColor = true;
         c.shareIcon = false;
         c.allowUnset = true;
@@ -44,7 +44,7 @@ class Session : UltimateMedalsExtended::IMedal {
         c.defaultName = 'Session';
         c.icon = '\\$444' + Icons::ClockO;
         c.nameColor = '\\$8ff';
-        c.sortPriorty = 127;
+        c.sortPriority = 127;
         c.usePreviousColor = true;
         c.shareIcon = false;
         c.allowUnset = true;
