@@ -195,8 +195,10 @@ class MedalWrapper {
         } else {
             UI::Text(this.config.icon);
         }
-        UI::TableNextColumn();
-        UI::Text(this.config.nameColor + this.name);
+        if (showMedalNames) {
+            UI::TableNextColumn();
+            UI::Text(this.config.nameColor + this.name);
+        }
         UI::TableNextColumn();
         if (this.config.allowUnset) {
             if (this.cacheTime != uint(-1)) {
