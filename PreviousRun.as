@@ -109,12 +109,28 @@ namespace PreviousRun {
         }
         return uint(-1);
     }
+#elif TURBO
+    uint checkFinished() {  // this score seems to be in multiple places like pg.gt[0]
+        auto network = cast<CTrackManiaNetwork>(GetApp().Network);
+        if (network.TmRaceRules !is null
+            && network.TmRaceRules.Players.Length > 0
+            && network.TmRaceRules.Players[0] !is null
+            && network.TmRaceRules.Players[0].Score !is null
+            && network.TmRaceRules.Players[0].Score.PrevRace !is null
+        ) {
+            return network.TmRaceRules.Players[0].Score.PrevRace.Time;
+        }
+        return uint(-1);
+    }
 #endif
 
     void Update() {
         uint finish = checkFinished();
         if (finish == uint(-1)) {return;}
         previous = finish;
+#if TURBO
+        cast<PbMedal>(MedalsList::pb.medal).updateIfNeeded(finish, MapData::currentMap);
+#endif
         if (session == uint(-1) || (MapData::highBetter ^^ previous < session)) {
             session = previous;
             if (MapData::validationMode) {

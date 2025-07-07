@@ -11,9 +11,7 @@ void Main() {
     MedalsList::addMedal(BronzeMedal());
     MedalsList::addMedal(SilverMedal());
     MedalsList::addMedal(GoldMedal());
-#if TMNEXT || MP4
     MedalsList::addMedal(AuthorMedal());
-#endif
     MedalsList::addMedal(AutoBronzeMedal());
     MedalsList::addMedal(AutoSilverMedal());
     MedalsList::addMedal(AutoGoldMedal());
@@ -25,4 +23,13 @@ void Main() {
 
 void Update(float dt) {
     MapData::Update();
+}
+
+CGameCtnChallenge@ getMap() {
+    CGameCtnApp@ app = GetApp();
+#if TMNEXT || MP4
+    return app.RootMap;
+#elif TURBO
+    return app.Challenge;
+#endif
 }

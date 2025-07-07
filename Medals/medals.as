@@ -1,14 +1,17 @@
-#if TMNEXT || MP4
 class AuthorMedal : Medal {
     UltimateMedalsExtended::Config GetConfig() override {
         UltimateMedalsExtended::Config c;
+#if TMNEXT || MP4
         c.defaultName = 'Author';
+#elif TURBO
+        c.defaultName = 'Trackmaster';
+#endif
         c.icon = '\\$071' + Icons::Circle;
         return c;
     }
 
     void UpdateMedal(const string&in uid) override {
-        this.medalTime = GetApp().RootMap.TMObjective_AuthorTime;
+        this.medalTime = getMap().TMObjective_AuthorTime;
     }
     uint GetMedalTime() override {
         if (MapData::validationMode) {
@@ -22,7 +25,6 @@ class AuthorMedal : Medal {
         return this.medalTime;
     }
 }
-#endif
 
 class GoldMedal : Medal {
     UltimateMedalsExtended::Config GetConfig() override {
@@ -33,7 +35,7 @@ class GoldMedal : Medal {
     }
 
     void UpdateMedal(const string&in uid) override {
-        this.medalTime = GetApp().RootMap.TMObjective_GoldTime;
+        this.medalTime = getMap().TMObjective_GoldTime;
     }
     uint GetMedalTime() override {
         if (MapData::validationMode) {
@@ -57,7 +59,7 @@ class SilverMedal : Medal {
     }
 
     void UpdateMedal(const string&in uid) override {
-        this.medalTime = GetApp().RootMap.TMObjective_SilverTime;
+        this.medalTime = getMap().TMObjective_SilverTime;
     }
     uint GetMedalTime() override {
         if (MapData::validationMode) {
@@ -81,7 +83,7 @@ class BronzeMedal : Medal {
     }
 
     void UpdateMedal(const string&in uid) override {
-        this.medalTime = GetApp().RootMap.TMObjective_BronzeTime;
+        this.medalTime = getMap().TMObjective_BronzeTime;
     }
     uint GetMedalTime() override {
         if (MapData::validationMode) {

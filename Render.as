@@ -74,7 +74,8 @@ void Render() {
         return;
     }
     CGameCtnApp@ app = GetApp();
-    if (app.RootMap is null) {
+    CGameCtnChallenge@ map = getMap();
+    if (map is null) {
         windowWasShownLastFrame = false;
         return;
     }
@@ -111,16 +112,16 @@ void Render() {
             if (showMapName) {
                 UI::TableNextRow();
                 UI::TableNextColumn();
-                string name = app.RootMap.MapName;
+                string name = map.MapName;
                 if (name == "") {
-                    name = app.RootMap.MapInfo.NameForUi;
+                    name = map.MapInfo.NameForUi;
                 }
                 if (removeColors) {
                     UI::Text(Text::StripFormatCodes(name));
                 } else {
                     UI::Text(Text::OpenplanetFormatCodes(name));
                 }
-                if (showComment && !showMapAuthor && app.RootMap.Comments.Length > 0) {
+                if (showComment && !showMapAuthor && map.Comments.Length > 0) {
                     UI::SameLine();
                     UI::Text('\\$68f' + Icons::InfoCircle);
                 }
@@ -129,11 +130,11 @@ void Render() {
                 UI::TableNextRow();
                 UI::TableNextColumn();
                 if (removeColors) {
-                    UI::TextDisabled('By ' + Text::StripFormatCodes(app.RootMap.AuthorNickName));
+                    UI::TextDisabled('By ' + Text::StripFormatCodes(map.AuthorNickName));
                 } else {
-                    UI::TextDisabled('By ' + Text::OpenplanetFormatCodes(app.RootMap.AuthorNickName));
+                    UI::TextDisabled('By ' + Text::OpenplanetFormatCodes(map.AuthorNickName));
                 }
-                if (showComment && app.RootMap.Comments.Length > 0) {
+                if (showComment && map.Comments.Length > 0) {
                     UI::SameLine();
                     UI::Text('\\$68f' + Icons::InfoCircle);
                 }
@@ -143,10 +144,10 @@ void Render() {
 
         UI::EndGroup();
 
-        if (showComment && app.RootMap.Comments.Length > 0 && UI::IsItemHovered()) {
+        if (showComment && map.Comments.Length > 0 && UI::IsItemHovered()) {
             UI::BeginTooltip();
             UI::PushTextWrapPos(200);
-            UI::TextWrapped(app.RootMap.Comments);
+            UI::TextWrapped(map.Comments);
             UI::PopTextWrapPos();
             UI::EndTooltip();
         }
