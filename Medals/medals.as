@@ -4,7 +4,7 @@ class SuperTrackmasterMedal : Medal {
     UltimateMedalsExtended::Config GetConfig() override {
         UltimateMedalsExtended::Config c;
         c.defaultName = 'Super Trackmaster';
-        c.icon = '\\$071' + Icons::Circle;
+        c.icon = '\\$0ff' + Icons::Circle;
         return c;
     }
 
