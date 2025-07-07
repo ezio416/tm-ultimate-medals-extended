@@ -116,6 +116,11 @@ void Render() {
                 if (name == "") {
                     name = map.MapInfo.NameForUi;
                 }
+#if TURBO
+                if (map.AuthorLogin == "Nadeo") {
+                    name = "#" + name;
+                }
+#endif
                 if (removeColors) {
                     UI::Text(Text::StripFormatCodes(name));
                 } else {

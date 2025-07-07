@@ -12,6 +12,12 @@ void Main() {
     MedalsList::addMedal(SilverMedal());
     MedalsList::addMedal(GoldMedal());
     MedalsList::addMedal(AuthorMedal());
+#if TURBO
+    MedalsList::addMedal(SuperBronzeMedal());
+    MedalsList::addMedal(SuperSilverMedal());
+    MedalsList::addMedal(SuperGoldMedal());
+    MedalsList::addMedal(SuperTrackmasterMedal());
+#endif
     MedalsList::addMedal(AutoBronzeMedal());
     MedalsList::addMedal(AutoSilverMedal());
     MedalsList::addMedal(AutoGoldMedal());

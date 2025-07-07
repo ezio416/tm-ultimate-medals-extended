@@ -1,12 +1,124 @@
-class AuthorMedal : Medal {
+#if TURBO
+
+class SuperTrackmasterMedal : Medal {
+    UltimateMedalsExtended::Config c;
+
+    SuperTrackmasterMedal() {
+        c.defaultName = 'Super Trackmaster';
+        c.icon = '\\$0ff' + Icons::Circle;
+    }
+
     UltimateMedalsExtended::Config GetConfig() override {
-        UltimateMedalsExtended::Config c;
+        return c;
+    }
+
+    void UpdateMedal(const string&in uid) override {
+        CGameCtnChallenge@ map = getMap();
+        if (map.AuthorLogin == "Nadeo") {
+            uint mapNum = 0;
+            Text::TryParseUInt(map.MapName, mapNum);
+            this.medalTime = STM::getSuperTrackmaster(mapNum);
+        }
+    }
+    uint GetMedalTime() override {
+        return this.medalTime;
+    }
+}
+
+class SuperGoldMedal : Medal {
+    UltimateMedalsExtended::Config c;
+
+    SuperGoldMedal() {
+        c.defaultName = 'Super Gold';
+        c.icon = '\\$db4' + Icons::Circle;
+        c.icon2 = '\\$0f1' + Icons::CircleO;
+    }
+
+    UltimateMedalsExtended::Config GetConfig() override {
+        return c;
+    }
+
+    void UpdateMedal(const string&in uid) override {
+        CGameCtnChallenge@ map = getMap();
+        if (map.AuthorLogin == "Nadeo") {
+            uint mapNum = 0;
+            Text::TryParseUInt(map.MapName, mapNum);
+            this.medalTime = STM::getSuperGold(mapNum, map.TMObjective_AuthorTime);
+        }
+    }
+    uint GetMedalTime() override {
+        return this.medalTime;
+    }
+}
+
+class SuperSilverMedal : Medal {
+    UltimateMedalsExtended::Config c;
+
+    SuperSilverMedal() {
+        c.defaultName = 'Super Silver';
+        c.icon = '\\$899' + Icons::Circle;
+        c.icon2 = '\\$0f1' + Icons::CircleO;
+    }
+
+    UltimateMedalsExtended::Config GetConfig() override {
+        return c;
+    }
+
+    void UpdateMedal(const string&in uid) override {
+        CGameCtnChallenge@ map = getMap();
+        if (map.AuthorLogin == "Nadeo") {
+            uint mapNum = 0;
+            Text::TryParseUInt(map.MapName, mapNum);
+            this.medalTime = STM::getSuperSilver(mapNum, map.TMObjective_AuthorTime);
+        }
+    }
+    uint GetMedalTime() override {
+        return this.medalTime;
+    }
+}
+
+class SuperBronzeMedal : Medal {
+    UltimateMedalsExtended::Config c;
+
+    SuperBronzeMedal() {
+        c.defaultName = 'Super Bronze';
+        c.icon = '\\$964' + Icons::Circle;
+        c.icon2 = '\\$0f1' + Icons::CircleO;
+    }
+
+    UltimateMedalsExtended::Config GetConfig() override {
+        return c;
+    }
+
+    void UpdateMedal(const string&in uid) override {
+        CGameCtnChallenge@ map = getMap();
+        if (map.AuthorLogin == "Nadeo") {
+            uint mapNum = 0;
+            Text::TryParseUInt(map.MapName, mapNum);
+            this.medalTime = STM::getSuperBronze(mapNum, map.TMObjective_AuthorTime);
+        }
+    }
+    uint GetMedalTime() override {
+        return this.medalTime;
+    }
+}
+
+#endif
+
+class AuthorMedal : Medal {
+    UltimateMedalsExtended::Config c;
+
+    AuthorMedal() {
 #if TMNEXT || MP4
         c.defaultName = 'Author';
+        c.icon = '\\$071' + Icons::Circle;
 #elif TURBO
         c.defaultName = 'Trackmaster';
+        c.icon = '\\$0f1' + Icons::Circle;
 #endif
-        c.icon = '\\$071' + Icons::Circle;
+    }
+
+    UltimateMedalsExtended::Config GetConfig() override {
         return c;
     }
 
@@ -27,10 +139,14 @@ class AuthorMedal : Medal {
 }
 
 class GoldMedal : Medal {
-    UltimateMedalsExtended::Config GetConfig() override {
-        UltimateMedalsExtended::Config c;
+    UltimateMedalsExtended::Config c;
+
+    GoldMedal() {
         c.defaultName = 'Gold';
         c.icon = '\\$db4' + Icons::Circle;
+    }
+
+    UltimateMedalsExtended::Config GetConfig() override {
         return c;
     }
 
@@ -51,10 +167,14 @@ class GoldMedal : Medal {
 }
 
 class SilverMedal : Medal {
-    UltimateMedalsExtended::Config GetConfig() override {
-        UltimateMedalsExtended::Config c;
+    UltimateMedalsExtended::Config c;
+
+    SilverMedal() {
         c.defaultName = 'Silver';
         c.icon = '\\$899' + Icons::Circle;
+    }
+
+    UltimateMedalsExtended::Config GetConfig() override {
         return c;
     }
 
@@ -75,10 +195,14 @@ class SilverMedal : Medal {
 }
 
 class BronzeMedal : Medal {
-    UltimateMedalsExtended::Config GetConfig() override {
-        UltimateMedalsExtended::Config c;
+    UltimateMedalsExtended::Config c;
+
+    BronzeMedal() {
         c.defaultName = 'Bronze';
         c.icon = '\\$964' + Icons::Circle;
+    }
+
+    UltimateMedalsExtended::Config GetConfig() override {
         return c;
     }
 
