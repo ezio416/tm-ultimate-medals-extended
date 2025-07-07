@@ -8,3 +8,4 @@ version = "1.2"
 module = "UltimateMedalsExtended"
 shared_exports = [ "Medals/IMedal.as" ]
 exports = [ "Exports.as" ]
+optional_dependencies = [ "NadeoServices" ]

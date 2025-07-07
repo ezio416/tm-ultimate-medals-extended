@@ -7,6 +7,11 @@ bool showMapName = true;
 [Setting category="Window" name="Show map author"]
 bool showMapAuthor = true;
 
+#if DEPENDENCY_NADEOSERVICES
+[Setting category="Window" name="Show current author name" if="showMapAuthor"]
+bool showCurrentAuthorName = true;
+#endif
+
 [Setting category="Window" name="Show map comment" description="An 'i' icon will appear if the map has a comment"]
 bool showComment = true;
 
@@ -134,10 +139,21 @@ void Render() {
             if (showMapAuthor) {
                 UI::TableNextRow();
                 UI::TableNextColumn();
+                string authorName = map.AuthorNickName;
+
+#if DEPENDENCY_NADEOSERVICES
+                if (authorName != "Nadeo") {
+                    const string name = Accounts::GetAuthorName(MapData::currentMap);
+                    if (name.Length > 0) {
+                        authorName = name;
+                    }
+                }
+#endif
+
                 if (removeColors) {
-                    UI::TextDisabled('By ' + Text::StripFormatCodes(map.AuthorNickName));
+                    UI::TextDisabled('By ' + Text::StripFormatCodes(authorName));
                 } else {
-                    UI::TextDisabled('By ' + Text::OpenplanetFormatCodes(map.AuthorNickName));
+                    UI::TextDisabled('By ' + Text::OpenplanetFormatCodes(authorName));
                 }
                 if (showComment && map.Comments.Length > 0) {
                     UI::SameLine();
