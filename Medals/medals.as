@@ -19,6 +19,9 @@ class SuperTrackmasterMedal : Medal {
     uint GetMedalTime() override {
         return this.medalTime;
     }
+    bool HasMedalTime(const string &in uid) override {
+        return this.medalTime > 0;
+    }
 }
 
 class SuperGoldMedal : Medal {
@@ -40,6 +43,9 @@ class SuperGoldMedal : Medal {
     }
     uint GetMedalTime() override {
         return this.medalTime;
+    }
+    bool HasMedalTime(const string &in uid) override {
+        return this.medalTime > 0;
     }
 }
 
@@ -63,6 +69,9 @@ class SuperSilverMedal : Medal {
     uint GetMedalTime() override {
         return this.medalTime;
     }
+    bool HasMedalTime(const string &in uid) override {
+        return this.medalTime > 0;
+    }
 }
 
 class SuperBronzeMedal : Medal {
@@ -84,6 +93,9 @@ class SuperBronzeMedal : Medal {
     }
     uint GetMedalTime() override {
         return this.medalTime;
+    }
+    bool HasMedalTime(const string &in uid) override {
+        return this.medalTime > 0;
     }
 }
 
