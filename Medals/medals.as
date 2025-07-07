@@ -1,14 +1,10 @@
 #if TURBO
 
 class SuperTrackmasterMedal : Medal {
-    UltimateMedalsExtended::Config c;
-
-    SuperTrackmasterMedal() {
-        c.defaultName = 'Super Trackmaster';
-        c.icon = '\\$0ff' + Icons::Circle;
-    }
-
     UltimateMedalsExtended::Config GetConfig() override {
+        UltimateMedalsExtended::Config c;
+        c.defaultName = 'Super Trackmaster';
+        c.icon = '\\$071' + Icons::Circle;
         return c;
     }
 
@@ -26,15 +22,11 @@ class SuperTrackmasterMedal : Medal {
 }
 
 class SuperGoldMedal : Medal {
-    UltimateMedalsExtended::Config c;
-
-    SuperGoldMedal() {
+    UltimateMedalsExtended::Config GetConfig() override {
+        UltimateMedalsExtended::Config c;
         c.defaultName = 'Super Gold';
         c.icon = '\\$db4' + Icons::Circle;
         c.icon2 = '\\$0f1' + Icons::CircleO;
-    }
-
-    UltimateMedalsExtended::Config GetConfig() override {
         return c;
     }
 
@@ -52,15 +44,11 @@ class SuperGoldMedal : Medal {
 }
 
 class SuperSilverMedal : Medal {
-    UltimateMedalsExtended::Config c;
-
-    SuperSilverMedal() {
+    UltimateMedalsExtended::Config GetConfig() override {
+        UltimateMedalsExtended::Config c;
         c.defaultName = 'Super Silver';
         c.icon = '\\$899' + Icons::Circle;
         c.icon2 = '\\$0f1' + Icons::CircleO;
-    }
-
-    UltimateMedalsExtended::Config GetConfig() override {
         return c;
     }
 
@@ -78,15 +66,11 @@ class SuperSilverMedal : Medal {
 }
 
 class SuperBronzeMedal : Medal {
-    UltimateMedalsExtended::Config c;
-
-    SuperBronzeMedal() {
+    UltimateMedalsExtended::Config GetConfig() override {
+        UltimateMedalsExtended::Config c;
         c.defaultName = 'Super Bronze';
         c.icon = '\\$964' + Icons::Circle;
         c.icon2 = '\\$0f1' + Icons::CircleO;
-    }
-
-    UltimateMedalsExtended::Config GetConfig() override {
         return c;
     }
 
@@ -106,9 +90,8 @@ class SuperBronzeMedal : Medal {
 #endif
 
 class AuthorMedal : Medal {
-    UltimateMedalsExtended::Config c;
-
-    AuthorMedal() {
+    UltimateMedalsExtended::Config GetConfig() override {
+        UltimateMedalsExtended::Config c;
 #if TMNEXT || MP4
         c.defaultName = 'Author';
         c.icon = '\\$071' + Icons::Circle;
@@ -116,9 +99,6 @@ class AuthorMedal : Medal {
         c.defaultName = 'Trackmaster';
         c.icon = '\\$0f1' + Icons::Circle;
 #endif
-    }
-
-    UltimateMedalsExtended::Config GetConfig() override {
         return c;
     }
 
@@ -139,14 +119,10 @@ class AuthorMedal : Medal {
 }
 
 class GoldMedal : Medal {
-    UltimateMedalsExtended::Config c;
-
-    GoldMedal() {
+    UltimateMedalsExtended::Config GetConfig() override {
+        UltimateMedalsExtended::Config c;
         c.defaultName = 'Gold';
         c.icon = '\\$db4' + Icons::Circle;
-    }
-
-    UltimateMedalsExtended::Config GetConfig() override {
         return c;
     }
 
@@ -167,14 +143,10 @@ class GoldMedal : Medal {
 }
 
 class SilverMedal : Medal {
-    UltimateMedalsExtended::Config c;
-
-    SilverMedal() {
+    UltimateMedalsExtended::Config GetConfig() override {
+        UltimateMedalsExtended::Config c;
         c.defaultName = 'Silver';
         c.icon = '\\$899' + Icons::Circle;
-    }
-
-    UltimateMedalsExtended::Config GetConfig() override {
         return c;
     }
 
@@ -195,14 +167,10 @@ class SilverMedal : Medal {
 }
 
 class BronzeMedal : Medal {
-    UltimateMedalsExtended::Config c;
-
-    BronzeMedal() {
+    UltimateMedalsExtended::Config GetConfig() override {
+        UltimateMedalsExtended::Config c;
         c.defaultName = 'Bronze';
         c.icon = '\\$964' + Icons::Circle;
-    }
-
-    UltimateMedalsExtended::Config GetConfig() override {
         return c;
     }
 
