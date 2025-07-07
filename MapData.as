@@ -66,6 +66,7 @@ namespace MapData {
             auto pluginMapType = editor.EditorMapType;
             validated = pluginMapType !is null && pluginMapType.ValidationStatus == CGameCtnEditorPluginMapType::EValidationStatus::Validated;
 #endif
+            return;
         }
 
 #if TMNEXT
