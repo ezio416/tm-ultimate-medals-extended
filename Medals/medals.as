@@ -14,6 +14,8 @@ class SuperTrackmasterMedal : Medal {
             uint mapNum = 0;
             Text::TryParseUInt(map.MapName, mapNum);
             this.medalTime = STM::getSuperTrackmaster(mapNum);
+        } else {
+            this.medalTime = 0;
         }
     }
     uint GetMedalTime() override {
@@ -39,6 +41,8 @@ class SuperGoldMedal : Medal {
             uint mapNum = 0;
             Text::TryParseUInt(map.MapName, mapNum);
             this.medalTime = STM::getSuperGold(mapNum, map.TMObjective_AuthorTime);
+        } else {
+            this.medalTime = 0;
         }
     }
     uint GetMedalTime() override {
@@ -64,6 +68,8 @@ class SuperSilverMedal : Medal {
             uint mapNum = 0;
             Text::TryParseUInt(map.MapName, mapNum);
             this.medalTime = STM::getSuperSilver(mapNum, map.TMObjective_AuthorTime);
+        } else {
+            this.medalTime = 0;
         }
     }
     uint GetMedalTime() override {
@@ -89,6 +95,8 @@ class SuperBronzeMedal : Medal {
             uint mapNum = 0;
             Text::TryParseUInt(map.MapName, mapNum);
             this.medalTime = STM::getSuperBronze(mapNum, map.TMObjective_AuthorTime);
+        } else {
+            this.medalTime = 0;
         }
     }
     uint GetMedalTime() override {
