@@ -57,17 +57,11 @@ namespace MapData {
         if (editor !is null) {
 #if TMNEXT || MP4
             auto pluginMapType = editor.PluginMapType;
+            validated = pluginMapType !is null && pluginMapType.ValidationStatus == CGameEditorPluginMapMapType::EValidationStatus::Validated;
 #elif TURBO
             auto pluginMapType = editor.EditorMapType;
+            validated = pluginMapType !is null && pluginMapType.ValidationStatus == CGameCtnEditorPluginMapType::EValidationStatus::Validated;
 #endif
-            if (pluginMapType is null ||
-                pluginMapType.ValidationStatus != CGameCtnEditorPluginMapType::EValidationStatus::Validated
-            ) {
-                validated = false;
-            } else {
-                validated = true;
-            }
-            return;
         }
 
 #if TMNEXT
