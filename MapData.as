@@ -17,6 +17,10 @@ namespace MapData {
     bool hasLoadedReplayEditor = false;
     bool validated = false;
 
+#if TURBO
+    bool needCheckTurboPb = false;
+#endif
+
     void updateGamemode() {
         CGameCtnApp@ app = GetApp();
         gamemode = GameMode::None;
@@ -143,6 +147,9 @@ namespace MapData {
 
         if (map.IdName != currentMap) {
             currentMap = map.IdName;
+#if TURBO
+            needCheckTurboPb = true;
+#endif
             hasLoadedReplayEditor = false;
             updateGamemode();
             updateValidated();
@@ -220,7 +227,7 @@ namespace MapData {
             }
         }
 #elif TURBO
-        if (network.TmRaceRules !is null) {
+        if (network.TmRaceRules !is null && needCheckTurboPb) {
             network.TmRaceRules.DataMgr.RetrieveRecordsNoMedals(currentMap, network.PlayerInfo.Id);
             startnew(FindTurboPB, network.TmRaceRules.DataMgr);
         }
@@ -235,6 +242,7 @@ namespace MapData {
             for (uint i = 0; i < dataMgr.Records.Length; i++) {
                 if (dataMgr.Records[i].GhostName == "Solo_BestGhost") {
                     cast<PbMedal>(MedalsList::pb.medal).updateIfNeeded(dataMgr.Records[i].Time, currentMap);
+                    needCheckTurboPb = false;
                     break;
                 }
             }
