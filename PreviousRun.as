@@ -55,6 +55,16 @@ namespace PreviousRun {
                         return score;
                     }
                 }
+            } else {
+#if DEPENDENCY_MLFEEDRACEDATA
+                Meta::Plugin@ plugin = Meta::GetPluginFromID("MLFeedRaceData");
+                if (plugin !is null && plugin.Enabled) {
+                    const MLFeed::HookRaceStatsEventsBase_V4@ raceData = MLFeed::GetRaceData_V4();
+                    if (raceData !is null && raceData.LocalPlayer !is null) {
+                        return raceData.LocalPlayer.lastCpTime != 0 ? raceData.LocalPlayer.lastCpTime : uint(-1);
+                    }
+                }
+#endif
             }
         }
         return uint(-1);
