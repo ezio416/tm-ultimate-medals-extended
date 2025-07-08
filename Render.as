@@ -78,12 +78,19 @@ void Render() {
         windowWasShownLastFrame = false;
         return;
     }
-    CGameCtnApp@ app = GetApp();
     CGameCtnChallenge@ map = getMap();
     if (map is null) {
         windowWasShownLastFrame = false;
         return;
     }
+
+#if MP4
+    auto app = cast<CTrackMania>(GetApp());
+    if (app.LoadedManiaTitle !is null && app.LoadedManiaTitle.BaseTitleId == "SMStorm") {
+        windowWasShownLastFrame = false;
+        return;
+    }
+#endif
 
     if (!MedalsList::CheckRender()) {
         windowWasShownLastFrame = false;
