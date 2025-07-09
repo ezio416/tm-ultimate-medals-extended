@@ -220,7 +220,7 @@ namespace MapData {
             // todo: maybe do whatever Ultimate Medals does with local replays
 
             // check session pb
-            if (// already checked playground is not null and nonempty gameterminal
+            if (playground !is null && playground.GameTerminals.Length > 0 &&
                 cast<CTrackManiaPlayer>(playground.GameTerminals[0].GUIPlayer) !is null &&
                 cast<CTrackManiaPlayer>(playground.GameTerminals[0].GUIPlayer).Score !is null) {
                     uint sessionPb = uint(cast<CTrackManiaPlayer>(playground.GameTerminals[0].GUIPlayer).Score.BestTime);
