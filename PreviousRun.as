@@ -108,7 +108,7 @@ namespace PreviousRun {
     uint checkFinished() {
         CGameCtnApp@ app = GetApp();
         CGameCtnPlayground@ playground = cast<CGameCtnPlayground@>(app.CurrentPlayground);
-        if (playground.PlayerRecordedGhost !is null) {
+        if (playground !is null && playground.PlayerRecordedGhost !is null) {
             if (MapData::gamemode == GameMode::Race) {
                 return playground.PlayerRecordedGhost.RaceTime;
             } else if (MapData::gamemode == GameMode::Stunt) {
