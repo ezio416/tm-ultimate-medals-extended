@@ -42,8 +42,8 @@ bool showValidation = true;
 [Setting category="Window" name="Show in replay editor"]
 bool showReplayEditor = false;
 
-[Setting category="Window" name="Show 'session best/previous run' when enabled but blank"]
-bool showSessionBlank = false;
+[Setting category="Window" name="Show 'session best/previous run' when enabled but blank" description="It will only show if it's different to PB"]
+bool showSessionBlank = true;
 
 [Setting category="Window" name="Location"]
 vec2 windowPos = vec2(0, 170);
