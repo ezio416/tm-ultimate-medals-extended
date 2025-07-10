@@ -35,7 +35,7 @@ class Previous : UltimateMedalsExtended::IMedal {
         if (GetApp().PlaygroundScript is null && (plugin is null || !plugin.Enabled)) {
             return false;
         }
-#else
+#elif TMNEXT
         if (GetApp().PlaygroundScript is null) {
             return false;
         }
@@ -89,7 +89,7 @@ class Session : UltimateMedalsExtended::IMedal {
         if (GetApp().PlaygroundScript is null && (plugin is null || !plugin.Enabled)) {
             return false;
         }
-#else
+#elif TMNEXT
         if (GetApp().PlaygroundScript is null) {
             return false;
         }
