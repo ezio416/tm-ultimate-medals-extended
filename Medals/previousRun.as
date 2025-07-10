@@ -30,6 +30,21 @@ class Previous : UltimateMedalsExtended::IMedal {
     }
 
     bool HasMedalTime(const string&in uid) override {
+#if DEPENDENCY_MLFEEDRACEDATA
+        Meta::Plugin@ plugin = Meta::GetPluginFromID("MLFeedRaceData");
+        if (GetApp().PlaygroundScript is null && (plugin is null || !plugin.Enabled)) {
+            return false;
+        }
+#elif TMNEXT
+        if (GetApp().PlaygroundScript is null) {
+            return false;
+        }
+#endif
+
+        if (!showSessionBlank && PreviousRun::previous == uint(-1)) {
+            return false;
+        }
+
         if (MapData::validationMode && PreviousRun::session == uint(-1)) {return false;}
         return this.validMedalTime && (!MedalsList::pb.enabled || this.GetMedalTime() != MedalsList::pb.cacheTime) && (!MedalsList::session.enabled || this.GetMedalTime() != MedalsList::session.cacheTime);
     }
@@ -69,8 +84,23 @@ class Session : UltimateMedalsExtended::IMedal {
     }
 
     bool HasMedalTime(const string&in uid) override {
+#if DEPENDENCY_MLFEEDRACEDATA
+        Meta::Plugin@ plugin = Meta::GetPluginFromID("MLFeedRaceData");
+        if (GetApp().PlaygroundScript is null && (plugin is null || !plugin.Enabled)) {
+            return false;
+        }
+#elif TMNEXT
+        if (GetApp().PlaygroundScript is null) {
+            return false;
+        }
+#endif
+
+        if (!showSessionBlank && PreviousRun::session == uint(-1)) {
+            return false;
+        }
+
         if (MapData::validationMode) {
-            return this.validMedalTime && MapData::validated && (this.GetMedalTime() == uint(-1) || (MapData::highBetter ^^ this.GetMedalTime() > GetApp().RootMap.TMObjective_AuthorTime));
+            return this.validMedalTime && MapData::validated && (this.GetMedalTime() == uint(-1) || (MapData::highBetter ^^ this.GetMedalTime() > getMap().TMObjective_AuthorTime));
         }
         return this.validMedalTime && (!MedalsList::pb.enabled || this.GetMedalTime() != MedalsList::pb.cacheTime);
     }

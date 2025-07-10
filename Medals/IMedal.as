@@ -6,6 +6,9 @@ namespace UltimateMedalsExtended {
         // the color and icon used for the medal icon
         string icon = '';
 
+        // the color and icon used for the 2nd medal icon drawn on top of the normal icon
+        string icon2 = '';
+
         // if the medal is enabled in UME by default
         bool startEnabled = true;
 

@@ -12,7 +12,7 @@ class AutoGoldMedal : DefaultMedal {
     void UpdateMedal(const string&in uid) override {
         this.validMedal = false;
         if (MapData::validationMode && !MapData::validated) {return;}
-        CGameCtnChallenge@ rootmap = GetApp().RootMap;
+        CGameCtnChallenge@ rootmap = getMap();
         this.medalTime = getAutoGold(rootmap.TMObjective_AuthorTime);
         if (this.medalTime != rootmap.TMObjective_GoldTime) {
             this.validMedal = true;
@@ -43,7 +43,7 @@ class AutoSilverMedal : DefaultMedal {
     void UpdateMedal(const string&in uid) override {
         this.validMedal = false;
         if (MapData::validationMode && !MapData::validated) {return;}
-        CGameCtnChallenge@ rootmap = GetApp().RootMap;
+        CGameCtnChallenge@ rootmap = getMap();
         this.medalTime = getAutoSilver(rootmap.TMObjective_AuthorTime);
         if (this.medalTime != rootmap.TMObjective_SilverTime) {
             this.validMedal = true;
@@ -74,7 +74,7 @@ class AutoBronzeMedal : DefaultMedal {
     void UpdateMedal(const string&in uid) override {
         this.validMedal = false;
         if (MapData::validationMode && !MapData::validated) {return;}
-        CGameCtnChallenge@ rootmap = GetApp().RootMap;
+        CGameCtnChallenge@ rootmap = getMap();
         this.medalTime = getAutoBronze(rootmap.TMObjective_AuthorTime);
         if (this.medalTime != rootmap.TMObjective_BronzeTime) {
             this.validMedal = true;

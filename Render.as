@@ -7,6 +7,11 @@ bool showMapName = true;
 [Setting category="Window" name="Show map author"]
 bool showMapAuthor = true;
 
+#if DEPENDENCY_NADEOSERVICES
+[Setting category="Window" name="Show current author name" if="showMapAuthor"]
+bool showCurrentAuthorName = true;
+#endif
+
 [Setting category="Window" name="Show map comment" description="An 'i' icon will appear if the map has a comment"]
 bool showComment = true;
 
@@ -36,6 +41,15 @@ bool showValidation = true;
 
 [Setting category="Window" name="Show in replay editor"]
 bool showReplayEditor = false;
+
+#if TMNEXT
+[Setting category="Window" name="Show 'session best/previous run' when enabled but blank"
+description="It will only show if it's different to PB and won't show on servers unless you have MLFeed installed and enabled"]
+#else
+[Setting category="Window" name="Show 'session best/previous run' when enabled but blank"
+description="It will only show if it's different to PB"]
+#endif
+bool showSessionBlank = true;
 
 [Setting category="Window" name="Location"]
 vec2 windowPos = vec2(0, 170);
@@ -73,11 +87,19 @@ void Render() {
         windowWasShownLastFrame = false;
         return;
     }
-    CGameCtnApp@ app = GetApp();
-    if (app.RootMap is null) {
+    CGameCtnChallenge@ map = getMap();
+    if (map is null) {
         windowWasShownLastFrame = false;
         return;
     }
+
+#if MP4
+    auto app = cast<CTrackMania>(GetApp());
+    if (app.LoadedManiaTitle !is null && app.LoadedManiaTitle.BaseTitleId == "SMStorm") {
+        windowWasShownLastFrame = false;
+        return;
+    }
+#endif
 
     if (!MedalsList::CheckRender()) {
         windowWasShownLastFrame = false;
@@ -111,16 +133,21 @@ void Render() {
             if (showMapName) {
                 UI::TableNextRow();
                 UI::TableNextColumn();
-                string name = app.RootMap.MapName;
+                string name = map.MapName;
                 if (name == "") {
-                    name = app.RootMap.MapInfo.NameForUi;
+                    name = map.MapInfo.NameForUi;
                 }
+#if TURBO
+                if (map.AuthorLogin == "Nadeo") {
+                    name = "#" + name;
+                }
+#endif
                 if (removeColors) {
                     UI::Text(Text::StripFormatCodes(name));
                 } else {
                     UI::Text(Text::OpenplanetFormatCodes(name));
                 }
-                if (showComment && !showMapAuthor && app.RootMap.Comments.Length > 0) {
+                if (showComment && !showMapAuthor && map.Comments.Length > 0) {
                     UI::SameLine();
                     UI::Text('\\$68f' + Icons::InfoCircle);
                 }
@@ -128,12 +155,23 @@ void Render() {
             if (showMapAuthor) {
                 UI::TableNextRow();
                 UI::TableNextColumn();
-                if (removeColors) {
-                    UI::TextDisabled('By ' + Text::StripFormatCodes(app.RootMap.AuthorNickName));
-                } else {
-                    UI::TextDisabled('By ' + Text::OpenplanetFormatCodes(app.RootMap.AuthorNickName));
+                string authorName = map.AuthorNickName;
+
+#if DEPENDENCY_NADEOSERVICES
+                if (authorName != "Nadeo") {
+                    const string name = Accounts::GetAuthorName(MapData::currentMap);
+                    if (name.Length > 0) {
+                        authorName = name;
+                    }
                 }
-                if (showComment && app.RootMap.Comments.Length > 0) {
+#endif
+
+                if (removeColors) {
+                    UI::TextDisabled('By ' + Text::StripFormatCodes(authorName));
+                } else {
+                    UI::TextDisabled('By ' + Text::OpenplanetFormatCodes(authorName));
+                }
+                if (showComment && map.Comments.Length > 0) {
                     UI::SameLine();
                     UI::Text('\\$68f' + Icons::InfoCircle);
                 }
@@ -143,10 +181,10 @@ void Render() {
 
         UI::EndGroup();
 
-        if (showComment && app.RootMap.Comments.Length > 0 && UI::IsItemHovered()) {
+        if (showComment && map.Comments.Length > 0 && UI::IsItemHovered()) {
             UI::BeginTooltip();
             UI::PushTextWrapPos(200);
-            UI::TextWrapped(app.RootMap.Comments);
+            UI::TextWrapped(map.Comments);
             UI::PopTextWrapPos();
             UI::EndTooltip();
         }

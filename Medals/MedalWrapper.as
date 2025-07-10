@@ -174,6 +174,7 @@ class MedalWrapper {
         UI::TableNextColumn();
         if (this.config.usePreviousColor || this.config.usePreviousIcon) {
             string icon = '';
+            string icon2 = '';
             MedalWrapper@ previous = null;
             int i = MedalsList::Medals.Find(this);
             while (i < int(MedalsList::Medals.Length) - 1 && (!MedalsList::Medals[i+1].config.shareIcon || !MedalsList::Medals[i+1].enabled || !MedalsList::Medals[i+1].hasMedalTime())) {
@@ -184,16 +185,30 @@ class MedalWrapper {
             }
             if (previous is null) {
                 icon = this.config.icon;
+                icon2 = this.config.icon2;
             } else if (this.config.usePreviousIcon && this.config.usePreviousColor) {
                 icon = previous.config.icon;
+                icon2 = previous.config.icon2;
             } else if (this.config.usePreviousIcon) {
                 icon = GetFormatColor(this.config.icon) + Text::StripOpenplanetFormatCodes(previous.config.icon);
+                icon2 = GetFormatColor(this.config.icon2) + Text::StripOpenplanetFormatCodes(previous.config.icon2);
             } else if (this.config.usePreviousColor) {
                 icon = GetFormatColor(previous.config.icon) + Text::StripOpenplanetFormatCodes(this.config.icon);
+                icon2 = GetFormatColor(previous.config.icon2) + Text::StripOpenplanetFormatCodes(this.config.icon2);
             }
+            const vec2 pos = UI::GetCursorPos();
             UI::Text(icon);
+            if (icon2.Length > 0) {
+                UI::SetCursorPos(pos);
+                UI::Text(icon2);
+            }
         } else {
+            const vec2 pos = UI::GetCursorPos();
             UI::Text(this.config.icon);
+            if (this.config.icon2.Length > 0) {
+                UI::SetCursorPos(pos);
+                UI::Text(this.config.icon2);
+            }
         }
         if (showMedalNames) {
             UI::TableNextColumn();

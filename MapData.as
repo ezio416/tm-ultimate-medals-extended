@@ -17,6 +17,10 @@ namespace MapData {
     bool hasLoadedReplayEditor = false;
     bool validated = false;
 
+#if TURBO
+    bool needCheckTurboPb = false;
+#endif
+
     void updateGamemode() {
         CGameCtnApp@ app = GetApp();
         gamemode = GameMode::None;
@@ -31,7 +35,7 @@ namespace MapData {
             gamemode = GameMode::Royal;
         }
         if (gamemode == GameMode::None) {
-            gm = app.RootMap.MapType;
+            gm = getMap().MapType;
             if (gm.Contains('Race') || gm.Contains('Obstacle')) {
                 gamemode = GameMode::Race;
             } else if (gm.Contains('Stunt')) {
@@ -48,27 +52,20 @@ namespace MapData {
 
     void updateValidated() {
         CGameCtnApp@ app = GetApp();
-        if (app.RootMap.TMObjective_AuthorTime != uint(-1)) {
+        CGameCtnChallenge@ map = getMap();
+        if (map.TMObjective_AuthorTime != uint(-1)) {
             validated = true;
             return;
         }
         CGameCtnEditorFree@ editor = cast<CGameCtnEditorFree>(app.Editor);
         if (editor !is null) {
-            CSmEditorPluginMapType@ pluginMapType = cast<CSmEditorPluginMapType>(editor.PluginMapType);
-#if MP4
-            CTmEditorPluginMapType@ pluginMapType2 = cast<CTmEditorPluginMapType>(editor.PluginMapType);
+#if TMNEXT || MP4
+            auto pluginMapType = editor.PluginMapType;
+            validated = pluginMapType !is null && pluginMapType.ValidationStatus == CGameEditorPluginMapMapType::EValidationStatus::Validated;
+#elif TURBO
+            auto pluginMapType = editor.EditorMapType;
+            validated = pluginMapType !is null && pluginMapType.ValidationStatus == CGameCtnEditorPluginMapType::EValidationStatus::Validated;
 #endif
-            if ((pluginMapType is null || (
-                pluginMapType.ValidationStatus != CGameEditorPluginMapMapType::EValidationStatus::Validated))
-#if MP4
-                && (pluginMapType2 is null || (
-                pluginMapType2.ValidationStatus != CGameEditorPluginMapMapType::EValidationStatus::Validated))
-#endif
-                ) {
-                    validated = false;
-            } else {
-                validated = true;
-            }
             return;
         }
 
@@ -78,7 +75,7 @@ namespace MapData {
         CGameCtnMediaTracker@ replay = cast<CGameCtnMediaTracker>(app.Editor);
 #endif
         if (replay !is null &&
-            app.RootMap.MapInfo.Kind == 6) { // unnamed enum - in progress
+            map.MapInfo.Kind == 6) { // unnamed enum - in progress
                 validated = false;
         } else {
             validated = true;
@@ -94,17 +91,16 @@ namespace MapData {
 
     void Update() {
         CGameCtnApp@ app = GetApp();
+        CGameCtnChallenge@ map = getMap();
         
-        if (app.RootMap is null) {
+        if (map is null) {
             currentMap = '';
             return;
         }
 #if TMNEXT
         CSmArenaClient@ playground = cast<CSmArenaClient>(app.CurrentPlayground);
-#elif MP4
+#elif MP4 || TURBO
         CGamePlayground@ playground = app.CurrentPlayground;
-#elif TURBO
-
 #endif
         CGameCtnEditorFree@ editor = cast<CGameCtnEditorFree>(app.Editor);
         if (!showValidation && editor !is null || (editor !is null && (playground is null || playground.GameTerminals.Length == 0))) {
@@ -139,7 +135,7 @@ namespace MapData {
             return;
         }
         if (showReplayEditor && replay !is null && 
-            app.RootMap.MapInfo.Kind == 6) { // unnamed enum - in progress
+            map.MapInfo.Kind == 6) { // unnamed enum - in progress
                 currentMap = '';
                 return;
         }
@@ -150,8 +146,11 @@ namespace MapData {
             return;
         }
 
-        if (app.RootMap.IdName != currentMap) {
-            currentMap = app.RootMap.IdName;
+        if (map.IdName != currentMap) {
+            currentMap = map.IdName;
+#if TURBO
+            needCheckTurboPb = true;
+#endif
             hasLoadedReplayEditor = false;
             updateGamemode();
             updateValidated();
@@ -221,7 +220,7 @@ namespace MapData {
             // todo: maybe do whatever Ultimate Medals does with local replays
 
             // check session pb
-            if (// already checked playground is not null and nonempty gameterminal
+            if (playground !is null && playground.GameTerminals.Length > 0 &&
                 cast<CTrackManiaPlayer>(playground.GameTerminals[0].GUIPlayer) !is null &&
                 cast<CTrackManiaPlayer>(playground.GameTerminals[0].GUIPlayer).Score !is null) {
                     uint sessionPb = uint(cast<CTrackManiaPlayer>(playground.GameTerminals[0].GUIPlayer).Score.BestTime);
@@ -229,9 +228,26 @@ namespace MapData {
             }
         }
 #elif TURBO
-        // todo (I don't have turbo to test this)
+        if (network.TmRaceRules !is null && needCheckTurboPb) {
+            network.TmRaceRules.DataMgr.RetrieveRecordsNoMedals(currentMap, network.PlayerInfo.Id);
+            startnew(FindTurboPB, network.TmRaceRules.DataMgr);
+        }
 #endif
-
     }
-}
 
+#if TURBO
+    void FindTurboPB(ref@ d) {
+        yield();
+        auto dataMgr = cast<CGameDataManagerScript>(d);
+        if ((dataMgr) !is null) {
+            for (uint i = 0; i < dataMgr.Records.Length; i++) {
+                if (dataMgr.Records[i].GhostName == "Solo_BestGhost") {
+                    cast<PbMedal>(MedalsList::pb.medal).updateIfNeeded(dataMgr.Records[i].Time, currentMap);
+                    needCheckTurboPb = false;
+                    break;
+                }
+            }
+        }
+    }
+#endif
+}
