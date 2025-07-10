@@ -4,13 +4,16 @@ bool showInterface = true;
 [Setting category="Window" name="Show map name"]
 bool showMapName = true;
 
+#if DEPENDENCY_NADEOSERVICES
+[Setting category="Window" name="Show map author original name"]
+bool showMapAuthor = true;
+
+[Setting category="Window" name="Show map author current name"]
+bool showCurrentAuthorName = true;
+#else
 [Setting category="Window" name="Show map author"]
 bool showMapAuthor = true;
 
-#if DEPENDENCY_NADEOSERVICES
-[Setting category="Window" name="Show current author name"]
-bool showCurrentAuthorName = true;
-#else
 // ensure it doesn't crash from this missing
 bool showCurrentAuthorName = false;
 #endif
@@ -163,7 +166,7 @@ void Render() {
 #if DEPENDENCY_NADEOSERVICES
                 if (showCurrentAuthorName && authorName != "Nadeo") {
                     const string name = Accounts::GetAuthorName(MapData::currentMap);
-                    if (name.Length > 0) {
+                    if (name.Length > 0 && name != authorName) {
                         if (!showMapAuthor) {
                             authorName = name;
                         } else {
