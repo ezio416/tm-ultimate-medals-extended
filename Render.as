@@ -10,6 +10,9 @@ bool showMapAuthor = true;
 #if DEPENDENCY_NADEOSERVICES
 [Setting category="Window" name="Show current author name"]
 bool showCurrentAuthorName = true;
+#else
+// ensure it doesn't crash from this missing
+bool showCurrentAuthorName = false;
 #endif
 
 [Setting category="Window" name="Show map comment" description="An 'i' icon will appear if the map has a comment"]
@@ -158,7 +161,7 @@ void Render() {
                 string authorName = map.AuthorNickName;
 
 #if DEPENDENCY_NADEOSERVICES
-                if (authorName != "Nadeo") {
+                if (showCurrentAuthorName && authorName != "Nadeo") {
                     const string name = Accounts::GetAuthorName(MapData::currentMap);
                     if (name.Length > 0) {
                         if (!showMapAuthor) {
