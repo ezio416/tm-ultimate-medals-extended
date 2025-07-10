@@ -8,7 +8,7 @@ bool showMapName = true;
 bool showMapAuthor = true;
 
 #if DEPENDENCY_NADEOSERVICES
-[Setting category="Window" name="Show current author name" if="showMapAuthor"]
+[Setting category="Window" name="Show current author name"]
 bool showCurrentAuthorName = true;
 #endif
 
@@ -127,7 +127,7 @@ void Render() {
         return;
     }
 
-    if (showMapName || showMapAuthor) {
+    if (showMapName || showMapAuthor || showCurrentAuthorName) {
         UI::BeginGroup();
         if (UI::BeginTable("header", 1, UI::TableFlags::SizingFixedFit)) {
             if (showMapName) {
@@ -147,12 +147,12 @@ void Render() {
                 } else {
                     UI::Text(Text::OpenplanetFormatCodes(name));
                 }
-                if (showComment && !showMapAuthor && map.Comments.Length > 0) {
+                if (showComment && !(showMapAuthor || showCurrentAuthorName) && map.Comments.Length > 0) {
                     UI::SameLine();
                     UI::Text('\\$68f' + Icons::InfoCircle);
                 }
             }
-            if (showMapAuthor) {
+            if (showMapAuthor || showCurrentAuthorName) {
                 UI::TableNextRow();
                 UI::TableNextColumn();
                 string authorName = map.AuthorNickName;
@@ -161,7 +161,11 @@ void Render() {
                 if (authorName != "Nadeo") {
                     const string name = Accounts::GetAuthorName(MapData::currentMap);
                     if (name.Length > 0) {
-                        authorName = name;
+                        if (!showMapAuthor) {
+                            authorName = name;
+                        } else {
+                            authorName += ' (' + name + ')';
+                        }
                     }
                 }
 #endif
