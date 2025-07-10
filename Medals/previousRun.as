@@ -35,6 +35,10 @@ class Previous : UltimateMedalsExtended::IMedal {
         if (GetApp().PlaygroundScript is null && (plugin is null || !plugin.Enabled)) {
             return false;
         }
+#else
+        if (GetApp().PlaygroundScript is null) {
+            return false;
+        }
 #endif
 
         if (!showSessionBlank && PreviousRun::previous == uint(-1)) {
@@ -83,6 +87,10 @@ class Session : UltimateMedalsExtended::IMedal {
 #if DEPENDENCY_MLFEEDRACEDATA
         Meta::Plugin@ plugin = Meta::GetPluginFromID("MLFeedRaceData");
         if (GetApp().PlaygroundScript is null && (plugin is null || !plugin.Enabled)) {
+            return false;
+        }
+#else
+        if (GetApp().PlaygroundScript is null) {
             return false;
         }
 #endif
