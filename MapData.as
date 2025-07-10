@@ -158,10 +158,14 @@ namespace MapData {
             MedalsList::onNewMap(currentMap);
         }
 
+#if TURBO
+        PreviousRun::Update();
+#else
         if (validationMode || 
             (MedalsList::session.enabled || MedalsList::previous.enabled)) {
                 PreviousRun::Update();
         }
+#endif
 
         // check if pb needs updating
         // to save performance, only check for pb every half a second

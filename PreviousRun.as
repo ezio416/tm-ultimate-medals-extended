@@ -144,9 +144,7 @@ namespace PreviousRun {
         uint finish = checkFinished();
         if (finish == uint(-1)) {return;}
         previous = finish;
-#if TURBO
         cast<PbMedal>(MedalsList::pb.medal).updateIfNeeded(finish, MapData::currentMap);
-#endif
         if (session == uint(-1) || (MapData::highBetter ^^ previous < session)) {
             session = previous;
             if (MapData::validationMode) {
