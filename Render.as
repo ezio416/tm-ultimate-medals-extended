@@ -42,7 +42,13 @@ bool showValidation = true;
 [Setting category="Window" name="Show in replay editor"]
 bool showReplayEditor = false;
 
-[Setting category="Window" name="Show 'session best/previous run' when enabled but blank" description="It will only show if it's different to PB"]
+#if TMNEXT
+[Setting category="Window" name="Show 'session best/previous run' when enabled but blank"
+description="It will only show if it's different to PB and won't show on servers unless you have MLFeed installed and enabled"]
+#else
+[Setting category="Window" name="Show 'session best/previous run' when enabled but blank"
+description="It will only show if it's different to PB"]
+#endif
 bool showSessionBlank = true;
 
 [Setting category="Window" name="Location"]
