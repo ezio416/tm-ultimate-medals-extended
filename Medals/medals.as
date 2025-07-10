@@ -112,7 +112,11 @@ class SuperBronzeMedal : Medal {
 class AuthorMedal : Medal {
     UltimateMedalsExtended::Config GetConfig() override {
         UltimateMedalsExtended::Config c;
-#if TMNEXT || MP4
+#if TMNEXT
+        c.defaultName = 'Author';
+        c.icon = '\\$071' + Icons::Circle;
+        c.iconOverlay = '\\$db4' + Icons::CircleO;
+#elif MP4
         c.defaultName = 'Author';
         c.icon = '\\$071' + Icons::Circle;
 #elif TURBO
