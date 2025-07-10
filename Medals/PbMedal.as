@@ -49,6 +49,11 @@ class PbMedal : UltimateMedalsExtended::IMedal {
     }
 
     bool HasMedalTime(const string&in uid) override {
+#if TURBO
+        if (GetApp().PlaygroundScript is null) {
+            return false;
+        }
+#endif
         return this.validMedalTime;
     }
     uint GetMedalTime() override {

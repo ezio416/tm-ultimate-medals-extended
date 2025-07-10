@@ -120,15 +120,21 @@ namespace PreviousRun {
         return uint(-1);
     }
 #elif TURBO
-    uint checkFinished() {  // this score seems to be in multiple places like pg.gt[0]
-        auto network = cast<CTrackManiaNetwork>(GetApp().Network);
-        if (network.TmRaceRules !is null
-            && network.TmRaceRules.Players.Length > 0
-            && network.TmRaceRules.Players[0] !is null
-            && network.TmRaceRules.Players[0].Score !is null
-            && network.TmRaceRules.Players[0].Score.PrevRace !is null
-        ) {
-            return network.TmRaceRules.Players[0].Score.PrevRace.Time;
+    uint checkFinished() {
+        CGameCtnApp@ app = GetApp();
+        CGameCtnPlayground@ playground = cast<CGameCtnPlayground@>(app.CurrentPlayground);
+        if (playground !is null && playground.PlayerRecordedGhost !is null) {
+            return playground.PlayerRecordedGhost.RaceTime;
+        } else {
+            auto network = cast<CTrackManiaNetwork>(app.Network);
+            if (network.TmRaceRules !is null
+                && network.TmRaceRules.Players.Length > 0
+                && network.TmRaceRules.Players[0] !is null
+                && network.TmRaceRules.Players[0].Score !is null
+                && network.TmRaceRules.Players[0].Score.PrevRace !is null
+            ) {  // this score seems to be in multiple places like pg.gt[0]
+                return network.TmRaceRules.Players[0].Score.PrevRace.Time;
+            }
         }
         return uint(-1);
     }
