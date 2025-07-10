@@ -194,7 +194,7 @@ class MedalWrapper {
                 icon = GetFormatColor(previous.config.icon) + Text::StripOpenplanetFormatCodes(this.config.icon);
             }
             UI::Text(icon);
-            if ((!this.config.usePreviousOverlayIcon && this.config.iconOverlay != "") || (this.config.usePreviousOverlayIcon && previous.config.iconOverlay != "")) {
+            if ((!this.config.usePreviousOverlayIcon && this.config.iconOverlay != "") || (this.config.usePreviousOverlayIcon && previous != null && previous.config.iconOverlay != "")) {
                 if (previous is null) {
                     iconOverlay = this.config.iconOverlay;
                 } else if (this.config.usePreviousOverlayIcon && this.config.usePreviousOverlayColor) {
