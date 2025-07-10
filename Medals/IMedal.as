@@ -7,7 +7,7 @@ namespace UltimateMedalsExtended {
         string icon = '';
 
         // the color and icon used for the 2nd medal icon drawn on top of the normal icon
-        string icon2 = '';
+        string iconOverlay = '';
 
         // if the medal is enabled in UME by default
         bool startEnabled = true;
@@ -29,12 +29,16 @@ namespace UltimateMedalsExtended {
          * e.g. how pb medal shows the previous medal symbol as its icon
          */
         bool usePreviousIcon = false;
+        // similar to usePreviousIcon but for iconOverlay
+        bool usePreviousOverlayIcon = false;
         /*
          * use the icon color from the closest worse medal if any (otherwise its own icon)
          * medals with shareIcon false will be skipped
          * e.g. how pb medal uses the previous medal color for its icon
          */
         bool usePreviousColor = false;
+        // similar to usePreviousColor but for iconOverlay
+        bool usePreviousOverlayColor = false;
 
         /*
          * if this medal should be included when a usePrevious medal is looking for the previous medal

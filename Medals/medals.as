@@ -31,7 +31,7 @@ class SuperGoldMedal : Medal {
         UltimateMedalsExtended::Config c;
         c.defaultName = 'Super Gold';
         c.icon = '\\$db4' + Icons::Circle;
-        c.icon2 = '\\$0f1' + Icons::CircleO;
+        c.iconOverlay = '\\$0f1' + Icons::CircleO;
         return c;
     }
 
@@ -58,7 +58,7 @@ class SuperSilverMedal : Medal {
         UltimateMedalsExtended::Config c;
         c.defaultName = 'Super Silver';
         c.icon = '\\$899' + Icons::Circle;
-        c.icon2 = '\\$0f1' + Icons::CircleO;
+        c.iconOverlay = '\\$0f1' + Icons::CircleO;
         return c;
     }
 
@@ -85,7 +85,7 @@ class SuperBronzeMedal : Medal {
         UltimateMedalsExtended::Config c;
         c.defaultName = 'Super Bronze';
         c.icon = '\\$964' + Icons::Circle;
-        c.icon2 = '\\$0f1' + Icons::CircleO;
+        c.iconOverlay = '\\$0f1' + Icons::CircleO;
         return c;
     }
 

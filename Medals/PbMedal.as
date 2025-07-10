@@ -8,6 +8,8 @@ class PbMedal : UltimateMedalsExtended::IMedal {
         c.sortPriority = 127;
         c.usePreviousIcon = true;
         c.usePreviousColor = true;
+        c.usePreviousOverlayIcon = true;
+        c.usePreviousOverlayColor = true;
         c.shareIcon = false;
         c.allowUnset = true;
         return c;

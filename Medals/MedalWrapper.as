@@ -29,7 +29,7 @@ class MedalWrapper {
         this.config = this.medal.GetConfig();
         if (this.config.defaultName == '') {
             throw('Medal Config must have a defaultName specified');
-        } else if ((this.config.usePreviousIcon || this.config.usePreviousColor) && this.config.shareIcon) {
+        } else if ((this.config.usePreviousIcon || this.config.usePreviousColor || this.config.usePreviousOverlayIcon || this.config.usePreviousOverlayColor) && this.config.shareIcon) {
             warn('Medals using another icon should have sharing their icon disabled');
         }
         this.enabled = MedalsData::isMedalEnabled(this.config.defaultName, this.config.startEnabled);
@@ -172,9 +172,10 @@ class MedalWrapper {
         if (!this.hasMedalTime()) {return;}
         UI::TableNextRow();
         UI::TableNextColumn();
-        if (this.config.usePreviousColor || this.config.usePreviousIcon) {
+        if (this.config.usePreviousColor || this.config.usePreviousIcon || this.config.usePreviousOverlayColor || this.config.usePreviousOverlayIcon) {
             string icon = '';
-            string icon2 = '';
+            string iconOverlay = '';
+            const vec2 pos = UI::GetCursorPos();
             MedalWrapper@ previous = null;
             int i = MedalsList::Medals.Find(this);
             while (i < int(MedalsList::Medals.Length) - 1 && (!MedalsList::Medals[i+1].config.shareIcon || !MedalsList::Medals[i+1].enabled || !MedalsList::Medals[i+1].hasMedalTime())) {
@@ -185,30 +186,45 @@ class MedalWrapper {
             }
             if (previous is null) {
                 icon = this.config.icon;
-                icon2 = this.config.icon2;
             } else if (this.config.usePreviousIcon && this.config.usePreviousColor) {
                 icon = previous.config.icon;
-                icon2 = previous.config.icon2;
             } else if (this.config.usePreviousIcon) {
                 icon = GetFormatColor(this.config.icon) + Text::StripOpenplanetFormatCodes(previous.config.icon);
-                icon2 = GetFormatColor(this.config.icon2) + Text::StripOpenplanetFormatCodes(previous.config.icon2);
             } else if (this.config.usePreviousColor) {
                 icon = GetFormatColor(previous.config.icon) + Text::StripOpenplanetFormatCodes(this.config.icon);
-                icon2 = GetFormatColor(previous.config.icon2) + Text::StripOpenplanetFormatCodes(this.config.icon2);
             }
-            const vec2 pos = UI::GetCursorPos();
             UI::Text(icon);
-            if (icon2.Length > 0) {
-                UI::SetCursorPos(pos);
-                UI::Text(icon2);
+            if ((!this.config.usePreviousOverlayIcon && this.config.iconOverlay != "") || (this.config.usePreviousOverlayIcon && previous.config.iconOverlay != "")) {
+                if (previous is null) {
+                    iconOverlay = this.config.iconOverlay;
+                } else if (this.config.usePreviousOverlayIcon && this.config.usePreviousOverlayColor) {
+                    iconOverlay = previous.config.iconOverlay;
+                } else if (this.config.usePreviousOverlayIcon) {
+                    iconOverlay = Text::StripOpenplanetFormatCodes(previous.config.iconOverlay);
+                    if (iconOverlay != "") {
+                        iconOverlay = GetFormatColor(this.config.iconOverlay) + iconOverlay;
+                    }
+                } else if (this.config.usePreviousOverlayColor) {
+                    iconOverlay = GetFormatColor(previous.config.iconOverlay);
+                    if (iconOverlay != "") {
+                        iconOverlay += Text::StripOpenplanetFormatCodes(this.config.iconOverlay);
+                    } else {
+                        iconOverlay = this.config.iconOverlay;
+                    }
+
+                }
+                if (iconOverlay.Length > 0) {
+                    UI::SetCursorPos(pos);
+                    UI::Text(iconOverlay);
+                }
             }
-        } else {
+        } else if (this.config.iconOverlay.Length > 0) {
             const vec2 pos = UI::GetCursorPos();
             UI::Text(this.config.icon);
-            if (this.config.icon2.Length > 0) {
-                UI::SetCursorPos(pos);
-                UI::Text(this.config.icon2);
-            }
+            UI::SetCursorPos(pos);
+            UI::Text(this.config.iconOverlay);
+        } else {
+            UI::Text(this.config.icon);
         }
         if (showMedalNames) {
             UI::TableNextColumn();
