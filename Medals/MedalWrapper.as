@@ -213,16 +213,28 @@ class MedalWrapper {
                     }
 
                 }
-                if (iconOverlay.Length > 0) {
+#if TMNEXT
+                    if ((previous !is null && previous.name != 'Author') || authorRing) {
+                        UI::SetCursorPos(pos);
+                        UI::Text(iconOverlay);
+                    }
+#else
                     UI::SetCursorPos(pos);
                     UI::Text(iconOverlay);
-                }
+#endif
             }
         } else if (this.config.iconOverlay.Length > 0) {
             const vec2 pos = UI::GetCursorPos();
             UI::Text(this.config.icon);
+#if TMNEXT
+            if (this.config.defaultName != 'Author' || authorRing) {
+                UI::SetCursorPos(pos);
+                UI::Text(this.config.iconOverlay);
+            }
+#else
             UI::SetCursorPos(pos);
             UI::Text(this.config.iconOverlay);
+#endif
         } else {
             UI::Text(this.config.icon);
         }
