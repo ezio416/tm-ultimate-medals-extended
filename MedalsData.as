@@ -14,12 +14,20 @@ namespace MedalsData {
     void loadMedalsData() {
         if (IO::FileExists(medalsDataFileName)) {
             @medalsData = Json::FromFile(medalsDataFileName);
+            if (medalsData.GetType() == Json::Type::Null) {
+                warn('null medalsdata in file, resetting');
+                @medalsData = Json::Array();
+            }
         } else {
             @medalsData = Json::Array();
         }
     }
     void saveMedalsData() {
-        Json::ToFile(medalsDataFileName, medalsData);   
+        if (medalsData.GetType() == Json::Type::Null) {
+            warn('null medalsdata, not saving');
+            return;
+        }
+        Json::ToFile(medalsDataFileName, medalsData);
     }
 
     /* utility functions */
@@ -32,7 +40,7 @@ namespace MedalsData {
         Json::Value@ md = Json::Object();
         md['id'] = medalId;
         medalsData.Add(md);
-        return md;
+        return medalsData[medalsData.Length - 1];
     }
 
     /* update saved data functions (called when a medal changes its data) */
