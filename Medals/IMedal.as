@@ -37,7 +37,10 @@ namespace UltimateMedalsExtended {
          * e.g. how pb medal uses the previous medal color for its icon
          */
         bool usePreviousColor = false;
-        // similar to usePreviousColor but for iconOverlay
+        /*
+         * similar to usePreviousColor but for iconOverlay
+         * if the previous does not have an overlay color, will use its own overlay color
+         */
         bool usePreviousOverlayColor = false;
 
         /*

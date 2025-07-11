@@ -12,7 +12,11 @@ Unlike Ultimate Medals, (which only shows ingame medals) and Ultimate Medals++ (
 - Default Gold
 - Default Silver (disabled)
 - Default Bronze (disabled)
+- Session best (disabled)
+- Previous run (disabled)
 ### Supporting plugins:
+- Warrior Medals
+- Copium
 
 
 ## Exports
