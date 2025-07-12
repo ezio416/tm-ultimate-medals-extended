@@ -15,11 +15,11 @@ namespace UltimateMedalsExtended {
 
 
     bool IsEditorValidation() {
-        return MapData::validationMode;
+        return MapData::currentMap != '' && MapData::validationMode;
     }
 
     bool HasIngameMedals() {
-        return _hasIngameMedals();
+        return MapData::currentMap != '' && _hasIngameMedals();
     }
 
     uint GetAuthorMedal() {
