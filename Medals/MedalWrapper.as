@@ -192,6 +192,8 @@ class MedalWrapper {
                 icon = GetFormatColor(this.config.icon) + Text::StripOpenplanetFormatCodes(previous.config.icon);
             } else if (this.config.usePreviousColor) {
                 icon = GetFormatColor(previous.config.icon) + Text::StripOpenplanetFormatCodes(this.config.icon);
+            } else {
+                icon = this.config.icon;
             }
             UI::Text(icon);
             if ((!this.config.usePreviousOverlayIcon && this.config.iconOverlay != "") || (this.config.usePreviousOverlayIcon && previous !is null && previous.config.iconOverlay != "")) {
@@ -211,7 +213,8 @@ class MedalWrapper {
                     } else {
                         iconOverlay = this.config.iconOverlay;
                     }
-
+                } else {
+                    iconOverlay = this.config.iconOverlay;
                 }
                 if (iconOverlay.Length > 0) {
 #if TMNEXT
