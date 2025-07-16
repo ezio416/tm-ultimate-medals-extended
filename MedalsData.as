@@ -67,6 +67,17 @@ namespace MedalsData {
             md['name'] = name;
         }
     }
+    
+    // enables a medal's overlay if it has data saying its disabled (if no data, its enabled by default anyway)
+    void enableMedalOverlay(const string &in medalId) {
+        Json::Value@ md = _getOrAddMedalsData(medalId);
+        md['overlay'] = true;
+    }
+    // disables a medal's overlay, creating medal data if needed
+    void disableMedalOverlay(const string &in medalId) {
+        Json::Value@ md = _getOrAddMedalsData(medalId);
+        md['overlay'] = false;
+    }
 
 
     /* get saved data functions (called when creating a new medal) */
@@ -89,6 +100,18 @@ namespace MedalsData {
             if (medalsData[i]['id'] == medalId) {
                 if (medalsData[i].HasKey('enabled')) {
                     return medalsData[i]['enabled'];
+                }
+                return startEnabled;
+            }
+        }
+        return startEnabled;
+    }
+    // gets if a medal has its overlay enabled
+    bool isMedalOverlayEnabled(const string &in medalId, bool startEnabled) {
+        for (uint i = 0; i < medalsData.Length; i++) {
+            if (medalsData[i]['id'] == medalId) {
+                if (medalsData[i].HasKey('overlay')) {
+                    return medalsData[i]['overlay'];
                 }
                 return startEnabled;
             }

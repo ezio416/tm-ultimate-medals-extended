@@ -57,11 +57,6 @@ description="It will only show if it's different to PB"]
 #endif
 bool showSessionBlank = true;
 
-#if TMNEXT
-[Setting category="Window" name="Show gold ring on Author medal"]
-bool authorRing = true;
-#endif
-
 [Setting category="Window" name="Location"]
 vec2 windowPos = vec2(0, 170);
 

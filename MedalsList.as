@@ -113,7 +113,7 @@ namespace MedalsList {
     }
     
     void RenderSettings() {
-        UI::BeginTable("settings", 3, UI::TableFlags::SizingFixedFit);
+        UI::BeginTable("settings", 5, UI::TableFlags::SizingFixedFit);
         UI::TableNextRow();
         UI::TableNextColumn();
         UI::Text('Medal');
@@ -121,6 +121,10 @@ namespace MedalsList {
         UI::Text('Display Name');
         UI::TableNextColumn();
         UI::Text('Enabled');
+        UI::TableNextColumn();
+        UI::Dummy(vec2(32, 0));
+        UI::TableNextColumn();
+        UI::Text('2-Layer Icon');
 
         for (uint i = 0; i < Medals.Length; i++) {
             Medals[i].RenderSettings();

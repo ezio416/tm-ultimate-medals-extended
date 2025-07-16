@@ -18,6 +18,7 @@ class MedalWrapper {
     // medal data (duplicate of medalsData)
     bool enabled;
     string name;
+    bool overlayEnabled;
 
     uint cacheTime = 0;
     bool validCacheTime = false;
@@ -34,6 +35,7 @@ class MedalWrapper {
         }
         this.enabled = MedalsData::isMedalEnabled(this.config.defaultName, this.config.startEnabled);
         this.name = MedalsData::getMedalName(this.config.defaultName);
+        this.overlayEnabled = MedalsData::isMedalOverlayEnabled(this.config.defaultName, true);
     }
 
 
@@ -196,7 +198,7 @@ class MedalWrapper {
                 icon = this.config.icon;
             }
             UI::Text(icon);
-            if ((!this.config.usePreviousOverlayIcon && this.config.iconOverlay != "") || (this.config.usePreviousOverlayIcon && previous !is null && previous.config.iconOverlay != "")) {
+            if ((!this.config.usePreviousOverlayIcon && this.config.iconOverlay != "" && this.overlayEnabled) || (this.config.usePreviousOverlayIcon && previous !is null && previous.config.iconOverlay != "" && previous.overlayEnabled)) {
                 if (previous is null) {
                     iconOverlay = this.config.iconOverlay;
                 } else if (this.config.usePreviousOverlayIcon && this.config.usePreviousOverlayColor) {
@@ -217,29 +219,15 @@ class MedalWrapper {
                     iconOverlay = this.config.iconOverlay;
                 }
                 if (iconOverlay.Length > 0) {
-#if TMNEXT
-                        if ((previous !is null && previous.name != 'Author') || authorRing) {
-                            UI::SetCursorPos(pos);
-                            UI::Text(iconOverlay);
-                        }
-#else
-                        UI::SetCursorPos(pos);
-                        UI::Text(iconOverlay);
-#endif
+                    UI::SetCursorPos(pos);
+                    UI::Text(iconOverlay);
                 }
             }
-        } else if (this.config.iconOverlay.Length > 0) {
+        } else if (this.config.iconOverlay != "" && this.overlayEnabled) {
             const vec2 pos = UI::GetCursorPos();
             UI::Text(this.config.icon);
-#if TMNEXT
-            if (this.config.defaultName != 'Author' || authorRing) {
-                UI::SetCursorPos(pos);
-                UI::Text(this.config.iconOverlay);
-            }
-#else
             UI::SetCursorPos(pos);
             UI::Text(this.config.iconOverlay);
-#endif
         } else {
             UI::Text(this.config.icon);
         }
@@ -286,6 +274,20 @@ class MedalWrapper {
                 this.onEnable();
             } else {
                 MedalsData::disableMedal(this.config.defaultName);
+            }
+        }
+        
+        UI::TableNextColumn();
+        UI::TableNextColumn();
+        if (this.config.iconOverlay != "") {
+            newenabled = UI::Checkbox('##oe:'+this.config.defaultName, this.overlayEnabled);
+            if (newenabled != this.overlayEnabled) {
+                this.overlayEnabled = newenabled;
+                if (this.overlayEnabled) {
+                    MedalsData::enableMedalOverlay(this.config.defaultName);
+                } else {
+                    MedalsData::disableMedalOverlay(this.config.defaultName);
+                }
             }
         }
     }
