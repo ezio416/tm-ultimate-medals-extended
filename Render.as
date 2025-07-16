@@ -61,7 +61,7 @@ bool showSessionBlank = true;
 vec2 windowPos = vec2(0, 170);
 
 [Setting category="Window" name="Allow dragging"]
-bool windowDrag = false;
+bool windowDrag = true;
 
 
 // maybe custom font? Not sure if anyone uses that in ultimate medals
