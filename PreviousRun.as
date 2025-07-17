@@ -75,11 +75,11 @@ namespace PreviousRun {
         // finish data type is already royal
         CGameCtnApp@ app = GetApp();
         CSmArenaClient@ playground = cast<CSmArenaClient>(app.CurrentPlayground);
-        if (playground.GameTerminals.Length > 0 && (playground.GameTerminals[0].UISequence_Current == CGamePlaygroundUIConfig::EUISequence::Finish || playground.GameTerminals[0].UISequence_Current == CGamePlaygroundUIConfig::EUISequence::UIInteraction)) {
+        if (playground !is null && playground.GameTerminals.Length > 0 && (playground.GameTerminals[0].UISequence_Current == CGamePlaygroundUIConfig::EUISequence::Finish || playground.GameTerminals[0].UISequence_Current == CGamePlaygroundUIConfig::EUISequence::UIInteraction)) {
             CSmArenaRulesMode@ playgroundScript = cast<CSmArenaRulesMode>(app.PlaygroundScript);
             if (playgroundScript !is null) {
                 CSmPlayer@ player = cast<CSmPlayer>(playground.GameTerminals[0].GUIPlayer);
-                if (player !is null && player.CurrentStoppedRespawnLandmarkIndex >= 0 && player.CurrentStoppedRespawnLandmarkIndex < playground.Arena.MapLandmarks.Length) {
+                if (player !is null && player.CurrentLaunchedRespawnLandmarkIndex >= 0 && player.CurrentLaunchedRespawnLandmarkIndex < playground.Arena.MapLandmarks.Length) {
                     CGameGhostScript@ ghost = playgroundScript.Ghost_RetrieveFromPlayer(cast<CSmScriptPlayer>(player.ScriptAPI));
                     if (ghost !is null) {
                         uint score = uint(-1);
@@ -87,7 +87,7 @@ namespace PreviousRun {
                             score = ghost.Result.Time;
                         }
                         playgroundScript.DataFileMgr.Ghost_Release(ghost.Id);
-                        uint section = playground.Arena.MapLandmarks[player.CurrentStoppedRespawnLandmarkIndex].Order;
+                        uint section = playground.Arena.MapLandmarks[player.CurrentLaunchedRespawnLandmarkIndex].Order;
                         if (0 < section && 5 > section) {
                             royalTimes[section - 1] = score;
                             for (uint i = section; i < 4; i++) {
