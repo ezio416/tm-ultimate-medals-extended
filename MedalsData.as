@@ -92,7 +92,11 @@ namespace MedalsData {
         for (uint i = 0; i < medalsData.Length; i++) {
             if (medalsData[i]['id'] == medalId) {
                 if (medalsData[i].HasKey('name')) {
-                    return medalsData[i]['name'];
+                    if (medalsData[i]['name'].GetType() == Json::Type::String) {
+                        return medalsData[i]['name'];
+                    } else {
+                        medalsData[i].Remove('name');
+                    }
                 }
                 break;
             }
@@ -104,7 +108,11 @@ namespace MedalsData {
         for (uint i = 0; i < medalsData.Length; i++) {
             if (medalsData[i]['id'] == medalId) {
                 if (medalsData[i].HasKey('enabled')) {
-                    return medalsData[i]['enabled'];
+                    if (medalsData[i]['enabled'].GetType() == Json::Type::Boolean) {
+                        return medalsData[i]['enabled'];
+                    } else {
+                        medalsData[i].Remove('enabled');
+                    }
                 }
                 return startEnabled;
             }
@@ -116,7 +124,11 @@ namespace MedalsData {
         for (uint i = 0; i < medalsData.Length; i++) {
             if (medalsData[i]['id'] == medalId) {
                 if (medalsData[i].HasKey('overlay')) {
-                    return medalsData[i]['overlay'];
+                    if (medalsData[i]['overlay'].GetType() == Json::Type::Boolean) {
+                        return medalsData[i]['overlay'];
+                    } else {
+                        medalsData[i].Remove('overlay');
+                    }
                 }
                 return startEnabled;
             }
