@@ -6,6 +6,11 @@ namespace MedalsList {
     MedalWrapper@ previous = null;
     
     void addMedal(UltimateMedalsExtended::IMedal@ medal) {
+        // if the plugin is disabled, it wouldn't have done its initial setup yet
+        if (!hasCalledMain) {
+            Main();
+        }
+
         MedalWrapper@ mt = MedalWrapper(medal);
         if (cast<PbMedal>(mt.medal) !is null) {
             @pb = mt;

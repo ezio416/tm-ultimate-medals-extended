@@ -23,6 +23,11 @@ namespace MedalsData {
         }
     }
     void saveMedalsData() {
+        if (medalsData is null) {
+            // I believe this happens if the plugin is disabled
+            trace('medalsdata not initialised, not saving');
+            return;
+        }
         if (medalsData.GetType() == Json::Type::Null) {
             warn('null medalsdata, not saving');
             return;

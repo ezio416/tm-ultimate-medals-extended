@@ -3,7 +3,12 @@ void OnSettingsChanged() {
     windowWasShownLastFrame = false;
 }
 
+bool hasCalledMain = false;
+
 void Main() {
+    if (hasCalledMain) {return;}
+    hasCalledMain = true;
+
     MedalsData::loadMedalsData();
 
     MedalsList::addMedal(PbMedal());
