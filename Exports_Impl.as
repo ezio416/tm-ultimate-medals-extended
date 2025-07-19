@@ -12,7 +12,10 @@ namespace UltimateMedalsExtended {
     bool HasMedal(const string &in defaultName) {
         return MedalsList::hasMedal(defaultName);
     }
-
+    
+    bool IsMedalEnabled(const string &in defaultName) {
+        return MedalsList::IsMedalEnabled(defaultName);
+    }
 
     bool IsEditorValidation() {
         return MapData::currentMap != '' && MapData::validationMode;

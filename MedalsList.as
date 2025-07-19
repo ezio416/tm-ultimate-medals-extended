@@ -62,6 +62,14 @@ namespace MedalsList {
         return false;
     }
 
+    bool IsMedalEnabled(const string &in defaultName) {
+        for (uint i = 0; i < Medals.Length; i++) {
+            if (Medals[i].config.defaultName == defaultName) {
+                return Medals[i].enabled;
+            }
+        }
+        return false;
+    }
 
     void onNewMap(const string &in uid) {
         for (uint i = 0; i < Medals.Length; i++) {
