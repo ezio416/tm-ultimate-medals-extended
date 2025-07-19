@@ -15,7 +15,9 @@ Unlike Ultimate Medals, (which only shows ingame medals) and Ultimate Medals++ (
 - Session best (disabled)
 - Previous run (disabled)
 ### Supporting plugins:
+- Champion Medals
 - Warrior Medals
+- Extra Leaderboard Positions
 - Copium
 
 
