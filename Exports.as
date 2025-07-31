@@ -9,6 +9,8 @@ namespace UltimateMedalsExtended {
     // if a medal name already exists
     import bool HasMedal(const string &in defaultName) from "UltimateMedalsExtended";
 
+    // if a medal name is enabled
+    import bool IsMedalEnabled(const string &in defaultName) from "UltimateMedalsExtended";
     
     /* 
      * exports for plugins which want to display in editor
