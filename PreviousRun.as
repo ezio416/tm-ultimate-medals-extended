@@ -33,7 +33,7 @@ namespace PreviousRun {
         }
         CGameCtnApp@ app = GetApp();
         CGamePlayground@ playground = cast<CGamePlayground>(app.CurrentPlayground);
-        if (playground !is null && playground.GameTerminals.Length > 0 && (playground.GameTerminals[0].UISequence_Current == CGamePlaygroundUIConfig::EUISequence::Finish || playground.GameTerminals[0].UISequence_Current == CGamePlaygroundUIConfig::EUISequence::UIInteraction)) {
+        if (playground !is null && playground.GameTerminals.Length > 0 && (playground.GameTerminals[0].UISequence_Current == CGamePlaygroundUIConfig::EUISequence::Finish || (MapData::gamemode == GameMode::Stunt && playground.GameTerminals[0].UISequence_Current == CGamePlaygroundUIConfig::EUISequence::UIInteraction))) {
             CSmArenaRulesMode@ playgroundScript = cast<CSmArenaRulesMode>(app.PlaygroundScript);
             if (playgroundScript !is null) {
                 CSmPlayer@ player = cast<CSmPlayer>(playground.GameTerminals[0].GUIPlayer);
@@ -75,7 +75,7 @@ namespace PreviousRun {
         // finish data type is already royal
         CGameCtnApp@ app = GetApp();
         CSmArenaClient@ playground = cast<CSmArenaClient>(app.CurrentPlayground);
-        if (playground !is null && playground.GameTerminals.Length > 0 && (playground.GameTerminals[0].UISequence_Current == CGamePlaygroundUIConfig::EUISequence::Finish || playground.GameTerminals[0].UISequence_Current == CGamePlaygroundUIConfig::EUISequence::UIInteraction)) {
+        if (playground !is null && playground.GameTerminals.Length > 0 && (playground.GameTerminals[0].UISequence_Current == CGamePlaygroundUIConfig::EUISequence::Finish)) {
             CSmArenaRulesMode@ playgroundScript = cast<CSmArenaRulesMode>(app.PlaygroundScript);
             if (playgroundScript !is null) {
                 CSmPlayer@ player = cast<CSmPlayer>(playground.GameTerminals[0].GUIPlayer);
