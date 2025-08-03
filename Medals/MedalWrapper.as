@@ -148,7 +148,7 @@ class MedalWrapper {
         }
         uint pbTime = MedalsList::pb.getMedalTime();
         if (pbTime == uint(-1)) {
-            return '\\$777' + getEmptyTime();
+            return '\\$777\u2007' + getEmptyTime();
         }
 
         string color = '';
@@ -164,9 +164,8 @@ class MedalWrapper {
         } else if (this.cacheTime > pbTime) {
             return color + '\u2212' + this.formatTime(this.cacheTime - pbTime);
         } else {
-            return color + 0;
+            return color + '\u2007' + this.formatTime(0);
         }
-        // xdd add - myself since they're uints
     }
 
     void RenderRow() {
