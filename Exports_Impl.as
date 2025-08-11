@@ -26,7 +26,11 @@ namespace UltimateMedalsExtended {
     }
 
     uint GetAuthorMedal() {
+#if TURBO
+        MedalWrapper@ m = MedalsList::getMedal('Trackmaster');
+#else
         MedalWrapper@ m = MedalsList::getMedal('Author');
+#endif
         if (m is null) {
             warn('Author medal not found, was it removed by another plugin?');
             return uint(-1);

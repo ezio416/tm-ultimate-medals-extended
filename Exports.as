@@ -27,11 +27,13 @@ namespace UltimateMedalsExtended {
      * gets whether the ingame medals are currently valid/displayed
      * in normal play this should be always true
      * in editor validation, this is true if either the map was already validated or if there is a session pb
+     * *warning* update order does not guarantee ingame medals are updated first; their values may not be valid until GetMedalTime() is called so access them there
+     * (this is best practice anyway since their times can change during editor validation)
      */
     import bool HasIngameMedals() from "UltimateMedalsExtended";
 
     /*
-     * gets the time currently displayed for author medal
+     * gets the time currently displayed for author medal (or trackmaster in turbo)
      * only valid if HasIngameMedals returns true
      */
     import uint GetAuthorMedal() from "UltimateMedalsExtended";
