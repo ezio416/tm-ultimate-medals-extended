@@ -165,7 +165,7 @@ void Render() {
 
 #if DEPENDENCY_NADEOSERVICES
                 if (showCurrentAuthorName && authorName != "Nadeo") {
-                    const string name = Accounts::GetAuthorName(MapData::currentMap);
+                    const string name = Accounts::GetAccountName(map.AuthorLogin);
                     if (name.Length > 0 && name != authorName) {
                         if (!showMapAuthor) {
                             authorName = name;
