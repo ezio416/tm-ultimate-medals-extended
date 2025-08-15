@@ -26,11 +26,7 @@ namespace UltimateMedalsExtended {
     }
 
     uint GetAuthorMedal() {
-#if TURBO
-        MedalWrapper@ m = MedalsList::getMedal('Trackmaster');
-#else
-        MedalWrapper@ m = MedalsList::getMedal('Author');
-#endif
+        MedalWrapper@ m = MedalsList::author;
         if (m is null) {
             warn('Author medal not found, was it removed by another plugin?');
             return uint(-1);
@@ -38,7 +34,7 @@ namespace UltimateMedalsExtended {
         return m.getMedalTime();
     }
     uint GetGoldMedal() {
-        MedalWrapper@ m = MedalsList::getMedal('Gold');
+        MedalWrapper@ m = MedalsList::gold;
         if (m is null) {
             warn('Gold medal not found, was it removed by another plugin?');
             return uint(-1);
@@ -46,7 +42,7 @@ namespace UltimateMedalsExtended {
         return m.getMedalTime();
     }
     uint GetSilverMedal() {
-        MedalWrapper@ m = MedalsList::getMedal('Silver');
+        MedalWrapper@ m = MedalsList::silver;
         if (m is null) {
             warn('Silver medal not found, was it removed by another plugin?');
             return uint(-1);
@@ -54,7 +50,7 @@ namespace UltimateMedalsExtended {
         return m.getMedalTime();
     }
     uint GetBronzeMedal() {
-        MedalWrapper@ m = MedalsList::getMedal('Bronze');
+        MedalWrapper@ m = MedalsList::bronze;
         if (m is null) {
             warn('Bronze medal not found, was it removed by another plugin?');
             return uint(-1);

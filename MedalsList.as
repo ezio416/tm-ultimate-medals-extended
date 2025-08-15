@@ -4,6 +4,12 @@ namespace MedalsList {
     MedalWrapper@ pb = null;
     MedalWrapper@ session = null;
     MedalWrapper@ previous = null;
+
+    MedalWrapper@ author = null;
+    MedalWrapper@ trackmaster = null;
+    MedalWrapper@ gold = null;
+    MedalWrapper@ silver = null;
+    MedalWrapper@ bronze = null;
     
     void addMedal(UltimateMedalsExtended::IMedal@ medal) {
         // if the plugin is disabled, it wouldn't have done its initial setup yet
@@ -18,6 +24,18 @@ namespace MedalsList {
             @session = mt;
         } else if (mt.config.defaultName == "Previous") {
             @previous = mt;
+#if TURBO
+        } else if (mt.config.defaultName == "Trackmaster") {
+#else
+        } else if (mt.config.defaultName == "Author") {
+#endif
+            @author = mt;
+        } else if (mt.config.defaultName == "Gold") {
+            @gold = mt;
+        } else if (mt.config.defaultName == "Silver") {
+            @silver = mt;
+        } else if (mt.config.defaultName == "Bronze") {
+            @bronze = mt;
         }
         for (uint i = 0; i < Medals.Length; i++) {
             if (Medals[i].config.defaultName == mt.config.defaultName) {
@@ -33,14 +51,14 @@ namespace MedalsList {
             mt.onNewMap(MapData::currentMap);
         }
     }
-    MedalWrapper@ getMedal(const string &in defaultName) {
-        for (uint i = 0; i < Medals.Length; i++) {
-            if (Medals[i].config.defaultName == defaultName) {
-                return Medals[i];
-            }
-        }
-        return null;
-    }
+    // MedalWrapper@ getMedal(const string &in defaultName) {
+    //     for (uint i = 0; i < Medals.Length; i++) {
+    //         if (Medals[i].config.defaultName == defaultName) {
+    //             return Medals[i];
+    //         }
+    //     }
+    //     return null;
+    // }
     bool hasMedal(const string &in defaultName) {
         for (uint i = 0; i < Medals.Length; i++) {
             if (Medals[i].config.defaultName == defaultName) {
