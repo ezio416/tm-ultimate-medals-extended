@@ -135,58 +135,51 @@ void Render() {
 
     if (showMapName || showMapAuthor || showCurrentAuthorName) {
         UI::BeginGroup();
-        if (UI::BeginTable("header", 1, UI::TableFlags::SizingFixedFit)) {
-            if (showMapName) {
-                UI::TableNextRow();
-                UI::TableNextColumn();
-                string name = map.MapName;
-                if (name == "") {
-                    name = map.MapInfo.NameForUi;
-                }
-#if TURBO
-                if (map.AuthorLogin == "Nadeo") {
-                    name = "#" + name;
-                }
-#endif
-                if (removeColors) {
-                    UI::Text(Text::StripFormatCodes(name));
-                } else {
-                    UI::Text(Text::OpenplanetFormatCodes(name));
-                }
-                if (showComment && !(showMapAuthor || showCurrentAuthorName) && map.Comments.Length > 0) {
-                    UI::SameLine();
-                    UI::Text('\\$68f' + Icons::InfoCircle);
-                }
+        if (showMapName) {
+            string name = map.MapName;
+            if (name == "") {
+                name = map.MapInfo.NameForUi;
             }
-            if (showMapAuthor || showCurrentAuthorName) {
-                UI::TableNextRow();
-                UI::TableNextColumn();
-                string authorName = map.AuthorNickName;
+#if TURBO
+            if (map.AuthorLogin == "Nadeo") {
+                name = "#" + name;
+            }
+#endif
+            if (removeColors) {
+                UI::Text(Text::StripFormatCodes(name));
+            } else {
+                UI::Text(Text::OpenplanetFormatCodes(name));
+            }
+            if (showComment && !(showMapAuthor || showCurrentAuthorName) && map.Comments.Length > 0) {
+                UI::SameLine();
+                UI::Text('\\$68f' + Icons::InfoCircle);
+            }
+        }
+        if (showMapAuthor || showCurrentAuthorName) {
+            string authorName = map.AuthorNickName;
 
 #if DEPENDENCY_NADEOSERVICES
-                if (showCurrentAuthorName && authorName != "Nadeo") {
-                    const string name = Accounts::GetAccountName(map.AuthorLogin);
-                    if (name.Length > 0 && name != authorName) {
-                        if (!showMapAuthor) {
-                            authorName = name;
-                        } else {
-                            authorName += ' (' + name + ')';
-                        }
+            if (showCurrentAuthorName && authorName != "Nadeo") {
+                const string name = Accounts::GetAccountName(map.AuthorLogin);
+                if (name.Length > 0 && name != authorName) {
+                    if (!showMapAuthor) {
+                        authorName = name;
+                    } else {
+                        authorName += ' (' + name + ')';
                     }
                 }
+            }
 #endif
 
-                if (removeColors) {
-                    UI::TextDisabled('By ' + Text::StripFormatCodes(authorName));
-                } else {
-                    UI::TextDisabled('By ' + Text::OpenplanetFormatCodes(authorName));
-                }
-                if (showComment && map.Comments.Length > 0) {
-                    UI::SameLine();
-                    UI::Text('\\$68f' + Icons::InfoCircle);
-                }
+            if (removeColors) {
+                UI::TextDisabled('By ' + Text::StripFormatCodes(authorName));
+            } else {
+                UI::TextDisabled('By ' + Text::OpenplanetFormatCodes(authorName));
             }
-            UI::EndTable();
+            if (showComment && map.Comments.Length > 0) {
+                UI::SameLine();
+                UI::Text('\\$68f' + Icons::InfoCircle);
+            }
         }
 
         UI::EndGroup();
