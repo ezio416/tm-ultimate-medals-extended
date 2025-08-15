@@ -80,9 +80,11 @@ namespace MedalsList {
     bool CheckRender() {
         bool visible = false;
         for (uint i = 0; i < Medals.Length; i++) {
-            Medals[i].refreshMedal(MapData::currentMap);
-            if (Medals[i].enabled && Medals[i].hasMedalTime()) {
-                visible = true;
+            if (Medals[i].enabled) {
+                Medals[i].refreshMedal(MapData::currentMap);
+                if (Medals[i].enabled && Medals[i].hasMedalTime()) {
+                    visible = true;
+                }
             }
         }
         if (updated) {
