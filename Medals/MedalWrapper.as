@@ -233,6 +233,9 @@ class MedalWrapper {
         if (showMedalNames) {
             UI::TableNextColumn();
             UI::Text((showMedalNameColors ? this.config.nameColor : "") + this.name);
+        } else if (UI::BeginItemTooltip()) {
+            UI::Text((showMedalNameColors ? this.config.nameColor : "") + this.name);
+            UI::EndTooltip();
         }
         UI::TableNextColumn();
         if (this.config.allowUnset) {
